@@ -1,0 +1,10 @@
+[
+  {
+    "timestamp": "2026-07-14T15:39:49.821632+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 800
+    },
+    "region_tag": "unknown"
+  }
+]

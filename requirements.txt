@@ -1,0 +1,6 @@
+google-genai
+fastapi
+uvicorn
+python-multipart
+openai
+google-cloud-texttospeech
