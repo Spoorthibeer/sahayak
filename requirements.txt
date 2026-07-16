@@ -3,5 +3,5 @@ python-dotenv
 fastapi
 uvicorn
 python-multipart
-openai
+google-cloud-speech
 google-cloud-texttospeech
