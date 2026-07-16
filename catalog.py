@@ -1,6 +1,8 @@
 """
-Day 1 task: plain Python catalog search + regional demand logging.
-No AI involved yet — this gets wired in as a Gemini "tool" on Day 2.
+Catalog search + regional demand logging.
+Day 2: search_catalog() is now written so Gemini can call it directly as a
+tool — it needs typed parameters (not a generic dict) for the SDK to build
+a schema from it automatically.
 
 Usage (as a standalone test):
     python catalog.py
@@ -9,6 +11,7 @@ Usage (as a standalone test):
 import json
 import os
 from datetime import datetime, timezone
+from typing import Optional
 
 CATALOG_PATH = "data/catalog.json"
 DEMAND_LOG_PATH = "data/demand_log.json"
@@ -19,27 +22,47 @@ def _load_catalog():
         return json.load(f)
 
 
-def search_catalog(filters: dict) -> list:
-    """
-    filters can include any of: category, max_price, min_price, occasion,
-    region_tag. Only the filters you pass in are applied.
-    Example: search_catalog({"category": "shirt", "max_price": 800})
+def search_catalog(
+    category: Optional[str] = None,
+    max_price: Optional[int] = None,
+    min_price: Optional[int] = None,
+    occasion: Optional[str] = None,
+    region_tag: Optional[str] = None,
+) -> list:
+    """Searches the product catalog and returns up to 5 matching products.
+
+    Use this whenever the customer is looking for a product. Only pass the
+    filters the customer actually mentioned — leave the rest unset.
+
+    Args:
+        category: product type, e.g. "shirt", "kurta", "jeans", "saree",
+            "t-shirt", "dress", "trousers", "jacket", "ethnic set", "sneakers"
+        max_price: highest price in rupees the customer is willing to pay
+        min_price: lowest price in rupees, if the customer mentioned one
+        occasion: e.g. "office", "wedding", "casual", "festive", "party", "everyday"
+        region_tag: customer's city/region, if known
     """
     catalog = _load_catalog()
     results = catalog
 
-    if "category" in filters:
-        results = [p for p in results if p["category"] == filters["category"]]
-    if "max_price" in filters:
-        results = [p for p in results if p["price"] <= filters["max_price"]]
-    if "min_price" in filters:
-        results = [p for p in results if p["price"] >= filters["min_price"]]
-    if "occasion" in filters:
-        results = [p for p in results if p["occasion"] == filters["occasion"]]
-    if "region_tag" in filters:
-        results = [p for p in results if p["region_tag"] == filters["region_tag"]]
+    if category:
+        results = [p for p in results if p["category"] == category]
+    if max_price:
+        results = [p for p in results if p["price"] <= max_price]
+    if min_price:
+        results = [p for p in results if p["price"] >= min_price]
+    if occasion:
+        results = [p for p in results if p["occasion"] == occasion]
+    if region_tag:
+        results = [p for p in results if p["region_tag"] == region_tag]
 
-    log_query(filters, filters.get("region_tag", "unknown"))
+    filters_used = {
+        k: v for k, v in {
+            "category": category, "max_price": max_price, "min_price": min_price,
+            "occasion": occasion, "region_tag": region_tag,
+        }.items() if v is not None
+    }
+    log_query(filters_used, region_tag or "unknown")
     return results[:5]  # keep responses short for the agent to summarize
 
 
@@ -68,9 +91,9 @@ def log_query(filters: dict, region_tag: str = "unknown"):
 
 
 if __name__ == "__main__":
-    # Day 1 end-of-day check — run this file directly to confirm everything works
-    results = search_catalog({"category": "shirt", "max_price": 800})
+    # Quick standalone check — run this file directly to confirm everything works
+    results = search_catalog(category="shirt", max_price=800)
     print(f"Found {len(results)} matching products:")
     for p in results:
         print(f"  - {p['name']} | Rs.{p['price']} | fit: {p['fit_notes']} | {p['review_summary']}")
-    print("\nCheck data/demand_log.json — it should now have one entry.")
+    print("\nCheck data/demand_log.json — it should now have a new entry.")
