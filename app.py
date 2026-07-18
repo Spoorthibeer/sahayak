@@ -19,6 +19,7 @@ Usage:
     then open http://127.0.0.1:8000 in a browser
 """
 
+import time
 from typing import Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -33,11 +34,7 @@ import agent
 
 app = FastAPI(title="Sahayak")
 
-# Same language-name -> BCP-47 mapping the frontend uses for
-# SpeechRecognition/SpeechSynthesis, reused here for Google Cloud STT/TTS so
-# there's one single source of truth for the mapping (kept in sync manually
-# with static/index.html's LANG_CODES since JS and Python can't literally
-# share a constant).
+# Same language-name -> BCP-47 mapping used for Google Cloud STT/TTS voices.
 _LANG_CODES = {"English": "en-IN", "Hindi": "hi-IN", "Telugu": "te-IN"}
 
 # Google Cloud clients are created lazily and reused — same reasoning as
@@ -77,6 +74,11 @@ class ChatResponse(BaseModel):
     reply: str
     language: str
     products: list
+    # Structured UI signals, populated only when the agent actually asked
+    # for them via a tool call THIS turn (see _extract_new_turn_signals) —
+    # None/absent means "nothing to show," not "the frontend should guess."
+    needs_input: Optional[dict] = None
+    suggestions: Optional[list] = None
 
 
 def _get_session(session_id: str) -> dict:
@@ -123,6 +125,35 @@ def _extract_products(chat) -> list:
     return []
 
 
+def _extract_new_turn_signals(chat, history_before: int):
+    """Looks for request_size_poll()/suggest_follow_ups() tool calls made
+    during THIS turn only — not anywhere earlier in the conversation. Unlike
+    _extract_products() (which deliberately re-shows the last known search
+    results even on turns that didn't search again), a stale size poll or
+    suggestion set reappearing on an unrelated later reply would be a real
+    bug, not a convenience. history_before is the curated-history length
+    captured just before this turn's run_agent() call, since
+    chat.get_history() always covers the whole conversation.
+    """
+    new_history = chat.get_history(curated=True)[history_before:]
+    needs_input = None
+    suggestions = None
+    for content in new_history:
+        if not content.parts:
+            continue
+        for part in content.parts:
+            fr = part.function_response
+            if not fr or not fr.response:
+                continue
+            if fr.name == "request_size_poll":
+                result = fr.response.get("result") or {}
+                needs_input = {"type": "size_poll", "options": result.get("options", [])}
+            elif fr.name == "suggest_follow_ups":
+                result = fr.response.get("result") or {}
+                suggestions = result.get("suggestions")
+    return needs_input, suggestions
+
+
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     message = req.message.strip()
@@ -131,13 +162,23 @@ def chat(req: ChatRequest):
 
     session = _get_session(req.session_id)
 
-    # Same language-persistence rule as agent.py's REPL loop: only switch the
-    # session's established language on a clear signal; an ambiguous message
-    # (e.g. just "500") inherits whatever language the conversation is
-    # already in, instead of resetting to English.
+    # Text-based detection for every turn, voice-originated or typed — a
+    # STT-authoritative variant of this was tried and reverted (see CLAUDE.md):
+    # Google STT's own detected language for genuinely-Hindi audio came back
+    # "en-in" in live testing (twice), which would have made voice replies
+    # come back in the wrong language more often, not less. detect_language()
+    # on the transcript text proved more reliable in both cases. Only switch
+    # the session's established language on a clear signal; an ambiguous
+    # message (e.g. just "500") inherits whatever language the conversation
+    # is already in, instead of resetting to English.
     signal = agent.detect_language(message)
     session["language"] = signal or session["language"] or "English"
 
+    # Captured before run_agent() so _extract_new_turn_signals can scope
+    # itself to only what this turn added (see that function's docstring).
+    history_before = len(session["chat"].get_history(curated=True))
+
+    gemini_start = time.time()
     try:
         reply_text = agent.run_agent(session["chat"], message, session["language"])
     except errors.ServerError:
@@ -153,8 +194,16 @@ def chat(req: ChatRequest):
             products=[],
         )
 
+    print(f"[timing] /chat: agent.run_agent took {time.time() - gemini_start:.2f}s")
     products = _extract_products(session["chat"])
-    return ChatResponse(reply=reply_text, language=session["language"], products=products)
+    needs_input, suggestions = _extract_new_turn_signals(session["chat"], history_before)
+    return ChatResponse(
+        reply=reply_text,
+        language=session["language"],
+        products=products,
+        needs_input=needs_input,
+        suggestions=suggestions,
+    )
 
 
 class TranscribeResponse(BaseModel):
@@ -180,13 +229,21 @@ async def transcribe(audio: UploadFile = File(...)):
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         language_code="en-IN",
         alternative_language_codes=["hi-IN", "te-IN"],
+        # "latest_short" is Google's model tuned for short queries/commands
+        # rather than long-form dictation — lower latency and typically
+        # better accuracy for the kind of short shopping requests Sahayak
+        # actually gets ("shirt under 800 for office"), versus the default
+        # general-purpose model.
+        model="latest_short",
     )
     recognition_audio = speech.RecognitionAudio(content=audio_bytes)
 
+    stt_start = time.time()
     try:
         response = _get_speech_client().recognize(config=config, audio=recognition_audio)
     except GoogleAPICallError as e:
         raise HTTPException(status_code=502, detail=f"Speech-to-Text request failed: {e}")
+    print(f"[timing] /transcribe: Speech-to-Text call took {time.time() - stt_start:.2f}s")
 
     if not response.results:
         return TranscribeResponse(text="")
@@ -214,12 +271,14 @@ def speak(req: SpeakRequest):
     )
     audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
 
+    tts_start = time.time()
     try:
         tts_response = _get_tts_client().synthesize_speech(
             input=synthesis_input, voice=voice, audio_config=audio_config
         )
     except GoogleAPICallError as e:
         raise HTTPException(status_code=502, detail=f"Text-to-Speech request failed: {e}")
+    print(f"[timing] /speak: Text-to-Speech call took {time.time() - tts_start:.2f}s")
 
     return Response(content=tts_response.audio_content, media_type="audio/mpeg")
 

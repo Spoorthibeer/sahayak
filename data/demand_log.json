@@ -266,5 +266,166 @@
       "max_price": 800
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-16T18:16:21.439786+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "casual"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-16T18:41:20.600999+00:00",
+    "filters": {
+      "category": "kurta",
+      "occasion": "office",
+      "region_tag": "Nagpur"
+    },
+    "region_tag": "Nagpur"
+  },
+  {
+    "timestamp": "2026-07-17T01:20:20.173816+00:00",
+    "filters": {
+      "category": "dress",
+      "max_price": 500
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T01:20:43.946166+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 500
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T15:22:55.986416+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T15:23:05.202256+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 1000
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T15:24:53.624724+00:00",
+    "filters": {
+      "category": "jeans",
+      "max_price": 1500
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T16:10:23.711831+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T16:28:27.838246+00:00",
+    "filters": {
+      "category": "kurti",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T16:28:45.312063+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T17:43:43.413075+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T17:52:18.809729+00:00",
+    "filters": {
+      "category": "jeans",
+      "max_price": 1500
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T18:13:09.143933+00:00",
+    "filters": {
+      "category": "t-shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-17T18:24:37.870374+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T08:56:34.931857+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 2000,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T08:57:45.672507+00:00",
+    "filters": {
+      "category": "jeans",
+      "region_tag": "Nagpur"
+    },
+    "region_tag": "Nagpur"
+  },
+  {
+    "timestamp": "2026-07-18T08:57:45.691745+00:00",
+    "filters": {
+      "category": "t-shirt",
+      "region_tag": "Nagpur"
+    },
+    "region_tag": "Nagpur"
+  },
+  {
+    "timestamp": "2026-07-18T09:01:38.454047+00:00",
+    "filters": {
+      "category": "dress",
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T09:02:15.843633+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T09:02:43.994598+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
   }
 ]
