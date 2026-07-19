@@ -24,7 +24,7 @@ from google import genai
 from google.genai import errors, types
 
 from catalog import search_catalog
-from tools import fit_score, trust_note
+from tools import fit_score, size_chart, trust_note
 
 load_dotenv()
 
@@ -44,10 +44,16 @@ fit_score (using that product's fit_notes and category) and trust_note
 advice, not just a bare list of products.
 
 Whenever you call fit_score, also pass any sizing info the customer has
-already told you earlier in this conversation — usual_size, height_cm,
-weight_kg, or build_description — even if you're not sure it'll be used.
-fit_score always prefers the customer's real order history over these, so
-it's always safe to pass what you know.
+already told you earlier in this conversation — usual_size,
+chart_matched_size, or garment_size — even if you're not sure it'll be
+used. fit_score always prefers the customer's real order history over
+these, so it's always safe to pass what you know.
+
+fit_score's returned message already contains the full standard format —
+an actionable, relative size recommendation, an honest confidence sentence,
+and the return policy. Relay it faithfully in your own voice; you may
+lightly rephrase it, but never drop the confidence phrasing or the return-
+policy sentence, and never invent a different return policy.
 
 Only ask a sizing follow-up question (see below) once the customer has
 clearly settled on ONE specific product — they named it, said "that one" /
@@ -59,24 +65,36 @@ keep helping them browse.
 
 Once the customer HAS settled on a specific product, if fit_score's result
 for it has "signal_used": "generic" (meaning it had to guess from fit_notes
-alone, with no personal signal), that's your cue to ask ONE short follow-up
-question so you can give them a real answer — in this order, stopping as
-soon as they answer:
+alone, with no personal signal), that's your cue to gather one — in this
+order, stopping as soon as they give you something usable, and asking only
+ONE question at a time:
   1. Ask for their usual clothing size. When you ask this specific
      question, ALSO call request_size_poll() in the same turn (in addition
      to your normal reply text) so the interface can show tappable size
      buttons — still phrase the question naturally in your reply,
-     request_size_poll() just adds the buttons alongside it.
-  2. If they say they don't know their usual size, ask for their height and
-     weight instead (no tool call for this one).
-  3. If they don't know either, ask a simple build question instead — e.g.
-     "no worries — would you say you're more slim, average, or broad
-     build?", or "do clothes usually fit you loose, tight, or about right?"
-     (loose = slim, tight = broad, about right = average). No tool call for
-     this one either.
-Ask only one of these at a time, folded naturally into your reply — never a
-separate interrogation, and never ask something they've already told you
-this conversation.
+     request_size_poll() just adds the buttons alongside it. If they answer
+     this, pass it to fit_score as usual_size next time.
+  2. If they say they don't know their usual size, call request_size_chart()
+     (passing that product's category) in the same turn as your reply, and
+     ask them to look at the chart and tell you which row/size matches
+     them — e.g. "no worries — here's a quick size chart, let me know which
+     row matches you best." If request_size_chart() returns
+     {"applicable": false}, there's no sensible chart for that category
+     (e.g. footwear) — skip straight to step 3 instead. Once they tell you
+     which size/row matches them, pass it to fit_score as
+     chart_matched_size next time.
+  3. If they say the chart doesn't help either (they're not sure of their
+     height/weight, or the chart wasn't applicable), ask them to check the
+     size tag on a piece of clothing they already own that fits them
+     well — e.g. "no worries — check the tag on a shirt that already fits
+     you well, what size does it say?" (no tool call for this one). Pass
+     their answer to fit_score as garment_size next time.
+Never ask a step they've already answered earlier this conversation, and
+never ask more than one of these in the same reply. Only call
+request_size_poll() alongside step 1's question and only call
+request_size_chart() alongside step 2's question — never call either one
+when you're actually asking the step-3 owned-garment question, and never
+call both tools in the same turn.
 
 After a reply where you've just shown the customer product results, call
 suggest_follow_ups with 2-3 short, specific next messages the customer
@@ -121,6 +139,33 @@ def request_size_poll() -> dict:
         only — no need to mention this call to the customer).
     """
     return {"requested": True, "options": ["S", "M", "L", "XL", "XXL"]}
+
+
+def request_size_chart(category: str) -> dict:
+    """Call this when (and only when) you are showing the customer the
+    visual size chart, per the sizing-question rules in your instructions —
+    i.e. the customer just told you they don't know their usual clothing
+    size, and you have no other sizing signal for them yet. This does not
+    replace your normal reply text; still ask the question naturally in
+    your reply (e.g. "here's a quick size chart — let me know which row
+    matches you"). Calling this additionally tells the interface to render
+    the chart rows as an actual table alongside your question, so the
+    customer can read it and match themselves to a row instead of you
+    silently computing a size from raw numbers.
+
+    Args:
+        category: the current product's category field, e.g. "shirt", "jeans"
+
+    Returns:
+        {"applicable": True, "rows": [...], "height_note": "..."} if a chart
+        exists for this category, or {"applicable": False} if it doesn't
+        (e.g. footwear/accessories) — in that case, don't mention a chart at
+        all; go straight to asking about an owned-garment comparison instead.
+    """
+    chart = size_chart(category)
+    if chart is None:
+        return {"applicable": False}
+    return {"applicable": True, "rows": chart["rows"], "height_note": chart["height_note"]}
 
 
 def suggest_follow_ups(suggestions: list[str]) -> dict:
@@ -214,18 +259,22 @@ def run_agent(chat, user_message: str, language: str, max_retries: int = 3) -> s
     )
 
     config = types.GenerateContentConfig(
-        tools=[search_catalog, fit_score, trust_note, request_size_poll, suggest_follow_ups],
+        tools=[
+            search_catalog, fit_score, trust_note,
+            request_size_poll, request_size_chart, suggest_follow_ups,
+        ],
         system_instruction=turn_instruction,
         temperature=0.2,
         thinking_config=types.ThinkingConfig(thinking_level="LOW"),
         # search_catalog can return 5 products, and the agent may call
         # fit_score + trust_note for each one (1 + 5*2 = 11 calls), plus up
-        # to one request_size_poll() and one suggest_follow_ups() — up to 13
-        # in the worst case, still under this cap (raised from the SDK
-        # default of 10, which would silently drop the final text turn —
-        # response.text becomes None — instead of erroring).
+        # to one each of request_size_poll(), request_size_chart(), and
+        # suggest_follow_ups() — up to 14 in the worst case, still under
+        # this cap (raised from the SDK default of 10, which would silently
+        # drop the final text turn — response.text becomes None — instead
+        # of erroring).
         automatic_function_calling=types.AutomaticFunctionCallingConfig(
-            maximum_remote_calls=15
+            maximum_remote_calls=17
         ),
     )
 

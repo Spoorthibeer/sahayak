@@ -402,6 +402,43 @@
   .size-poll-btn:hover { background: var(--rani); color: #FFF7F1; }
   .size-poll-btn:active { transform: scale(0.94); }
 
+  .size-chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    max-width: 320px;
+  }
+  .size-chart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .size-chart-table th {
+    text-align: left;
+    color: var(--rani-dark);
+    font-weight: 700;
+    padding: 6px 8px;
+    border-bottom: 1.5px solid var(--rani-soft);
+  }
+  .size-chart-table td {
+    padding: 7px 8px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+  }
+  .size-chart-table tr:last-child td { border-bottom: none; }
+  .size-chart-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .size-chart-table tbody tr:hover { background: var(--rani-soft); }
+  .size-chart-table tbody tr:active { background: var(--rani-soft); }
+  .size-chart-note {
+    margin-top: 8px;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+  }
+
   /* ---------- Footer / input ---------- */
   footer {
     flex-shrink: 0;
@@ -924,6 +961,45 @@
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
+  // Visual size chart — populated from /chat's "needs_input" field when the
+  // agent calls request_size_chart() (see agent.py/tools.py's size_chart()
+  // and app.py's _extract_new_turn_signals). The customer reads real
+  // height/weight-range rows here instead of the agent silently computing a
+  // size from raw numbers; tapping a row sends that size straight to chat,
+  // same convenience as the size-poll buttons.
+  function addSizeChart(needsInput) {
+    if (!needsInput || needsInput.type !== "size_chart" || !needsInput.rows || !needsInput.rows.length) return;
+    showConversationStarted();
+    const row = document.createElement("div");
+    row.className = "row assistant";
+    const wrap = document.createElement("div");
+    wrap.className = "size-chart-wrap";
+
+    const table = document.createElement("table");
+    table.className = "size-chart-table";
+    table.innerHTML =
+      '<thead><tr><th>Size</th><th>Weight range</th></tr></thead><tbody></tbody>';
+    const tbody = table.querySelector("tbody");
+    needsInput.rows.forEach(function (r) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + r.size + "</td><td>" + r.weight_range + "</td>";
+      tr.addEventListener("click", function () { sendMessage("The " + r.size + " row matches me"); });
+      tbody.appendChild(tr);
+    });
+    wrap.appendChild(table);
+
+    if (needsInput.height_note) {
+      const note = document.createElement("div");
+      note.className = "size-chart-note";
+      note.textContent = needsInput.height_note;
+      wrap.appendChild(note);
+    }
+
+    row.appendChild(wrap);
+    thread.appendChild(row);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
   function setLanguage(lang) {
     if (!lang) return;
     currentLanguage = lang;
@@ -1017,6 +1093,7 @@
     addProducts(data.products);
     addSuggestions(data.suggestions);
     addSizePoll(data.needs_input);
+    addSizeChart(data.needs_input);
     setLanguage(data.language);
     playReply(stripMarkdownForSpeech(data.reply || ""), data.language);
   }

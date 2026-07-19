@@ -427,5 +427,45 @@
       "category": "t-shirt"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T19:19:43.800138+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-18T19:21:37.609706+00:00",
+    "filters": {
+      "category": "dress"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T05:02:10.349291+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T05:02:26.681351+00:00",
+    "filters": {
+      "category": "jeans",
+      "max_price": 1800
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T05:08:33.130575+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
   }
 ]

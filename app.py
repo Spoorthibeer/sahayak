@@ -7,54 +7,56 @@ agent.get_client(), agent.start_chat(), agent.detect_language(), and
 agent.run_agent() exactly as agent.py's own REPL loop does. See CLAUDE.md
 for why each of those exists.
 
-Voice (speech-to-text / text-to-speech) uses Google Cloud Speech-to-Text and
-Text-to-Speech (see /transcribe and /speak below). This replaced an earlier
-Day 3 version that used only the browser's native SpeechRecognition/
-SpeechSynthesis — that was dropped because voice quality/reliability was
-insufficient in live testing. See CLAUDE.md for the full history and the
-GOOGLE_APPLICATION_CREDENTIALS setup this requires.
+Voice (speech-to-text / text-to-speech) uses Sarvam AI (see /transcribe and
+/speak below) — purpose-built for Indian languages, with free credits and no
+card required, unlike Google Cloud's billing requirement. This replaced a
+Google Cloud STT/TTS integration (which itself replaced an even earlier
+browser-native SpeechRecognition/SpeechSynthesis version). See CLAUDE.md for
+the full history. Google Cloud credentials/code are left in place, untested,
+as a fallback until this swap is confirmed working in a real browser — not
+yet removed.
 
 Usage:
     uvicorn app:app --reload
     then open http://127.0.0.1:8000 in a browser
 """
 
+import base64
+import os
 import time
 from typing import Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
-from google.api_core.exceptions import GoogleAPICallError
-from google.cloud import speech, texttospeech
 from google.genai import errors
 from pydantic import BaseModel
+from sarvamai import SarvamAI
+from sarvamai.core.api_error import ApiError
 
 import agent
 
 app = FastAPI(title="Sahayak")
 
-# Same language-name -> BCP-47 mapping used for Google Cloud STT/TTS voices.
+# Same language-name -> BCP-47 mapping used for Sarvam's STT/TTS language
+# codes (Sarvam uses the same BCP-47 codes Google Cloud did for these 3).
 _LANG_CODES = {"English": "en-IN", "Hindi": "hi-IN", "Telugu": "te-IN"}
 
-# Google Cloud clients are created lazily and reused — same reasoning as
-# agent.py's Gemini client: don't pay connection/auth setup cost per request.
-_speech_client: Optional[speech.SpeechClient] = None
-_tts_client: Optional[texttospeech.TextToSpeechClient] = None
+# Sarvam client is created lazily and reused — same reasoning as agent.py's
+# Gemini client: don't pay connection/auth setup cost per request. Sarvam
+# uses one client for both STT and TTS (client.speech_to_text.transcribe /
+# client.text_to_speech.convert), unlike Google Cloud's two separate clients.
+_sarvam_client: Optional[SarvamAI] = None
 
 
-def _get_speech_client() -> speech.SpeechClient:
-    global _speech_client
-    if _speech_client is None:
-        _speech_client = speech.SpeechClient()
-    return _speech_client
-
-
-def _get_tts_client() -> texttospeech.TextToSpeechClient:
-    global _tts_client
-    if _tts_client is None:
-        _tts_client = texttospeech.TextToSpeechClient()
-    return _tts_client
+def _get_sarvam_client() -> SarvamAI:
+    global _sarvam_client
+    if _sarvam_client is None:
+        api_key = os.environ.get("SARVAM_API_KEY")
+        if not api_key:
+            raise RuntimeError("SARVAM_API_KEY is not set — check .env.")
+        _sarvam_client = SarvamAI(api_subscription_key=api_key)
+    return _sarvam_client
 
 # session_id -> {"chat": <google.genai Chat>, "language": Optional[str]}
 # In-memory only, per CLAUDE.md's explicit call: lost on server restart.
@@ -126,14 +128,14 @@ def _extract_products(chat) -> list:
 
 
 def _extract_new_turn_signals(chat, history_before: int):
-    """Looks for request_size_poll()/suggest_follow_ups() tool calls made
-    during THIS turn only — not anywhere earlier in the conversation. Unlike
-    _extract_products() (which deliberately re-shows the last known search
-    results even on turns that didn't search again), a stale size poll or
-    suggestion set reappearing on an unrelated later reply would be a real
-    bug, not a convenience. history_before is the curated-history length
-    captured just before this turn's run_agent() call, since
-    chat.get_history() always covers the whole conversation.
+    """Looks for request_size_poll()/request_size_chart()/suggest_follow_ups()
+    tool calls made during THIS turn only — not anywhere earlier in the
+    conversation. Unlike _extract_products() (which deliberately re-shows the
+    last known search results even on turns that didn't search again), a
+    stale size poll/chart or suggestion set reappearing on an unrelated later
+    reply would be a real bug, not a convenience. history_before is the
+    curated-history length captured just before this turn's run_agent()
+    call, since chat.get_history() always covers the whole conversation.
     """
     new_history = chat.get_history(curated=True)[history_before:]
     needs_input = None
@@ -148,6 +150,14 @@ def _extract_new_turn_signals(chat, history_before: int):
             if fr.name == "request_size_poll":
                 result = fr.response.get("result") or {}
                 needs_input = {"type": "size_poll", "options": result.get("options", [])}
+            elif fr.name == "request_size_chart":
+                result = fr.response.get("result") or {}
+                if result.get("applicable"):
+                    needs_input = {
+                        "type": "size_chart",
+                        "rows": result.get("rows", []),
+                        "height_note": result.get("height_note", ""),
+                    }
             elif fr.name == "suggest_follow_ups":
                 result = fr.response.get("result") or {}
                 suggestions = result.get("suggestions")
@@ -216,40 +226,36 @@ async def transcribe(audio: UploadFile = File(...)):
     if not audio_bytes:
         raise HTTPException(status_code=400, detail="No audio data received.")
 
-    # Explicit per-request language hints, not open-ended auto-detection:
-    # Sahayak only supports English/Hindi/Telugu, so giving the recognizer a
-    # closed 3-language candidate set (one primary + alternatives) is both
-    # more accurate than unconstrained auto-detect across all of Google's
-    # supported languages, and directly matches this product's actual scope.
-    # There's no per-request language parameter from the frontend (the
-    # /transcribe contract is just "audio in, text out"), so this same
-    # 3-language set is used on every call rather than trying to guess a
-    # hint from the still-unknown conversation state.
-    config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
-        language_code="en-IN",
-        alternative_language_codes=["hi-IN", "te-IN"],
-        # "latest_short" is Google's model tuned for short queries/commands
-        # rather than long-form dictation — lower latency and typically
-        # better accuracy for the kind of short shopping requests Sahayak
-        # actually gets ("shirt under 800 for office"), versus the default
-        # general-purpose model.
-        model="latest_short",
-    )
-    recognition_audio = speech.RecognitionAudio(content=audio_bytes)
+    # Auto-detection, not an explicit language hint: Sarvam's transcribe()
+    # takes a single language_code (unlike Google STT's primary +
+    # alternatives candidate list) — there's no way to hand it a closed
+    # 3-language set the way the Google integration did. The choices are
+    # either (a) pre-guess ONE specific language before the customer has
+    # said anything, which would degrade accuracy for the other two
+    # languages whenever the guess is wrong, or (b) language_code="unknown",
+    # which asks Sarvam's saarika:v2.5 model to auto-detect. (b) is the
+    # closer equivalent to the previous design's intent and was the only
+    # reasonable choice available in this SDK, so that's what's used. This
+    # doesn't reintroduce the STT-authority bug from the Google Cloud pass
+    # (CLAUDE.md gotcha) — /transcribe's contract is still just "audio in,
+    # text out"; the detected language is not read or trusted anywhere,
+    # agent.detect_language() on the resulting text remains the sole
+    # authority for the /chat turn's reply language, unchanged.
+    input_audio_codec = "webm"  # matches MediaRecorder's audio/webm;codecs=opus
 
     stt_start = time.time()
     try:
-        response = _get_speech_client().recognize(config=config, audio=recognition_audio)
-    except GoogleAPICallError as e:
+        response = _get_sarvam_client().speech_to_text.transcribe(
+            file=("recording.webm", audio_bytes, "audio/webm"),
+            model="saarika:v2.5",
+            language_code="unknown",
+            input_audio_codec=input_audio_codec,
+        )
+    except ApiError as e:
         raise HTTPException(status_code=502, detail=f"Speech-to-Text request failed: {e}")
     print(f"[timing] /transcribe: Speech-to-Text call took {time.time() - stt_start:.2f}s")
 
-    if not response.results:
-        return TranscribeResponse(text="")
-
-    text = " ".join(result.alternatives[0].transcript for result in response.results)
-    return TranscribeResponse(text=text.strip())
+    return TranscribeResponse(text=(response.transcript or "").strip())
 
 
 class SpeakRequest(BaseModel):
@@ -264,23 +270,28 @@ def speak(req: SpeakRequest):
         raise HTTPException(status_code=400, detail="No text to speak.")
 
     language_code = _LANG_CODES.get(req.lang, "en-IN")
-    synthesis_input = texttospeech.SynthesisInput(text=text)
-    voice = texttospeech.VoiceSelectionParams(
-        language_code=language_code,
-        ssml_gender=texttospeech.SsmlVoiceGender.FEMALE,
-    )
-    audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3)
 
     tts_start = time.time()
     try:
-        tts_response = _get_tts_client().synthesize_speech(
-            input=synthesis_input, voice=voice, audio_config=audio_config
+        tts_response = _get_sarvam_client().text_to_speech.convert(
+            text=text,
+            target_language_code=language_code,
+            model="bulbul:v3",
+            # "shubh" is bulbul:v3's own documented default speaker; picked
+            # as the one reasonable default rather than leaving it unset,
+            # so the choice is explicit and doesn't silently change if
+            # Sarvam ever changes the model's default.
+            speaker="shubh",
+            output_audio_codec="mp3",
         )
-    except GoogleAPICallError as e:
+    except ApiError as e:
         raise HTTPException(status_code=502, detail=f"Text-to-Speech request failed: {e}")
     print(f"[timing] /speak: Text-to-Speech call took {time.time() - tts_start:.2f}s")
 
-    return Response(content=tts_response.audio_content, media_type="audio/mpeg")
+    # Sarvam returns base64-encoded audio string(s), one per input text (we
+    # only ever send one) — must be decoded before it's valid audio bytes.
+    audio_bytes = base64.b64decode(tts_response.audios[0])
+    return Response(content=audio_bytes, media_type="audio/mpeg")
 
 
 # Mounted last and at "/" so it acts as a catch-all for static files

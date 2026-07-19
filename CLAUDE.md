@@ -46,29 +46,34 @@ matches — not just a bare search result list.
     Google's current model list and this project's actual granted quotas
     before assuming it's a code bug — don't assume a model that's merely
     *listed* by `client.models.list()` is actually usable on this project.
-- **Speech-to-text / text-to-speech: Google Cloud Speech-to-Text and
-  Text-to-Speech** (project `sahayak-hackathon`, service account key at
-  `google-credentials.json`, referenced via `GOOGLE_APPLICATION_CREDENTIALS`
-  in `.env`). This is a deliberate reversal of an earlier decision — see
-  history below — do not revert back to browser-native voice without being
-  asked; that path was tried and found insufficient.
-  - **History:** Day 3 originally used only the browser's native
-    SpeechRecognition/SpeechSynthesis Web APIs, because Google Cloud's free
-    trial was found to require a real prepayment in this team's region, and
-    OpenAI Whisper / ElevenLabs are paid with no viable free tier. That
-    browser-native version was live-tested and its voice quality/reliability
-    (especially for Hindi/Telugu) was found insufficient, so the team set up
-    a real Google Cloud project and switched. **This means the "no billing"
-    constraint from Day 1/2/3 no longer strictly applies to the voice
-    layer** — enabling Google Cloud APIs on a project normally requires a
-    linked billing account even to use free-tier quota, unlike the Gemini
-    Developer API's keyless free tier. This was flagged back to the team;
-    proceed on the assumption they've already accepted this, but don't
-    assume it's resolved for good — if a real charge shows up, that's a
-    reason to revisit, not evidence of a code bug.
-  - `google-credentials.json` must never be committed — confirmed still
-    correctly excluded by `.gitignore`'s `*credentials*.json` pattern (same
-    protection `.env` gets).
+- **Speech-to-text / text-to-speech: Sarvam AI** (`sarvamai` SDK,
+  `SARVAM_API_KEY` in `.env`) — purpose-built for Indian languages, free
+  credits with **no card required**, which directly addresses the billing
+  friction that motivated switching away from it before. This is the third
+  voice-provider decision in this project; do not revert to either earlier
+  option without being asked — both were tried and superseded, not
+  abandoned by accident.
+  - **Full history:** Day 3 originally used the browser's native
+    SpeechRecognition/SpeechSynthesis Web APIs (free, no card), but voice
+    quality/reliability (especially Hindi/Telugu) was found insufficient in
+    live testing → switched to **Google Cloud Speech-to-Text/Text-to-Speech**
+    (better quality, but enabling Google Cloud APIs requires a linked
+    billing account even for free-tier quota — a real, if modest,
+    reintroduction of the "no billing" friction the project otherwise
+    avoids) → switched again to **Sarvam AI** (2026-07-19) specifically
+    because it offers free credits with no card at all, removing that
+    friction while still being purpose-built for Indian-language voice
+    (unlike the generic browser APIs).
+  - **Google Cloud credentials/code are still present, deliberately left as
+    an untested fallback** — `google-credentials.json` still exists on disk,
+    `.gitignore`'s `*credentials*.json` protection is untouched, and
+    `GOOGLE_APPLICATION_CREDENTIALS` was removed only from `.env.example`
+    (not from the actual `.env`, which the team controls). **Do not delete
+    any of this yet** — it stays until the Sarvam swap is confirmed fully
+    working in a real browser. The active code path (`app.py`) no longer
+    imports `google.cloud.speech`/`google.cloud.texttospeech` at all, so
+    Google Cloud is currently unused-but-not-removed, not a live fallback
+    the code would actually fall back to automatically.
 - **Backend:** Python, FastAPI (`app.py`)
 - **Frontend:** plain HTML/CSS/JS (`static/index.html`, not React — kept
   simple deliberately for a beginner team on a tight timeline), served by
@@ -390,32 +395,20 @@ for Tier 2/3 Indian shoppers, not generic tech.
     `/transcribe` file-upload plan's original `python-multipart` dependency
     were removed in this pass (then `python-multipart` came back for real
     in the Google Cloud voice pass below, since `UploadFile` needs it).
-  - **`POST /transcribe`** — accepts an uploaded audio file, calls Google
-    Cloud Speech-to-Text (`google.cloud.speech`), returns `{text}`.
-    Configured with `encoding=WEBM_OPUS` (matches what the browser's
-    `MediaRecorder` actually produces) and **explicit per-request language
-    hints, not open-ended auto-detection**: `language_code="en-IN"` plus
-    `alternative_language_codes=["hi-IN", "te-IN"]`. Chosen over
-    auto-detection because Sahayak only supports these 3 languages — giving
-    the recognizer a closed candidate set is more accurate than
-    unconstrained detection across every language Google supports, and
-    there's no per-request language parameter to hint from since
-    `/transcribe`'s contract is just "audio in, text out." A failed Google
-    API call (`GoogleAPICallError`) returns a `502` with a clear message
-    instead of crashing — confirmed live by sending a malformed audio
-    payload and confirming the server stayed up afterward.
-  - **`POST /speak`** — accepts `{text, lang}` (`lang` is one of
-    `"English"/"Hindi"/"Telugu"`, the same names `/chat` already returns),
-    calls Google Cloud Text-to-Speech (`google.cloud.texttospeech`), returns
-    the raw MP3 bytes. `_LANG_CODES` (`English→en-IN, Hindi→hi-IN,
-    Telugu→te-IN`) maps that name to a voice's `language_code` server-side —
-    the frontend does not do this mapping itself, it just passes the
-    language name straight through. Same `GoogleAPICallError` → `502`
-    handling as `/transcribe`.
-  - Both Google Cloud clients (`speech.SpeechClient()`,
-    `texttospeech.TextToSpeechClient()`) are created lazily and cached at
-    module level (`_speech_client`/`_tts_client`), not recreated per
-    request — same reasoning as reusing the Gemini client.
+  - **`POST /transcribe` and `POST /speak` now run on Sarvam AI, not Google
+    Cloud** (switched 2026-07-19 — see "Sarvam AI voice swap" further down
+    for the full writeup: exact SDK methods used, why auto-detection was
+    chosen over an explicit language hint, and live test results). Request/
+    response shapes are unchanged from the original Day 3 design described
+    here: `/transcribe` still takes an uploaded audio file and returns
+    `{text}`; `/speak` still takes `{text, lang}` and returns raw playable
+    audio bytes — this swap only changed which provider answers those
+    contracts, not the contracts themselves, so `static/index.html` needed
+    zero changes for this pass.
+  - The Sarvam client (`SarvamAI(api_subscription_key=...)`) is created
+    lazily and cached at module level (`_sarvam_client`), same reasoning as
+    reusing the Gemini client — one client handles both STT and TTS here,
+    unlike Google Cloud's two separate clients.
 - `static/index.html` — single-file frontend (inline CSS/JS, no build step,
   no framework), served by FastAPI via `app.mount("/",
   StaticFiles(directory="static", html=True))`. That mount is registered
@@ -465,6 +458,14 @@ for Tier 2/3 Indian shoppers, not generic tech.
     language-hint accuracy via a direct client call using the exact same
     `/transcribe` config (encoding swapped to MP3 only because no real
     browser-recorded WEBM/Opus audio was available to test with).
+
+### Day 4 (in progress)
+**Note:** this header was previously missing from this file (the doc jumped
+from Day 3 straight into dated sub-passes below, leaving "Start the Myntra
+pitch deck" orphaned at the end with no parent heading) — restored
+2026-07-19 while updating this file for the Sarvam voice swap. All of the
+dated sub-passes below (voice latency hardening, markdown/behavior/
+interactive-UI, barge-in gap fix, Sarvam AI voice swap) are Day 4 work.
 
 #### Voice latency/accuracy hardening pass (2026-07-17, complete)
 - **Auto-stop on silence (voice activity detection)** — `static/index.html`.
@@ -700,6 +701,236 @@ skipped it entirely.
   static-file test) `/chat` fetch fired. No live Gemini/STT/TTS calls were
   needed for this fix — pure frontend control-flow, confirmed with a mocked
   audio object.
+#### Sarvam AI voice swap (2026-07-19, complete)
+Scope: `app.py`'s `/transcribe` and `/speak` implementations only, plus
+`requirements.txt`/`.env.example`. Did NOT touch `agent.py`, `catalog.py`,
+`tools.py`, the `/chat` endpoint, the interactive UI features, or the
+barge-in fix. Request/response shapes for `/transcribe` (file in, `{text}`
+out) and `/speak` (`{text, lang}` in, raw audio bytes out) are byte-for-byte
+unchanged, so `static/index.html` needed zero changes.
+
+- **Why:** addresses the Google Cloud billing friction noted above — Sarvam
+  offers free credits with no card required, and is purpose-built for
+  Indian-language voice specifically (vs. Google Cloud's general-purpose
+  STT/TTS or the browser's generic Web Speech APIs).
+- **SDK inspected directly before writing any integration code** (per
+  explicit instruction — not relying on possibly-stale docs/memory):
+  `pip install sarvamai` (0.1.28), then `inspect.signature()`/
+  `inspect.getdoc()` on the actual installed client. Confirmed:
+  `client.text_to_speech.convert(...)` and
+  `client.speech_to_text.transcribe(...)` are the real current method
+  names (matching the task's reference pattern), `SarvamAI(api_subscription_key=...)`
+  is the correct constructor kwarg (not `api_key`), and all of Sarvam's
+  documented error classes (`BadRequestError`, `TooManyRequestsError`, etc.)
+  share one common base, `sarvamai.core.api_error.ApiError` — so a single
+  `except ApiError` clause covers all of them, same pattern as
+  `GoogleAPICallError` before.
+- **`/speak`:** calls `text_to_speech.convert(text=..., target_language_code=...,
+  model="bulbul:v3", speaker="shubh", output_audio_codec="mp3")`.
+  - `target_language_code` uses the exact same BCP-47 codes as before
+    (`en-IN`/`hi-IN`/`te-IN` — `_LANG_CODES` mapping unchanged).
+  - `speaker="shubh"` — bulbul:v3's own documented default, picked as "the
+    one reasonable default" per the task, made explicit rather than left
+    unset so the choice doesn't silently change if Sarvam ever changes the
+    model's default. Other v3 speakers exist (aditya, ritu, priya, neha,
+    and ~25 more) if a different voice is wanted later — not evaluated.
+  - **Important response-handling detail:** Sarvam returns
+    `TextToSpeechResponse.audios: List[str]` — **base64-encoded** audio
+    strings (one per input text; always exactly one here), not raw bytes.
+    Must `base64.b64decode(response.audios[0])` before returning — this is
+    a real difference from Google Cloud's `synthesize_speech()`, which
+    returned raw bytes directly in `.audio_content`. Missing this decode
+    step would have shipped a broken (undecoded, unplayable) audio
+    response with no error to catch it, since decoding-then-serving invalid
+    bytes doesn't raise anything by itself. Caught by inspecting the
+    response model's source before writing the integration, not by trial
+    and error.
+  - `output_audio_codec="mp3"` keeps the `Response(..., media_type="audio/mpeg")`
+    unchanged in `app.py`, so the frontend's `new Audio(url)` playback
+    needed no changes.
+- **`/transcribe`:** calls `speech_to_text.transcribe(file=(filename, bytes,
+  "audio/webm"), model="saarika:v2.5", language_code="unknown",
+  input_audio_codec="webm")`.
+  - **Auto-detection, not an explicit hint — and why:** Sarvam's
+    `transcribe()` takes one `language_code`, not a Google-style primary +
+    alternatives candidate list. With no way to give a closed 3-language
+    hint set, the real choice was between pre-guessing ONE language before
+    the customer has said anything (degrades accuracy whenever the guess is
+    wrong) or `language_code="unknown"` (asks `saarika:v2.5` to
+    auto-detect). The latter was used — the closer equivalent to the
+    previous design's intent, and the only reasonable option this SDK
+    actually offers.
+  - **This does NOT reintroduce the STT-authority bug from the Google Cloud
+    pass** (see the "Don't trust STT's own language_code" gotcha below):
+    `/transcribe`'s contract is still just "audio in, text out" — the
+    `response.language_code`/`response.language_probability` fields Sarvam
+    also returns are not read or trusted anywhere in this integration.
+    `agent.detect_language()` on the resulting transcript text remains the
+    sole authority for the `/chat` turn's reply language, completely
+    unchanged.
+  - `input_audio_codec="webm"` matches what `MediaRecorder` actually
+    produces in the browser (`audio/webm;codecs=opus`) — same reasoning as
+    the Google Cloud config it replaced.
+- **Google Cloud fallback:** `google-credentials.json`,
+  `GOOGLE_APPLICATION_CREDENTIALS`'s `.gitignore` protection, and the
+  Google Cloud packages are all still present on disk/in `.gitignore` —
+  deliberately not removed yet, per explicit instruction, until this swap
+  is confirmed working in a real browser. `requirements.txt` no longer
+  lists `google-cloud-speech`/`google-cloud-texttospeech` (the code doesn't
+  import them anymore), and `.env.example` no longer lists
+  `GOOGLE_APPLICATION_CREDENTIALS` — but the actual `.env` file, the
+  credentials JSON, and the `.gitignore` entry are untouched.
+- **Verified live (4 of a 5-call budget; 1 held in reserve):**
+  - `/speak` via the real HTTP endpoint, English: valid MP3 (confirmed via
+    frame-sync magic bytes), 2.72s round trip (2.70s of which was the
+    Sarvam API call itself — comparable to Google Cloud TTS's ~0.5–0.6s
+    but noticeably slower in this one sample; not enough data points to
+    call this a reliable comparison).
+  - `/speak` via the real HTTP endpoint, Hindi: valid MP3, 1.74s round trip.
+  - Speech-to-Text round-trip (direct client call, `input_audio_codec="mp3"`
+    since no real browser-recorded WEBM/Opus audio was available to test
+    with, same caveat as the Google Cloud pass): fed each of the above MP3s
+    back in. **English:** "A cotton kurta under 900 rupees, true to size
+    and highly trusted." → transcribed back as "A cotton kurta under ₹900,
+    true to size and highly trusted." — correctly normalized the spoken
+    number into ₹-prefixed digits. **Hindi:** "मुझे ऑफिस के लिए नौ सौ
+    रुपये में एक अच्छी शर्ट चाहिए" → transcribed back as "मुझे ऑफिस के
+    लिए ₹900 में एक अच्छी शर्ट चाहिए।" — same correct number
+    normalization. Both correctly auto-detected (`language_code` came back
+    `en-IN` and `hi-IN` respectively). `language_probability` came back
+    `None` both times despite the docstring saying it should populate
+    when `language_code="unknown"` — a real discrepancy from documented
+    behavior, harmless here since nothing reads that field, but worth
+    knowing if a future pass ever wants to use it.
+  - **Voice quality/naturalness:** cannot be genuinely judged without
+    listening — no audio playback capability here, only binary/metadata
+    inspection. The near-perfect STT round-trip fidelity (including
+    correct number normalization surviving TTS→STT twice) is indirect
+    evidence the TTS output is clearly intelligible and well-formed, but
+    says nothing about subjective warmth/naturalness — that's a real
+    browser/human-ears judgment call, not made here.
+- **NOT verified — needs the team, in a real browser:** actual Hindi/Telugu
+  voice quality and naturalness by ear, Telugu specifically (not tested at
+  all in this pass — English and Hindi only, to stay within budget),
+  latency as it actually feels end-to-end through the UI (not just via
+  direct API timing), and a full voice round trip through the real mic →
+  `/transcribe` → `/chat` → `/speak` → playback flow.
+
+#### Sizing fallback-chain refinement pass (2026-07-19, complete)
+Scope: `tools.py`'s `fit_score` fallback chain and `agent.py`'s related
+system instruction, plus the minimum necessary `app.py`/`static/index.html`
+changes to surface the new visual size chart as real structured data (same
+precedent as `request_size_poll()`/`needs_input`). Did NOT touch
+`catalog.py`, memory/session handling, or the `/transcribe`/`/speak` voice
+endpoints.
+
+This is the project's core value proposition — helping Tier 2/3 customers,
+who often can't try clothes on, choose the right size with confidence. The
+old chain worked but silently computed a size from raw height/weight and had
+no standardized way of stating confidence or the return policy. Refined to:
+
+- **New 5-step priority chain in `fit_score`** (checked in this order,
+  first match wins):
+  1. `order_history` — unchanged, read silently from `CUSTOMER_PROFILE`,
+     never asked about.
+  2. `usual_size` — unchanged, self-reported.
+  3. `chart_matched_size` **(new)** — the customer read the visual size
+     chart themselves and told the agent which row/size matches them.
+  4. `garment_size` **(new)** — the customer checked the tag on an owned
+     garment that already fits them well.
+  5. Generic `fit_notes`-only fallback — unchanged, true last resort.
+  - **Retired:** the old silent `height_cm`/`weight_kg` chart computation
+    and the `build_description` ("slim"/"average"/"broad") signal are both
+    gone as `fit_score` parameters — the customer now sees the same
+    underlying weight-band data as an actual table (`tools.size_chart()`)
+    and self-selects, rather than the backend guessing from raw numbers
+    behind the scenes. `CUSTOMER_PROFILE`'s `height_cm`/`weight_kg`/
+    `build_description` keys are left in place (dormant mock-data shape,
+    already documented as unread by `fit_score`) — harmless, not cleaned up
+    since that wasn't in scope.
+- **Visual size chart mechanism:** `tools.size_chart(category)` builds
+  weight-range → size rows from the existing `_WEIGHT_SIZE_BANDS` data (now
+  repurposed to generate a customer-facing table instead of a silent
+  computation), returning `None` for non-clothing categories (e.g.
+  footwear). `agent.py`'s new `request_size_chart(category)` tool wraps it
+  as a Gemini-callable tool, registered alongside the existing tools.
+  `app.py`'s `_extract_new_turn_signals` now also recognizes
+  `request_size_chart` calls, populating `needs_input = {"type":
+  "size_chart", "rows": [...], "height_note": "..."}` (sibling of the
+  existing `"size_poll"` type, same turn-scoped extraction pattern — no new
+  top-level response field). `static/index.html` renders this as an actual
+  `<table>` (`addSizeChart()`, next to `addSizePoll()`), styled with the
+  existing design tokens; tapping a row sends `"The {size} row matches me"`
+  through the same `sendMessage()` pipeline as everything else, so the
+  customer can either read-and-type or read-and-tap.
+- **Standardized output format**, same structure every time regardless of
+  which signal fired (`tools._sized_message()`): (1) an actionable
+  recommendation in relative terms tied to a reference the customer already
+  gave — e.g. *"This kurta runs small — if your size-chart match is M, size
+  up to L for a perfect fit."*; (2) an honestly-worded confidence sentence
+  that varies by signal (`_CONFIDENCE_SENTENCES` — "fairly confident" for
+  order-history/usual-size, "best estimate" for chart/garment-comparison,
+  "just a rough guess" for the generic fallback); (3) a constant return-
+  policy sentence (`_RETURN_POLICY_SENTENCE`), always appended, in every
+  path including the generic one. This sentence is deliberately a fixed,
+  return_rate-independent statement about the return *process* itself
+  (pickup within 7 days, full refund) — kept structurally separate from
+  `trust_note`'s return_rate-based trust caution, per explicit instruction,
+  so it never contradicts a product's actual return-rate signal (it doesn't
+  claim anything about *this* product's likelihood of being returned, only
+  about what happens if the customer does return it).
+- **AR try-on: explicitly out of scope, roadmap idea only** — not built,
+  not attempted. If picked up later, it would need a genuinely different
+  approach (camera/image-based), not an extension of this rule-based
+  fallback chain.
+- **Verified live (5 of a 5-call budget — fully used, none held in
+  reserve):**
+  - Fresh kurta session, browsing (no order history): generic signal fired
+    for both shown products, each message included the return-policy
+    sentence (e.g. *"If it doesn't fit, returns are easy—we'll pick it up
+    from your home within 7 days for a full refund"*).
+  - Customer confirmed a product and said they didn't know their usual
+    size: agent called `request_size_chart()`; `/chat`'s `needs_input` came
+    back as real structured data (`type: "size_chart"`, 5 rows, height
+    note) matching `tools.size_chart("kurta")` exactly.
+  - Customer replied "I think the M row matches me best":
+    `chart_matched_size="M"` was used correctly — reply recommended sizing
+    up to L (kurta runs small), framed as "my best recommendation" (best-
+    estimate confidence), with the return-policy sentence appended.
+  - Fresh jeans session, browsing (no history): generic signal + return
+    policy again, confirming the return-policy statement appears
+    consistently across a **second, distinct confidence tier** (generic vs.
+    chart-based) — used generic+chart rather than order-history+generic
+    for this check, to conserve the 5-call budget; both are equally valid
+    "different confidence levels" per the task's own "e.g."
+  - Customer confirmed a product and declined BOTH usual size AND the
+    chart in one message: agent correctly pivoted straight to the step-3
+    owned-garment question ("check the tag on a pair of jeans... that fits
+    you well").
+  - **Rough edge found, not re-verified (out of budget):** on that last
+    turn, the agent's reply text correctly asked the garment-tag question,
+    but it *also* called `request_size_poll()` (stale/incorrect — that tool
+    is only meant for step 1's usual-size question), so `needs_input` came
+    back as `size_poll` (tappable S–XXL buttons) next to a question that
+    was actually about a garment tag, not a usual size. Mitigated by adding
+    an explicit instruction ("only call request_size_poll() alongside step
+    1... never when asking the step-3 owned-garment question... never call
+    both tools in the same turn") but this fix itself has **not** been
+    re-tested live — worth a quick manual check before relying on it.
+  - Not tested live at all (budget spent before reaching it): a customer
+    actually answering the owned-garment question and `garment_size`
+    flowing through to a real message — only the *asking* behavior was
+    confirmed, not the full round trip.
+- **NOT verified — needs the team, in a real browser:** how the size-chart
+  table actually looks/reads at real viewport sizes and with real user
+  interaction (only confirmed via Playwright with a mocked `/chat` response
+  and via the live terminal/JSON responses above, not by eye in an actual
+  browser window); whether the standardized output's tone ("best estimate",
+  "just a rough guess", the return-policy sentence) reads as natural and
+  reassuring rather than repetitive across many turns in a row; the full
+  garment-comparison round trip end-to-end; and the `request_size_poll()`
+  mitigation above.
+
 - Start the Myntra pitch deck (official template)
 
 ### Days 5–8 (flexible testing/iteration window, not fixed tasks)
