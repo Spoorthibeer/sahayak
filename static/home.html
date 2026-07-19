@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahayak — Fit-Confidence Shopping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /*
+    Landing page — sits in front of the existing chat assistant (now at
+    /assistant). Reuses this project's established design system (see
+    CLAUDE.md's "Visual design system" section) rather than introducing new
+    colors/type: same :root palette and Fraunces/Work Sans pairing as
+    static/assistant.html. Deliberately does NOT reference or copy Myntra's
+    actual logo/brand assets — this is a general fashion-e-commerce landing
+    layout using our own established look.
+
+    This file duplicates a handful of category-icon SVG paths from
+    assistant.html's CATEGORY_ICONS (kurta/shirt/jeans/dress) rather than
+    sharing a JS module — consistent with this project's deliberate
+    "single self-contained file, no build step" convention (see CLAUDE.md's
+    tech-stack notes on why the team avoided a framework/build step).
+  */
+  :root {
+    --ink: #2A1F1A;
+    --ink-soft: #5B4B41;
+    --paper: #FBF4EC;
+    --surface: #FFFFFF;
+    --border: #EAD9C8;
+    --muted: #8A7568;
+
+    --rani: #A62966;
+    --rani-dark: #7E1E4E;
+    --rani-soft: #F4E1EB;
+
+    --marigold: #D9A441;
+    --marigold-dark: #B9862E;
+    --marigold-soft: #FBF0DC;
+
+    --trust: #1F7A5C;
+    --trust-soft: #E1F0E9;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; overflow-x: hidden; }
+  body {
+    font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2.5px solid var(--rani); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---------- Nav bar ---------- */
+  .site-nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .nav-wordmark {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--rani-dark);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    flex: 1;
+    justify-content: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--rani-dark); }
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .nav-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .nav-icon-btn:hover { background: var(--rani-soft); color: var(--rani-dark); }
+  .nav-icon-btn svg { fill: none; stroke: currentColor; stroke-width: 1.8; }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: linear-gradient(135deg, var(--paper) 0%, var(--rani-soft) 55%, var(--marigold-soft) 100%);
+    padding: 56px 24px 64px;
+  }
+  .hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 56px;
+  }
+  .hero-text { flex: 1; min-width: 0; max-width: 480px; }
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rani-dark);
+    margin-bottom: 14px;
+  }
+  .hero-headline {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 4.4vw, 3.1rem);
+    line-height: 1.14;
+    color: var(--ink);
+    margin: 0 0 18px;
+  }
+  .hero-sub {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+    max-width: 420px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--rani);
+    color: #FFF7F1;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    padding: 15px 30px;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(166, 41, 102, 0.28);
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .hero-cta:hover { background: var(--rani-dark); }
+  .hero-cta:active { transform: scale(0.97); }
+
+  .hero-visual { flex: 1; min-width: 0; max-width: 420px; }
+
+  /* The featured panel: a fixed square box so a real product photo can
+     drop in later (as an <img class="hero-product-photo"> filling this
+     same element) without restructuring anything — the icon here is
+     purely a stand-in until real photography exists. */
+  .hero-visual-panel {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, var(--rani-soft), var(--marigold-soft));
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(42, 31, 26, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-visual-panel svg,
+  .hero-product-photo {
+    width: 46%;
+    height: 46%;
+    object-fit: contain;
+  }
+  .hero-visual-panel .icon-fill { fill: #FFFFFF; fill-opacity: 0.92; stroke: var(--rani-dark); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+  .hero-visual-panel .icon-line { fill: none; stroke: var(--rani-dark); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
+
+  .hero-variant-tiles {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .variant-tile {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(42, 31, 26, 0.06);
+  }
+  .variant-tile svg { width: 48%; height: 48%; }
+  .variant-tile .icon-fill { fill: var(--paper); stroke: var(--rani-dark); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+  .variant-tile .icon-line { fill: none; stroke: var(--rani-dark); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
+
+  .hero-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+  }
+  .hero-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .hero-dots .dot.active { background: var(--rani); width: 18px; border-radius: 999px; }
+
+  @media (max-width: 860px) {
+    .hero-inner { flex-direction: column; }
+    .hero-text, .hero-visual { max-width: 480px; width: 100%; }
+    .hero-text { order: 1; text-align: center; }
+    .hero-visual { order: 2; }
+    .hero-sub { max-width: none; }
+    .hero-eyebrow, .hero-headline, .hero-sub { margin-left: auto; margin-right: auto; }
+  }
+  @media (max-width: 420px) {
+    .site-nav { padding: 12px 16px; }
+    .hero { padding: 36px 16px 48px; }
+    .hero-inner { gap: 32px; }
+  }
+
+  /* ---------- Floating assistant launcher ---------- */
+  .assistant-launcher {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--rani);
+    color: #FFF7F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(166, 41, 102, 0.35);
+    z-index: 10;
+  }
+  .assistant-launcher svg { position: relative; z-index: 1; }
+  .launcher-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: launcherPulse 2.4s ease-out infinite;
+  }
+  @keyframes launcherPulse {
+    0% { box-shadow: 0 0 0 0 rgba(166, 41, 102, 0.4); }
+    70% { box-shadow: 0 0 0 16px rgba(166, 41, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(166, 41, 102, 0); }
+  }
+  @media (max-width: 420px) {
+    .assistant-launcher { right: 16px; bottom: 16px; width: 54px; height: 54px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-wordmark" href="/">sahayak</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/assistant">Shirts</a>
+    <a href="/assistant">Kurtas</a>
+    <a href="/assistant">Jeans</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon-btn" href="/assistant" title="Wishlist" aria-label="Wishlist">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg>
+    </a>
+    <a class="nav-icon-btn" href="/assistant" title="Bag" aria-label="Bag">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 8h12l-1 12.2a2 2 0 0 1-2 1.8H9a2 2 0 0 1-2-1.8L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Fit you can trust</div>
+      <h1 class="hero-headline">Your perfect size,<br>every time</h1>
+      <p class="hero-sub">
+        Tell Sahayak what you're looking for — by voice or text, in English,
+        Hindi, or Telugu — and get real fit-confidence and trust signals
+        alongside every result, not just a list.
+      </p>
+      <a class="hero-cta" href="/assistant">Ask Sahayak</a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-visual-panel">
+        <!-- Placeholder: once real product photography exists, drop an
+             <img class="hero-product-photo" src="..."> in place of this
+             svg — .hero-visual-panel's size/shape/shadow stay the same. -->
+        <svg viewBox="0 0 48 48">
+          <path class="icon-fill" d="M18 6 24 4 30 6 34 12 30 16 30 41 18 41 18 16 14 12Z"/>
+          <path class="icon-line" d="M20 34 20 41M28 34 28 41"/>
+        </svg>
+      </div>
+      <div class="hero-variant-tiles">
+        <div class="variant-tile">
+          <svg viewBox="0 0 48 48">
+            <path class="icon-fill" d="M17 7 21 5 24 8 27 5 31 7 37 13 32 18 32 41 16 41 16 18 11 13Z"/>
+            <path class="icon-line" d="M21 5 24 11 27 5"/>
+          </svg>
+        </div>
+        <div class="variant-tile">
+          <svg viewBox="0 0 48 48">
+            <path class="icon-fill" d="M15 6 33 6 35 20 32 42 25 42 24 23 23 42 16 42 13 20Z"/>
+            <path class="icon-line" d="M15 6Q24 11 33 6M24 12 24 23"/>
+            <circle class="icon-fill" cx="18" cy="9" r="1.4"/><circle class="icon-fill" cx="30" cy="9" r="1.4"/>
+          </svg>
+        </div>
+        <div class="variant-tile">
+          <svg viewBox="0 0 48 48">
+            <path class="icon-fill" d="M20 5 24 3 28 5 29 15 39 41 9 41 19 15Z"/>
+            <path class="icon-line" d="M18 21 30 21"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-dots">
+        <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="assistant-launcher" href="/assistant" title="Ask Sahayak" aria-label="Open voice assistant">
+  <span class="launcher-pulse"></span>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+</a>
+
+</body>
+</html>

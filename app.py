@@ -27,8 +27,7 @@ import time
 from typing import Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.responses import Response
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, Response
 from google.genai import errors
 from pydantic import BaseModel
 from sarvamai import SarvamAI
@@ -390,6 +389,23 @@ def speak(req: SpeakRequest):
     return Response(content=audio_bytes, media_type="audio/mpeg")
 
 
-# Mounted last and at "/" so it acts as a catch-all for static files
-# (index.html etc.) without shadowing the /chat route defined above.
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# Landing page pass (2026-07-19): "/" now serves the new landing page
+# (static/home.html) instead of the chat UI directly; the chat UI itself
+# was relocated to static/assistant.html, served at "/assistant". Both are
+# explicit routes rather than relying on StaticFiles(html=True)'s
+# automatic "index.html at /" behavior, since we now need TWO specific
+# HTML entry points instead of one. Neither page has any separate CSS/JS
+# asset files (everything is inline, same single-file convention as
+# before), so no asset-serving mount is needed for now — if either page
+# ever gains external assets (e.g. real product photos, once a usable
+# source dataset exists — see CLAUDE.md's "Product photo attempt" note),
+# mount StaticFiles at a namespaced path (e.g. "/static") rather than "/",
+# to avoid shadowing these two routes or the API routes above.
+@app.get("/", include_in_schema=False)
+def home_page():
+    return FileResponse("static/home.html")
+
+
+@app.get("/assistant", include_in_schema=False)
+def assistant_page():
+    return FileResponse("static/assistant.html")

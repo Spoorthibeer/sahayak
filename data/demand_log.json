@@ -500,5 +500,13 @@
       "occasion": "casual"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T11:36:28.803713+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
   }
 ]

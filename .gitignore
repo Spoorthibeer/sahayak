@@ -11,3 +11,9 @@ __pycache__/
 # OS junk
 .DS_Store
 .vscode/
+
+# Downloaded source dataset used one-time by match_product_images.py to
+# source real product photos (see CLAUDE.md) — large (14k+ images), not
+# meant to be committed. Only the specific matched photos it copies into
+# static/images/ are tracked.
+data/myntra_dataset/

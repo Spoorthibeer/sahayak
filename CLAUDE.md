@@ -1097,6 +1097,296 @@ above); and the general feel of having this many simultaneous UI elements
 on screen together in a long real conversation — not exercised in
 combination here.
 
+#### Product icons + wishlist panel + TTS text-cleanup pass (2026-07-19, complete)
+Scope: `static/index.html` only (frontend markup/CSS/JS) — no backend
+changes at all this pass. Did NOT touch `agent.py`'s core logic,
+`catalog.py`, `tools.py`'s sizing fallback chain, or the `/transcribe`/
+`/speak` endpoint *implementations* in `app.py` (the TTS fix only changes
+what text the frontend chooses to send to the existing `/speak` contract,
+same pattern as the original markdown-stripping fix).
+
+**1. Product icons — local static SVGs, deliberately no external image
+URLs.** Categories were confirmed by actually reading `data/catalog.json`
+(not assumed from `generate_catalog.py`): `dress`, `ethnic set`, `jacket`,
+`jeans`, `kurta`, `saree`, `shirt`, `sneakers`, `t-shirt`, `trousers` — 10
+categories, matching the generator's list exactly at the time of writing,
+but confirmed from the live data per the explicit instruction to do so.
+`CATEGORY_ICONS` in `static/index.html` maps each to a small hand-drawn
+line-art SVG (viewBox `0 0 48 48`, two shared CSS classes:
+`.icon-fill` — solid white silhouette with a `--rani-dark` stroke — and
+`.icon-line` — a thinner accent detail like a collar notch, side slit, or
+shoe laces). `GENERIC_ICON` (a hanger) is the fallback for any category not
+in the map, so a future/unexpected category degrades gracefully instead of
+showing nothing. `categoryIconSVG(category)` picks the right one, called
+from the card-builder in place of the old single hardcoded hanger icon
+every card used to show regardless of category. `.product-image` changed
+from a fixed 100px-tall rectangle to `aspect-ratio: 1/1` (a real square
+thumbnail) and the icon itself renders at 58% of that square (up from a
+34px icon in a much bigger box before) — both changes needed so the icon
+reads with "photo-like" visual weight instead of a small decorative glyph,
+per the brief. **No network fetch involved anywhere** — every icon is
+inline SVG markup embedded directly in the page's own JS, so a flaky
+demo-day connection can't produce a broken-image icon.
+- **Verified via Playwright:** all 10 real categories plus one deliberately
+  fake category (`"totally-new-category"`) rendered a card with a
+  `.product-image svg` present — confirms both real-category mapping and
+  the generic fallback work, screenshot confirmed the shirt/kurta icons
+  read cleanly and consistently with the existing warm palette.
+
+**2. Wishlist panel.** The heart icon (already visual-only from an earlier
+pass) now feeds a real, visible client-side state: `wishlist` (a
+module-level array of full product objects, session-scoped only, no
+backend call — matches the same scope as compare-selection/recently-viewed
+state already in this file). A new heart-outline button in the header
+(`#wishlist-toggle-btn`, with a small count badge) opens a slide-in drawer
+(`#wishlist-panel`, `.open` class + CSS transform, plus a dismissable
+`#wishlist-backdrop`). The panel renders each wishlisted product using the
+**same card-builder function** the search-results row uses
+(`buildProductCardEl(p, opts)` — the product-card markup, including this
+pass's new category icons, was refactored out of `addProducts()` into this
+one shared function specifically so the panel can reuse it verbatim
+instead of duplicating markup that could drift), just without the
+"Tell me more/Check another size/Compare" quick actions (`opts.showActions
+= false`) since those aren't relevant to reviewing a saved list. Un-hearting
+works both from the original product card AND from within the panel —
+either one calls the same `toggleWishlistItem()`, which updates the
+`wishlist` array and then re-syncs every `.wishlist-btn` on the page whose
+card matches that product name (so a product shown in more than one place —
+an earlier turn's card, a later turn's card, the panel itself — never gets
+out of sync with the others). Each card now also carries its full product
+data in `card.dataset.product` (JSON-stringified) specifically so the
+heart-click handler and the panel have the data they need without a second
+lookup mechanism.
+- **Verified via Playwright:** hearting 2 cards showed a badge count of 2;
+  opening the panel showed exactly those 2 products, correctly using the
+  card style with hearts pre-filled and no quick-action buttons; un-hearting
+  from inside the panel dropped the badge to 1, removed that card from the
+  panel, AND correctly un-filled the heart on the original card back in the
+  chat thread; closing via the backdrop worked (a narrow-viewport test
+  first needed the click target moved off-panel, since the panel visually
+  covers most of a ~430px-wide viewport — a test-methodology fix, not an
+  app bug).
+
+**3. TTS text-cleanup extension.** `stripMarkdownForSpeech()` (the same
+function already responsible for stripping `**bold**`/list markers before
+a reply is sent to `/speak` — untouched from the original markdown pass)
+gained two more rules, applied only to the text sent for speech, never to
+the visible chat bubble (`renderMarkdown()`/`addRow()` are completely
+unaffected):
+  - `\([^()]*\)` and `\[[^\[\]]*\]` remove any parenthetical/bracketed
+    aside entirely — asides aren't meant to be read aloud.
+  - `(\d)\s*-\s*(\d)/g` → `"$1 to $2"` converts a number-hyphen-number
+    pattern to the word "to" (e.g. "300-400" → "300 to 400", "₹300-400" →
+    "₹300 to 400" — the regex only touches the matched digit-hyphen-digit
+    span, so the rupee sign and surrounding digits are untouched).
+  - Two small follow-up cleanup rules were added after live-testing
+    surfaced a cosmetic artifact: removing a bracketed aside can leave a
+    stray double space or a space directly before punctuation (e.g. "...a
+    different size ]." → "...a different size ."), so `/ {2,}/g → " "` and
+    `/ +([.,!?])/g → "$1"` tidy that up. Deliberately does NOT touch
+    newlines (`\n`) at all — those are still preserved for pacing between
+    lines/list items, same as before this pass.
+- **Verified live** (2 of a 3-call budget): a mocked `/chat` reply
+  containing both a bracketed aside and a price range —
+  `"This kurta (a customer favorite) runs small... priced at ₹300-400
+  [ask if you need help choosing a size], and most buyers say it fits
+  great for the 25-30 age group."` — was sent through the real frontend
+  pipeline; the text actually POSTed to the real `/speak` endpoint (and
+  confirmed via server logs / a direct re-POST) came out as *"This kurta
+  runs small, so consider sizing up. It's priced at ₹300 to 400, and most
+  buyers say it fits great for the 25 to 30 age group."* — both asides
+  gone, both number ranges (price AND the unrelated age range, confirming
+  the rule generalizes beyond just prices) converted correctly, and the
+  real Sarvam call returned a valid, non-empty MP3 (confirmed via its
+  frame-sync magic bytes) — 140KB of real audio, not just a 200 status.
+  Voice *naturalness* still can't be judged without listening (same
+  standing limitation as every prior voice-related pass).
+- **NOT verified — needs the team, in a real browser:** whether the
+  spoken result actually sounds natural by ear (only the text transformation
+  and successful audio generation were confirmed here, not subjective
+  quality); the icon set's appearance at a wider desktop viewport and on a
+  real device; and the wishlist panel's feel/usability on a real
+  touchscreen (only confirmed functionally via Playwright, not by eye in a
+  real browser window).
+
+#### Landing page + routing pass (2026-07-19, complete)
+Scope: purely structural/frontend — a new `static/home.html`, the existing
+chat UI relocated from `static/index.html` to `static/assistant.html`
+(content preserved, plus one small additive change — see below), and
+`app.py`'s static-file routing. Did NOT touch `agent.py`, `catalog.py`,
+`tools.py`, or the `/chat`/`/transcribe`/`/speak` route *implementations*
+at all. No live API calls were needed or made this pass — verified
+entirely via Playwright screenshots/functional checks against mocked
+`/chat` responses.
+
+- **Routing (`app.py`):** the old blanket `app.mount("/", StaticFiles(...),
+  html=True)` (which served `index.html` automatically at `/`) is gone,
+  replaced with two explicit routes: `GET /` → `FileResponse("static/
+  home.html")`, `GET /assistant` → `FileResponse("static/assistant.html")`.
+  Neither page has separate CSS/JS asset files (both are still fully
+  self-contained, inline-everything single files, matching this project's
+  established convention), so no asset-serving mount is needed for now —
+  a comment in `app.py` notes that if either page ever gains external
+  assets, `StaticFiles` should be mounted at a namespaced path like
+  `/static` rather than `/`, so it can't shadow these two routes or the
+  `/chat`/`/transcribe`/`/speak` API routes above them.
+- **`static/assistant.html`** is `index.html` relocated via `git mv`
+  (history preserved) — every existing feature (voice, size poll/chart,
+  wishlist panel, product icons, compare mode, suggestions, language
+  toggle, etc.) is untouched and confirmed still working (see verification
+  below). **One small additive change, invited explicitly by this pass's
+  brief ("reasonable to include... if simple to add")**: the header's
+  brand mark (`Sahayak` + tagline) is now wrapped in `<a href="/">` instead
+  of a plain `<div>`, so tapping it returns to the new landing page — this
+  adds a link, it doesn't modify any existing behavior, element, or
+  script.
+- **`static/home.html`** — new landing page, reusing this project's
+  established design system (see "Visual design system" above) rather
+  than any new palette/type, and deliberately not referencing Myntra's
+  actual logo or trademarked assets:
+  - **Nav bar:** white background, `sahayak` wordmark in Fraunces
+    (lowercase styling, per the approved brief, distinct from the
+    assistant page's own capitalized "Sahayak" brand mark, which is
+    unchanged), three nav links (Home/Shirts/Kurtas/Jeans) that route to
+    `/` and `/assistant` respectively — **not wired to pre-fill a
+    category-specific starting prompt in the assistant**, since doing so
+    would require adding query-param handling to `assistant.html`'s JS,
+    which conflicts with this pass's explicit "preserve exactly as-is"
+    instruction for that file; documented here as a deliberate scope
+    decision, not an oversight. A wishlist heart and a bag icon sit on the
+    far right (the heart icon reuses the exact SVG path already used
+    elsewhere in the app for visual consistency; the bag icon is new,
+    generic e-commerce iconography, not a trademarked shape) — both
+    currently link to `/assistant` (there's no separate cart/wishlist
+    backend for a standalone landing page to talk to; the wishlist itself
+    lives in `assistant.html`'s own client-side state).
+  - **Hero:** soft warm gradient background
+    (`--paper` → `--rani-soft` → `--marigold-soft`, all existing tokens —
+    not a new color), left side has the eyebrow line, Fraunces headline,
+    supporting copy, and an `Ask Sahayak` pill CTA linking to `/assistant`;
+    right side has a large square-ish (`aspect-ratio: 4/5`) featured panel
+    with a soft drop shadow. **Designed for a real photo to drop in
+    later:** the panel currently centers a large category-icon SVG
+    (kurta), but the intended future swap is dropping an `<img
+    class="hero-product-photo">` into the exact same `.hero-visual-panel`
+    element — that CSS class already sizes/shapes/shadows the box and
+    constrains `.hero-product-photo`/the placeholder svg to the same
+    46%-of-box sizing rule, so no restructuring will be needed, just
+    replacing the one child element. Below the panel: 3 smaller variant
+    tiles (shirt/jeans/dress icons) and a row of pagination dots (purely
+    decorative, matching a product-carousel-indicator convention).
+  - **Icon duplication, deliberate:** `home.html` embeds its own copies of
+    a few category-icon SVG paths (kurta/shirt/jeans/dress, taken directly
+    from `assistant.html`'s `CATEGORY_ICONS`) rather than sharing a JS
+    module between the two pages — consistent with this project's
+    explicit "single self-contained file, no build step" convention
+    (see the tech-stack section's reasoning for avoiding a framework).
+    This is a small, known duplication tradeoff, not an oversight.
+  - **Floating assistant launcher:** fixed bottom-right circular button
+    (`--rani` background, existing mic-icon SVG path reused from
+    `assistant.html`), with a soft pulse ring
+    (`launcherPulse` keyframe — same restrained, non-garish style as the
+    existing match-found animation's pulse). Links directly to
+    `/assistant`.
+  - **Responsive:** `.hero-inner` switches from a row to a stacked column
+    below 860px width (text first, centered, then the visual below); nav
+    links hide below 640px (wordmark + icons remain); further padding/size
+    reductions below 420px, consistent with the assistant page's existing
+    breakpoint conventions.
+- **Verified via Playwright (no live API calls, per this pass's explicit
+  scope):**
+  - Desktop (1280px): nav links visible, hero laid out as a row, floating
+    launcher visible — screenshot confirms nav/hero/tiles/dots/launcher
+    all render as designed, warm on-brand gradient, no loud colors.
+  - Mobile (375px): nav links correctly hidden, hero confirmed via
+    computed style to switch to `flex-direction: column` (text stacks
+    above the visual, both centered), launcher's bounding box confirmed
+    fully inside the 375px viewport, and `document.documentElement.
+    scrollWidth` confirmed exactly 375 (no horizontal overflow introduced)
+    — screenshot shows a clean stacked mobile layout.
+  - `/assistant` still fully functional: mic button, empty-state welcome,
+    and (via a mocked `/chat` response) the full existing pipeline —
+    product card with its category icon — all confirmed rendering
+    correctly, unchanged from before this pass. The new brand-mark home
+    link was clicked and confirmed to navigate back to `/`.
+- **NOT verified — needs the team, in a real browser:** the actual tap
+  interaction on a real touchscreen (only simulated via Playwright's
+  `.click()`); whether the nav links/icons linking to `/assistant` (rather
+  than doing something more elaborate) feels right in practice; and the
+  overall look-and-feel/emotional read of the hero and floating launcher
+  in person, on a real device, alongside real product photography once
+  that exists (the current icon placeholder is explicitly a stand-in, not
+  a final visual).
+
+#### Product photo attempt (2026-07-19, ATTEMPTED AND REVERTED — read before retrying)
+A pass to replace the SVG category icons with real photos, sourced from a
+downloaded Myntra dataset (`data/myntra_dataset/Fashion Dataset.csv` +
+`Images/`), was attempted and then **fully reverted** after discovering
+the local copy of the dataset is internally inconsistent. Nothing shipped
+from this attempt — `static/assistant.html`, `app.py`, and
+`data/catalog.json` are all back to exactly their pre-attempt state (only
+`.gitignore` keeps one small, harmless addition — see below). If this is
+retried later, **do not repeat the matching work without first confirming
+the dataset problem below is actually fixed.**
+
+- **What was built (then removed):** `match_product_images.py` (a
+  one-time script: parse the CSV, detect each row's category from its
+  `name` field — `p_attributes`' "Top Type"/"Bottom Type" fields turned
+  out to only be populated on ~8% of rows, almost all kurta-style, so a
+  `name`-keyword search was the real primary signal — copy a matched
+  photo per category into `static/images/`, write `image_path` onto each
+  catalog product), plus the corresponding `app.py` `/static` mount and
+  `assistant.html` render-real-photo-with-icon-fallback logic. All of this
+  worked *mechanically* — the code ran, files copied, fields populated —
+  but the underlying data it was working from turned out to be broken.
+- **The actual problem — confirmed with concrete evidence, not assumed:**
+  `Images/{index}.jpg` files do **not** correspond to their claimed CSV
+  rows. Checked directly (opened the images, compared to that row's own
+  `name` field): row 0 ("...Kurta with Palazzos...") → image shows an
+  unrelated yellow polka-dot skirt; row 2 ("...Kurta with Trousers...") →
+  a navy/pink polka-dot pleated skirt (kids'); row 11 ("...Straight
+  Kurta") → purple velvet harem pants; row 1980 ("...Jeans") → a
+  multicolor saree. Two possible explanations were checked and ruled out
+  as the (sole) cause:
+  - The CSV's own unnamed index column genuinely does restart partway
+    through the file (physical row 990 has index-value "0" again, 991 has
+    "1", etc. — a classic symptom of two dataframes having been
+    concatenated without `ignore_index=True`). Real, but doesn't explain
+    the failures above, since rows 0/2/11 are all *before* that
+    duplication starts, where physical position and index value already
+    agree.
+  - `p_id` as the actual filename key instead — checked directly, no file
+    is named after any of these rows' `p_id` either.
+  - Net conclusion: the specific downloaded copy of this dataset has its
+    `Images/` folder out of sync with its CSV, for reasons not fully
+    diagnosed (most likely how this particular redistributed copy was
+    packaged) — not something fixable by better category-matching logic,
+    since the row-to-image correspondence itself doesn't hold.
+- **Explicitly confirmed with the team before reverting** (not assumed):
+  presented the mismatch evidence and asked how to proceed; the team chose
+  to stop and revert rather than ship mismatched photos or investigate
+  further right now.
+- **What's needed to retry this:** a working copy of the dataset where
+  `Images/{index}.jpg` actually depicts CSV row `{index}`'s product — e.g.
+  a fresh download, or a version where the index/image correspondence has
+  been independently verified. Once that exists, `match_product_images.py`
+  can be rewritten from scratch (the old one isn't kept, to avoid a stale
+  script silently being re-run against bad data) — its category-detection
+  logic (name-keyword matching, the ethnic-set-if-Top-Type-is-actually-
+  ethnic-AND-Bottom-Type-present rule) is the reusable part; the row-index
+  assumption is the part that needs re-verifying first, with the same kind
+  of direct "open a few images and compare to their row" check done here
+  — spot-checking a handful of images against their claimed rows takes a
+  few minutes and would have caught this before any code was written.
+- **One small, deliberate keeper from this attempt:** `.gitignore` now
+  excludes `data/myntra_dataset/` (the raw downloaded dataset — 14,000+
+  images) so it can never be accidentally committed, regardless of when or
+  whether real photos are attempted again. This is harmless on its own
+  and was kept rather than reverted.
+- The SVG icon fallback (`CATEGORY_ICONS`/`categoryIconSVG()` in
+  `static/assistant.html`) remains exactly as it was — every product card
+  and the landing page hero still show icons, unchanged by this attempt.
+
 - Start the Myntra pitch deck (official template)
 
 ### Days 5–8 (flexible testing/iteration window, not fixed tasks)
@@ -1136,10 +1426,15 @@ that part.
 ```bash
 uvicorn app:app --reload
 ```
-Then open `http://127.0.0.1:8000` in a browser with microphone access
-(Chrome is the safest bet). Voice I/O is Google Cloud STT/TTS on the backend
-now, not a browser-capability requirement, but the mic button still needs
-`MediaRecorder` support and the browser will prompt for mic permission.
+Then open `http://127.0.0.1:8000` in a browser — this now shows the
+landing page (`static/home.html`); tap "Ask Sahayak" or the floating mic
+launcher, or go directly to `http://127.0.0.1:8000/assistant`, to reach
+the actual chat UI (`static/assistant.html`, see the "Landing page +
+routing pass" below). Use a browser with microphone access for the
+assistant page (Chrome is the safest bet). Voice I/O is Sarvam AI on the
+backend, not a browser-capability requirement, but the mic button still
+needs `MediaRecorder` support and the browser will prompt for mic
+permission.
 `agent.py`'s terminal REPL (`python agent.py`) still works independently for
 quick text-only testing without the browser.
 

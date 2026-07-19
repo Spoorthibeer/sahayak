@@ -76,6 +76,8 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
+    text-decoration: none;
+    color: inherit;
   }
   .brand-mark {
     font-family: "Fraunces", Georgia, serif;
@@ -288,14 +290,20 @@
     box-shadow: 0 1px 3px rgba(42, 31, 26, 0.06);
   }
   .product-image {
-    height: 100px;
+    aspect-ratio: 1 / 1;
     background: linear-gradient(135deg, var(--rani-soft), var(--marigold-soft));
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
   }
-  .product-image svg { opacity: 0.55; color: var(--rani-dark); }
+  /* Category icons (see CATEGORY_ICONS/categoryIconSVG in the script) — a
+     solid white silhouette with a defined stroke reads as a real thumbnail
+     at a glance rather than a faint decorative line icon, per the design
+     brief ("similar in visual weight to a real product photo"). */
+  .product-image svg { width: 58%; height: 58%; }
+  .product-image svg .icon-fill { fill: #FFFFFF; fill-opacity: 0.92; stroke: var(--rani-dark); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+  .product-image svg .icon-line { fill: none; stroke: var(--rani-dark); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
   .product-category-tag {
     position: absolute;
     left: 8px;
@@ -461,6 +469,106 @@
   .wishlist-btn:active { transform: scale(0.88); }
   .wishlist-btn.active { color: var(--rani); }
   .wishlist-btn.active svg { fill: currentColor; }
+
+  /* ---------- Wishlist panel (header toggle + slide-in drawer) ---------- */
+  #wishlist-toggle-btn {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    width: 38px;
+    height: 38px;
+  }
+  #wishlist-toggle-btn:hover { border-color: var(--rani); color: var(--rani-dark); }
+  #wishlist-toggle-btn svg { fill: none; stroke: currentColor; stroke-width: 2; }
+  .wishlist-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--rani);
+    color: #FFF7F1;
+    font-size: 0.62rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .wishlist-count.hidden { display: none; }
+
+  .wishlist-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(42, 31, 26, 0.35);
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+  .wishlist-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .wishlist-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 88vw);
+    background: var(--paper);
+    border-left: 1px solid var(--border);
+    box-shadow: -8px 0 28px rgba(42, 31, 26, 0.16);
+    z-index: 21;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+  .wishlist-panel.open { transform: translateX(0); }
+  .wishlist-panel-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .wishlist-panel-title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--rani-dark);
+  }
+  .wishlist-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  .wishlist-close-btn:hover { color: var(--rani-dark); }
+  .wishlist-panel-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .wishlist-panel-list .product-card { width: 100%; }
+  .wishlist-empty {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 48px;
+    padding: 0 20px;
+    line-height: 1.5;
+  }
 
   /* ---------- Compare mode ---------- */
   .card-action-btn.compare-selected { border-color: var(--rani); color: var(--rani-dark); background: var(--rani-soft); }
@@ -764,15 +872,30 @@
 
 <div id="app">
   <header>
-    <div class="brand">
+    <a class="brand" href="/" title="Back to home">
       <span class="brand-mark">Sahayak</span>
       <span class="brand-tagline">Fit-confidence shopping, in your language</span>
-    </div>
-    <div id="lang-badge" class="chip chip-lang">
-      <span class="chip-dot"></span>
-      <span id="lang-badge-text">English</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="wishlist-toggle-btn" class="icon-btn" aria-label="View wishlist" title="View wishlist">
+        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg>
+        <span id="wishlist-count" class="wishlist-count hidden">0</span>
+      </button>
+      <div id="lang-badge" class="chip chip-lang">
+        <span class="chip-dot"></span>
+        <span id="lang-badge-text">English</span>
+      </div>
     </div>
   </header>
+
+  <div id="wishlist-backdrop" class="wishlist-backdrop"></div>
+  <div id="wishlist-panel" class="wishlist-panel">
+    <div class="wishlist-panel-header">
+      <span class="wishlist-panel-title">Wishlist</span>
+      <button id="wishlist-close-btn" class="wishlist-close-btn" aria-label="Close wishlist">&times;</button>
+    </div>
+    <div id="wishlist-panel-list" class="wishlist-panel-list"></div>
+  </div>
 
   <main id="chat-window">
     <div id="empty-state">
@@ -854,6 +977,12 @@
   const hint = document.getElementById("hint");
   const recentlyViewedEl = document.getElementById("recently-viewed");
   const onboardingHint = document.getElementById("onboarding-hint");
+  const wishlistToggleBtn = document.getElementById("wishlist-toggle-btn");
+  const wishlistCountEl = document.getElementById("wishlist-count");
+  const wishlistPanelEl = document.getElementById("wishlist-panel");
+  const wishlistBackdropEl = document.getElementById("wishlist-backdrop");
+  const wishlistPanelList = document.getElementById("wishlist-panel-list");
+  const wishlistCloseBtn = document.getElementById("wishlist-close-btn");
 
   // ---- Mic button state machine: idle | listening | processing | speaking.
   // This is what makes barge-in visually legible — the customer can SEE the
@@ -942,6 +1071,22 @@
       .replace(/^\s*\d+[.)]\s+/gm, "")
       .replace(/`([^`]+)`/g, "$1")
       .replace(/^#+\s*/gm, "")
+      // Parenthetical/bracketed asides aren't meant to be spoken aloud (the
+      // TTS voice used to read them word-for-word, brackets included) —
+      // drop them entirely for speech only; the visible chat bubble is
+      // rendered separately via renderMarkdown() and is untouched by this.
+      .replace(/\([^()]*\)/g, "")
+      .replace(/\[[^\[\]]*\]/g, "")
+      // "300-400" / "₹300-400" read literally as "300 hyphen 400" — a
+      // number-hyphen-number is almost always a range in this context, so
+      // convert the hyphen to "to" for natural speech ("300 to 400").
+      .replace(/(\d)\s*-\s*(\d)/g, "$1 to $2")
+      // Collapse only the extra spaces left behind by removing a bracketed
+      // aside (e.g. "shirt  for you") — deliberately not touching newlines,
+      // which are preserved elsewhere for pacing between lines.
+      .replace(/ {2,}/g, " ")
+      .replace(/ +\n/g, "\n")
+      .replace(/ +([.,!?])/g, "$1")
       .trim();
   }
 
@@ -1031,6 +1176,65 @@
     return '<span class="chip ' + chip.cls + '">' + CHIP_ICONS[chip.icon] + '<span>' + chip.label + "</span></span>";
   }
 
+  // ---- Product-card icons: local, static SVG line-art per category — no
+  // external image URLs at all (a demo-day wifi hiccup showing broken image
+  // icons live would look worse than a clean icon, per the design brief).
+  // Covers every category actually found in data/catalog.json (confirmed by
+  // reading the file directly: dress, ethnic set, jacket, jeans, kurta,
+  // saree, shirt, sneakers, t-shirt, trousers), plus GENERIC_ICON as a
+  // sensible fallback for any future/unexpected category. Each icon is a
+  // solid white silhouette (".icon-fill") with an optional accent line
+  // (".icon-line") for a distinguishing detail (collar, slit, crease,
+  // laces, drape) — see the .product-image svg rules in <style> for how
+  // those two classes are colored.
+  const CATEGORY_ICONS = {
+    "shirt":
+      '<path class="icon-fill" d="M17 7 21 5 24 8 27 5 31 7 37 13 32 18 32 41 16 41 16 18 11 13Z"/>' +
+      '<path class="icon-line" d="M21 5 24 11 27 5"/>',
+    "t-shirt":
+      '<path class="icon-fill" d="M14 10 19 6Q24 9 29 6L34 10 39 15 34 19 34 41 14 41 14 19 9 15Z"/>' +
+      '<path class="icon-line" d="M19 6Q24 10 29 6"/>',
+    "kurta":
+      '<path class="icon-fill" d="M18 6 24 4 30 6 34 12 30 16 30 41 18 41 18 16 14 12Z"/>' +
+      '<path class="icon-line" d="M20 34 20 41M28 34 28 41"/>',
+    "ethnic set":
+      '<path class="icon-fill" d="M17 5 24 3 31 5 34 10 30 13 30 24 18 24 18 13 14 10Z"/>' +
+      '<path class="icon-fill" d="M19 26 29 26 30 42 25 42 24.5 32 23.5 42 18 42Z"/>',
+    "saree":
+      '<path class="icon-line" d="M8 10Q24 3 40 10"/>' +
+      '<path class="icon-line" d="M8 17Q24 10 40 17"/>' +
+      '<path class="icon-line" d="M8 24Q24 17 40 24"/>' +
+      '<path class="icon-line" d="M8 31Q24 24 40 31"/>' +
+      '<path class="icon-line" d="M8 38Q24 31 40 38"/>',
+    "jeans":
+      '<path class="icon-fill" d="M15 6 33 6 35 20 32 42 25 42 24 23 23 42 16 42 13 20Z"/>' +
+      '<path class="icon-line" d="M15 6Q24 11 33 6M24 12 24 23"/>' +
+      '<circle class="icon-fill" cx="18" cy="9" r="1.4"/><circle class="icon-fill" cx="30" cy="9" r="1.4"/>',
+    "trousers":
+      '<path class="icon-fill" d="M16 6 32 6 33 20 31 42 25 42 24 22 23 42 17 42 15 20Z"/>' +
+      '<path class="icon-line" d="M16 8 32 8M21 22 20 40M27 22 28 40"/>',
+    "dress":
+      '<path class="icon-fill" d="M20 5 24 3 28 5 29 15 39 41 9 41 19 15Z"/>' +
+      '<path class="icon-line" d="M18 21 30 21"/>',
+    "jacket":
+      '<path class="icon-fill" d="M16 8 21 5 24 9 27 5 32 8 38 14 33 18 33 41 15 41 15 18 10 14Z"/>' +
+      '<path class="icon-line" d="M21 5 24 15 27 5M24 15 24 41"/>',
+    "sneakers":
+      '<path class="icon-fill" d="M5 32Q5 25 14 23L27 19Q31 17 35 19L41 24Q43 25 43 29V35H5Z"/>' +
+      '<path class="icon-line" d="M18 24 24 21M20 27 26 24M22 30 28 27"/>',
+  };
+  // Fallback for any category not in the map above (e.g. a future catalog
+  // change) — a plain hanger, the same generic silhouette every card used
+  // to show before this pass.
+  const GENERIC_ICON =
+    '<path class="icon-fill" d="M24 14 8 23 11 29 18 25 18 40 30 40 30 25 37 29 40 23Z"/>' +
+    '<circle class="icon-line" cx="24" cy="8" r="3.5"/>';
+
+  function categoryIconSVG(category) {
+    const inner = CATEGORY_ICONS[category] || GENERIC_ICON;
+    return '<svg viewBox="0 0 48 48">' + inner + "</svg>";
+  }
+
   // ---- Star rating: parses the rating out of review_summary (e.g. "4.1/5
   // average from 173 reviews"), a field already present in /chat's product
   // data — no backend change needed. Rendered as a single 5-star SVG row
@@ -1094,46 +1298,88 @@
     sendMessage("Compare the " + first + " and the " + name);
   }
 
-  function addProducts(products, matchFoundProducts) {
-    if (!products || products.length === 0) return;
-    showConversationStarted();
-    const row = document.createElement("div");
-    row.className = "row assistant";
-    const scroller = document.createElement("div");
-    scroller.className = "products-row";
-    products.forEach(function (p) {
-      const card = document.createElement("div");
-      const name = p.name || "this item";
-      const isMatch = matchFoundProducts && matchFoundProducts.indexOf(name) !== -1;
-      card.className = "product-card" + (isMatch ? " match-found" : "");
-      card.dataset.productName = name;
-      const fit = fitChip(p.fit_notes);
-      const trust = trustChip(p.return_rate);
-      card.innerHTML =
-        '<div class="product-image">' +
-          '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/><path d="M12 7 4 11l1.5 3L9 12v9h6v-9l3.5 2L20 11z"/></svg>' +
-          '<span class="product-category-tag">' + (p.category || "") + '</span>' +
-          '<button class="wishlist-btn" data-action="wishlist" aria-label="Add to wishlist"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg></button>' +
-          (isMatch ? '<span class="match-found-badge">✨ Great fit match</span>' : "") +
-        '</div>' +
-        '<div class="product-body">' +
-          '<div class="product-name">' + (p.name || "") + '</div>' +
-          '<div class="product-price">₹' + (p.price != null ? p.price : "?") + '</div>' +
-          starsHTML(p.review_summary) +
-          '<div class="product-chips">' + chipHTML(fit) + chipHTML(trust) + '</div>' +
+  // ---- Wishlist: a plain client-side array of wishlisted product objects,
+  // session-scoped only (no backend call, no persistence across reloads —
+  // matches the same scope as recently-viewed/compare state). Storing the
+  // full product dict (not just the name) means the panel can render real
+  // product-card-style entries without re-fetching anything.
+  let wishlist = [];
+
+  function isWishlisted(name) {
+    return wishlist.some(function (w) { return w.name === name; });
+  }
+
+  function toggleWishlistItem(product, heartEl) {
+    const idx = wishlist.findIndex(function (w) { return w.name === product.name; });
+    if (idx !== -1) wishlist.splice(idx, 1);
+    else wishlist.push(product);
+
+    const nowActive = isWishlisted(product.name);
+    // Sync every heart button for this product across the whole page (the
+    // same product can appear in more than one place: an earlier chat
+    // turn's card, a later turn's card, and the wishlist panel itself).
+    document.querySelectorAll(".product-card").forEach(function (card) {
+      if (card.dataset.productName !== product.name) return;
+      const btn = card.querySelector(".wishlist-btn");
+      if (btn) btn.classList.toggle("active", nowActive);
+    });
+    updateWishlistBadge();
+    if (wishlistPanelOpen) renderWishlistPanel();
+  }
+
+  function updateWishlistBadge() {
+    wishlistCountEl.textContent = wishlist.length;
+    wishlistCountEl.classList.toggle("hidden", wishlist.length === 0);
+  }
+
+  // Shared card-builder used both for search-result cards (with quick
+  // actions) and wishlist-panel cards (read-only aside from the heart) —
+  // one place for the markup so the new category icons/match badge/wishlist
+  // state can't drift between the two call sites.
+  function buildProductCardEl(p, opts) {
+    opts = opts || {};
+    const name = p.name || "this item";
+    const card = document.createElement("div");
+    card.className = "product-card" + (opts.isMatch ? " match-found" : "");
+    card.dataset.productName = name;
+    card.dataset.product = JSON.stringify(p);
+    const fit = fitChip(p.fit_notes);
+    const trust = trustChip(p.return_rate);
+    const heartActive = isWishlisted(name) ? " active" : "";
+    card.innerHTML =
+      '<div class="product-image">' +
+        categoryIconSVG(p.category) +
+        '<span class="product-category-tag">' + (p.category || "") + '</span>' +
+        '<button class="wishlist-btn' + heartActive + '" data-action="wishlist" aria-label="Toggle wishlist"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg></button>' +
+        (opts.isMatch ? '<span class="match-found-badge">✨ Great fit match</span>' : "") +
+      '</div>' +
+      '<div class="product-body">' +
+        '<div class="product-name">' + (p.name || "") + '</div>' +
+        '<div class="product-price">₹' + (p.price != null ? p.price : "?") + '</div>' +
+        starsHTML(p.review_summary) +
+        '<div class="product-chips">' + chipHTML(fit) + chipHTML(trust) + '</div>' +
+        (opts.showActions === false ? "" :
           '<div class="product-actions">' +
             '<button class="card-action-btn" data-action="more">Tell me more</button>' +
             '<button class="card-action-btn" data-action="size">Check another size</button>' +
             '<button class="card-action-btn" data-action="compare">Compare</button>' +
-          '</div>' +
-        '</div>';
-      scroller.appendChild(card);
-    });
-    // Event delegation for the per-card action buttons, rather than a
-    // closure per button — same sendMessage() pipeline as typed text.
-    scroller.addEventListener("click", function (e) {
+          '</div>') +
+      '</div>';
+    return card;
+  }
+
+  // Delegated click handling shared by both the products-row scroller and
+  // the wishlist panel list — a container without quick-action buttons
+  // (the panel) simply never matches ".card-action-btn", so this is safe
+  // to reuse as-is rather than duplicating the wishlist-heart logic twice.
+  function attachProductCardListeners(container) {
+    container.addEventListener("click", function (e) {
       const heart = e.target.closest(".wishlist-btn");
-      if (heart) { heart.classList.toggle("active"); return; }
+      if (heart) {
+        const card = heart.closest(".product-card");
+        toggleWishlistItem(JSON.parse(card.dataset.product), heart);
+        return;
+      }
       const btn = e.target.closest(".card-action-btn");
       if (!btn) return;
       const card = btn.closest(".product-card");
@@ -1142,6 +1388,54 @@
       else if (btn.dataset.action === "size") sendMessage("Do you have the " + name + " in a different size?");
       else if (btn.dataset.action === "compare") handleCompareTap(name, btn);
     });
+  }
+
+  let wishlistPanelOpen = false;
+
+  function renderWishlistPanel() {
+    wishlistPanelList.innerHTML = "";
+    if (!wishlist.length) {
+      wishlistPanelList.innerHTML =
+        '<div class="wishlist-empty">Nothing wishlisted yet — tap the heart on any product card to save it here.</div>';
+      return;
+    }
+    wishlist.forEach(function (p) {
+      wishlistPanelList.appendChild(buildProductCardEl(p, { showActions: false }));
+    });
+  }
+
+  function openWishlistPanel() {
+    wishlistPanelOpen = true;
+    renderWishlistPanel();
+    wishlistPanelEl.classList.add("open");
+    wishlistBackdropEl.classList.add("open");
+  }
+
+  function closeWishlistPanel() {
+    wishlistPanelOpen = false;
+    wishlistPanelEl.classList.remove("open");
+    wishlistBackdropEl.classList.remove("open");
+  }
+
+  wishlistToggleBtn.addEventListener("click", function () {
+    if (wishlistPanelOpen) closeWishlistPanel(); else openWishlistPanel();
+  });
+  wishlistCloseBtn.addEventListener("click", closeWishlistPanel);
+  wishlistBackdropEl.addEventListener("click", closeWishlistPanel);
+  attachProductCardListeners(wishlistPanelList);
+
+  function addProducts(products, matchFoundProducts) {
+    if (!products || products.length === 0) return;
+    showConversationStarted();
+    const row = document.createElement("div");
+    row.className = "row assistant";
+    const scroller = document.createElement("div");
+    scroller.className = "products-row";
+    products.forEach(function (p) {
+      const isMatch = matchFoundProducts && matchFoundProducts.indexOf(p.name) !== -1;
+      scroller.appendChild(buildProductCardEl(p, { isMatch: isMatch }));
+    });
+    attachProductCardListeners(scroller);
     row.appendChild(scroller);
     thread.appendChild(row);
     chatWindow.scrollTop = chatWindow.scrollHeight;
