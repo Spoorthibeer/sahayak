@@ -439,12 +439,170 @@
     color: var(--ink-soft);
   }
 
+  /* ---------- Wishlist heart (visual-only, no backend) ---------- */
+  .wishlist-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-soft);
+    padding: 0;
+    transition: color 0.15s ease, transform 0.1s ease;
+  }
+  .wishlist-btn svg { fill: none; stroke: currentColor; stroke-width: 2; pointer-events: none; }
+  .wishlist-btn:active { transform: scale(0.88); }
+  .wishlist-btn.active { color: var(--rani); }
+  .wishlist-btn.active svg { fill: currentColor; }
+
+  /* ---------- Compare mode ---------- */
+  .card-action-btn.compare-selected { border-color: var(--rani); color: var(--rani-dark); background: var(--rani-soft); }
+
+  .comparison-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .comparison-table { border-collapse: collapse; font-size: 0.83rem; width: 100%; min-width: 320px; }
+  .comparison-table th, .comparison-table td {
+    padding: 7px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .comparison-table th {
+    color: var(--rani-dark);
+    font-weight: 700;
+    border-bottom: 1.5px solid var(--rani-soft);
+  }
+  .comparison-table th:first-child, .comparison-table td:first-child { color: var(--ink-soft); font-weight: 500; }
+  .comparison-table tr:last-child td { border-bottom: none; }
+
+  /* ---------- "Match found" animation (highest fit-confidence tier) ---------- */
+  @keyframes matchFoundPulse {
+    0% { box-shadow: 0 0 0 0 rgba(166, 41, 102, 0.35); }
+    70% { box-shadow: 0 0 0 10px rgba(166, 41, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(166, 41, 102, 0); }
+  }
+  .product-card.match-found {
+    animation: matchFoundPulse 0.9s ease-out 2;
+    border-color: var(--rani);
+  }
+  .match-found-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--rani);
+    color: #FFF7F1;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    opacity: 0;
+    animation: matchBadgeFade 2.6s ease forwards;
+    white-space: nowrap;
+  }
+  @keyframes matchBadgeFade {
+    0% { opacity: 0; transform: translateY(-4px); }
+    15% { opacity: 1; transform: translateY(0); }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ---------- Recently viewed strip ---------- */
+  #recently-viewed {
+    flex-shrink: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #recently-viewed.hidden { display: none; }
+  .rv-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  .rv-chip {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.74rem;
+    white-space: nowrap;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .rv-chip:hover { border-color: var(--rani); color: var(--rani-dark); }
+
+  /* ---------- Onboarding hint (first visit only, session-scoped) ---------- */
+  .onboarding-hint {
+    position: absolute;
+    bottom: 62px;
+    left: 16px;
+    max-width: 210px;
+    background: var(--ink);
+    color: #FFF7F1;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.76rem;
+    font-weight: 500;
+    line-height: 1.35;
+    box-shadow: 0 4px 14px rgba(42, 31, 26, 0.2);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .onboarding-hint::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    border: 6px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .onboarding-hint.hidden { opacity: 0; transform: translateY(4px); }
+
+  /* ---------- Manual language override toggle ---------- */
+  .chip-lang { cursor: pointer; }
+  .chip-lang.manual { background: var(--marigold-soft); color: var(--marigold-dark); }
+  .chip-lang.manual .chip-dot { background: var(--marigold-dark); }
+
+  /* ---------- Perceived-wait rotating status text ---------- */
+  .typing-text {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-left: 5px;
+    white-space: nowrap;
+  }
+
   /* ---------- Footer / input ---------- */
   footer {
     flex-shrink: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
     padding: 12px 16px calc(10px + env(safe-area-inset-bottom));
+    position: relative;
   }
   #input-row {
     max-width: 640px;
@@ -634,7 +792,10 @@
     <div class="thread" id="thread"></div>
   </main>
 
+  <div id="recently-viewed" class="hidden"></div>
+
   <footer>
+    <div id="onboarding-hint" class="onboarding-hint">Tap the mic to speak in your language — English, Hindi, or Telugu</div>
     <div id="input-row">
       <button id="mic-btn" class="icon-btn" data-state="idle" title="Tap to speak" aria-label="Speak your message">
         <span class="mic-icon-idle">
@@ -688,8 +849,11 @@
   const textInput = document.getElementById("text-input");
   const sendBtn = document.getElementById("send-btn");
   const micBtn = document.getElementById("mic-btn");
+  const langBadge = document.getElementById("lang-badge");
   const langBadgeText = document.getElementById("lang-badge-text");
   const hint = document.getElementById("hint");
+  const recentlyViewedEl = document.getElementById("recently-viewed");
+  const onboardingHint = document.getElementById("onboarding-hint");
 
   // ---- Mic button state machine: idle | listening | processing | speaking.
   // This is what makes barge-in visually legible — the customer can SEE the
@@ -709,6 +873,14 @@
     if (!emptyState.classList.contains("hidden")) {
       emptyState.classList.add("hidden");
     }
+  }
+
+  // ---- Onboarding hint: shown once on a fresh page load (there's no
+  // cross-reload persistence in this pass — see CLAUDE.md — so this is
+  // "first visit this page load," not "first visit ever"), dismissed on
+  // the customer's first interaction and never shown again this session.
+  function dismissOnboardingHint() {
+    if (onboardingHint) onboardingHint.classList.add("hidden");
   }
 
   // ---- Basic markdown handling. The agent is allowed to use **bold** and
@@ -790,15 +962,36 @@
     return row;
   }
 
+  // Perceived-wait improvement: round trips take a few seconds (~4-5s
+  // measured), which risks feeling stuck with a static spinner. Rotating
+  // through short, specific status messages while waiting makes the delay
+  // feel active/informative instead — a perceived-performance fix only,
+  // not an attempt to reduce real Gemini/Sarvam latency.
+  const WAIT_MESSAGES = ["Looking through options...", "Checking fit and trust...", "Almost there..."];
+  const WAIT_MESSAGE_INTERVAL_MS = 1350;
+
   function addTypingIndicator() {
     showConversationStarted();
     const row = document.createElement("div");
     row.className = "row assistant";
     row.innerHTML =
-      '<div class="typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+      '<div class="typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span>' +
+      '<span class="typing-dot"></span><span class="typing-text">' + WAIT_MESSAGES[0] + "</span></div>";
     thread.appendChild(row);
     chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    const textEl = row.querySelector(".typing-text");
+    let idx = 0;
+    row._waitIntervalId = setInterval(function () {
+      idx = (idx + 1) % WAIT_MESSAGES.length;
+      textEl.textContent = WAIT_MESSAGES[idx];
+    }, WAIT_MESSAGE_INTERVAL_MS);
     return row;
+  }
+
+  function removeTypingIndicator(row) {
+    if (row._waitIntervalId) clearInterval(row._waitIntervalId);
+    row.remove();
   }
 
   // ---- Confidence Strip: the signature visual element. Derives a Fit chip
@@ -871,7 +1064,37 @@
     '</span>';
   }
 
-  function addProducts(products) {
+  // Compare mode: names of products picked so far this session (max 1
+  // held at a time — the 2nd distinct pick immediately fires the compare
+  // message and resets). Module-level, not persisted across page loads,
+  // matching this pass's explicit "no cross-reload persistence" scope.
+  let compareSelection = [];
+
+  function handleCompareTap(name, btn) {
+    const idx = compareSelection.indexOf(name);
+    if (idx !== -1) {
+      // Tapped the same product's Compare button again -> deselect.
+      compareSelection.splice(idx, 1);
+      btn.classList.remove("compare-selected");
+      setHint("");
+      return;
+    }
+    if (compareSelection.length === 0) {
+      compareSelection.push(name);
+      btn.classList.add("compare-selected");
+      setHint('Tap "Compare" on a different product to compare them.', "active");
+      return;
+    }
+    const first = compareSelection[0];
+    compareSelection = [];
+    setHint("");
+    document.querySelectorAll(".card-action-btn.compare-selected").forEach(function (b) {
+      b.classList.remove("compare-selected");
+    });
+    sendMessage("Compare the " + first + " and the " + name);
+  }
+
+  function addProducts(products, matchFoundProducts) {
     if (!products || products.length === 0) return;
     showConversationStarted();
     const row = document.createElement("div");
@@ -880,14 +1103,18 @@
     scroller.className = "products-row";
     products.forEach(function (p) {
       const card = document.createElement("div");
-      card.className = "product-card";
-      card.dataset.productName = p.name || "this item";
+      const name = p.name || "this item";
+      const isMatch = matchFoundProducts && matchFoundProducts.indexOf(name) !== -1;
+      card.className = "product-card" + (isMatch ? " match-found" : "");
+      card.dataset.productName = name;
       const fit = fitChip(p.fit_notes);
       const trust = trustChip(p.return_rate);
       card.innerHTML =
         '<div class="product-image">' +
           '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/><path d="M12 7 4 11l1.5 3L9 12v9h6v-9l3.5 2L20 11z"/></svg>' +
           '<span class="product-category-tag">' + (p.category || "") + '</span>' +
+          '<button class="wishlist-btn" data-action="wishlist" aria-label="Add to wishlist"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg></button>' +
+          (isMatch ? '<span class="match-found-badge">✨ Great fit match</span>' : "") +
         '</div>' +
         '<div class="product-body">' +
           '<div class="product-name">' + (p.name || "") + '</div>' +
@@ -897,6 +1124,7 @@
           '<div class="product-actions">' +
             '<button class="card-action-btn" data-action="more">Tell me more</button>' +
             '<button class="card-action-btn" data-action="size">Check another size</button>' +
+            '<button class="card-action-btn" data-action="compare">Compare</button>' +
           '</div>' +
         '</div>';
       scroller.appendChild(card);
@@ -904,12 +1132,15 @@
     // Event delegation for the per-card action buttons, rather than a
     // closure per button — same sendMessage() pipeline as typed text.
     scroller.addEventListener("click", function (e) {
+      const heart = e.target.closest(".wishlist-btn");
+      if (heart) { heart.classList.toggle("active"); return; }
       const btn = e.target.closest(".card-action-btn");
       if (!btn) return;
       const card = btn.closest(".product-card");
       const name = card ? card.dataset.productName : "this item";
       if (btn.dataset.action === "more") sendMessage("Tell me more about the " + name);
       else if (btn.dataset.action === "size") sendMessage("Do you have the " + name + " in a different size?");
+      else if (btn.dataset.action === "compare") handleCompareTap(name, btn);
     });
     row.appendChild(scroller);
     thread.appendChild(row);
@@ -1000,6 +1231,84 @@
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
+  // Compare-mode side-by-side table — populated from /chat's
+  // "comparison_table" field when the agent calls show_comparison() (see
+  // agent.py/app.py). Rendered as a real table, not prose, per the task.
+  function addComparisonTable(comparisonTable) {
+    if (!comparisonTable || !comparisonTable.rows || !comparisonTable.rows.length) return;
+    showConversationStarted();
+    const row = document.createElement("div");
+    row.className = "row assistant";
+    const wrap = document.createElement("div");
+    wrap.className = "comparison-wrap";
+
+    const table = document.createElement("table");
+    table.className = "comparison-table";
+    let thead = "<thead><tr><th></th><th>" + (comparisonTable.product_a_name || "Option A") +
+      "</th><th>" + (comparisonTable.product_b_name || "Option B") + "</th></tr></thead>";
+    let tbody = "<tbody>";
+    comparisonTable.rows.forEach(function (r) {
+      tbody += "<tr><th>" + (r.label || "") + "</th><td>" + (r.a || "") + "</td><td>" + (r.b || "") + "</td></tr>";
+    });
+    tbody += "</tbody>";
+    table.innerHTML = thead + tbody;
+    wrap.appendChild(table);
+
+    row.appendChild(wrap);
+    thread.appendChild(row);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  // Recently-viewed strip: every product the customer has been shown this
+  // session (deduplicated by name), session-scoped only — no persistence
+  // across page loads, matching this pass's explicit out-of-scope note.
+  let recentlyViewed = [];
+
+  function updateRecentlyViewed(products) {
+    if (!products || !products.length) return;
+    products.forEach(function (p) {
+      if (!p.name) return;
+      if (!recentlyViewed.some(function (r) { return r.name === p.name; })) {
+        recentlyViewed.push({ name: p.name, price: p.price });
+      }
+    });
+    recentlyViewedEl.classList.remove("hidden");
+    recentlyViewedEl.innerHTML = '<span class="rv-label">Recently viewed</span>' +
+      recentlyViewed.map(function (r) {
+        return '<button class="rv-chip" data-name="' + escapeHtml(r.name) + '">' +
+          escapeHtml(r.name) + (r.price != null ? " · ₹" + r.price : "") + "</button>";
+      }).join("");
+  }
+
+  recentlyViewedEl.addEventListener("click", function (e) {
+    const btn = e.target.closest(".rv-chip");
+    if (!btn) return;
+    sendMessage("Tell me more about the " + btn.dataset.name);
+  });
+
+  // ---- Manual language override toggle: tapping the language badge cycles
+  // English -> Hindi -> Telugu -> auto-detect -> English..., so the
+  // customer can correct a wrong auto-detected language themselves. While
+  // an override is active, every /chat request carries it and the backend
+  // uses it directly instead of running detect_language() (see app.py).
+  const LANGUAGES = ["English", "Hindi", "Telugu"];
+  let manualLanguageOverride = null; // null = auto-detect
+
+  function cycleLanguageOverride() {
+    const idx = LANGUAGES.indexOf(manualLanguageOverride || currentLanguage);
+    manualLanguageOverride = idx + 1 >= LANGUAGES.length ? null : LANGUAGES[idx + 1];
+    if (manualLanguageOverride) {
+      setLanguage(manualLanguageOverride);
+      langBadge.classList.add("manual");
+      langBadge.title = "Manually set to " + manualLanguageOverride + " — tap to change, or cycle back to auto-detect";
+    } else {
+      langBadge.classList.remove("manual");
+      langBadge.title = "Auto-detecting language — tap to override";
+    }
+  }
+  langBadge.title = "Auto-detecting language — tap to override";
+  langBadge.addEventListener("click", cycleLanguageOverride);
+
   function setLanguage(lang) {
     if (!lang) return;
     currentLanguage = lang;
@@ -1065,6 +1374,7 @@
     // the instant the mic is tapped, well before transcription finishes,
     // so they're not redundant with this one; this call here is what's new.)
     stopCurrentAudio();
+    dismissOnboardingHint();
 
     addRow("user", message);
     textInput.value = "";
@@ -1077,23 +1387,25 @@
       const res = await fetch("/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId, message: message }),
+        body: JSON.stringify({ session_id: sessionId, message: message, lang_override: manualLanguageOverride }),
       });
       data = await res.json();
     } catch (err) {
-      thinkingRow.remove();
+      removeTypingIndicator(thinkingRow);
       setMicState("idle");
       addRow("assistant", "Hmm, I couldn't reach Sahayak just now. Please check your connection and try again.");
       return;
     }
     console.log("[timing] /chat request -> reply: " + Math.round(performance.now() - t0) + "ms");
 
-    thinkingRow.remove();
+    removeTypingIndicator(thinkingRow);
     addRow("assistant", data.reply || "Sorry, I didn't quite get that — could you try again?");
-    addProducts(data.products);
+    addProducts(data.products, data.match_found_products);
+    updateRecentlyViewed(data.products);
     addSuggestions(data.suggestions);
     addSizePoll(data.needs_input);
     addSizeChart(data.needs_input);
+    addComparisonTable(data.comparison_table);
     setLanguage(data.language);
     playReply(stripMarkdownForSpeech(data.reply || ""), data.language);
   }
@@ -1253,6 +1565,7 @@
     // taps the mic to speak again, before even asking for mic permission —
     // they should never have to wait for the agent to finish talking.
     stopCurrentAudio();
+    dismissOnboardingHint();
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
       recordedChunks = [];

@@ -70,6 +70,11 @@ _sessions: dict[str, dict] = {}
 class ChatRequest(BaseModel):
     session_id: str
     message: str
+    # Manual language override toggle (see static/index.html's language
+    # badge) — when set, takes priority over agent.detect_language() for
+    # this and every subsequent turn until the customer changes/clears it
+    # themselves; None means "keep auto-detecting," same as before.
+    lang_override: Optional[str] = None
 
 
 class ChatResponse(BaseModel):
@@ -81,6 +86,14 @@ class ChatResponse(BaseModel):
     # None/absent means "nothing to show," not "the frontend should guess."
     needs_input: Optional[dict] = None
     suggestions: Optional[list] = None
+    # {"product_a_name", "product_b_name", "rows": [{"label","a","b"}, ...]}
+    # when the agent called show_comparison() this turn (see Compare mode).
+    comparison_table: Optional[dict] = None
+    # Names of products (from this turn's `products`) whose fit_score result
+    # this turn used the highest-confidence signal (order_history or
+    # usual_size) — see _extract_high_confidence_matches for the
+    # best-effort correlation logic and its known limitation.
+    match_found_products: Optional[list] = None
 
 
 def _get_session(session_id: str) -> dict:
@@ -108,16 +121,24 @@ def _get_session(session_id: str) -> dict:
     return _sessions[session_id]
 
 
-def _extract_products(chat) -> list:
-    """Pulls the most recent search_catalog results out of the chat's own
+def _extract_products(chat, history_before: int) -> list:
+    """Pulls THIS turn's search_catalog results out of the chat's own
     history so the frontend can render product cards, without agent.py
     having to change what run_agent() returns. The google-genai SDK stores
     each tool's return value as {"result": <return value>} on the
     function_response part of that turn's history (see
     google.genai._extra_utils.get_function_response_parts).
+
+    A prior version scanned the WHOLE history in reverse for the most
+    recent search_catalog call from anywhere in the conversation — that
+    meant the same product cards kept reappearing on every later reply,
+    even ones with nothing to do with products (same class of bug already
+    fixed for needs_input/suggestions via _extract_new_turn_signals; see
+    CLAUDE.md). Scoping to new_history only (this turn) means products is
+    genuinely empty on any turn that didn't call search_catalog.
     """
-    history = chat.get_history(curated=True)
-    for content in reversed(history):
+    new_history = chat.get_history(curated=True)[history_before:]
+    for content in reversed(new_history):
         if not content.parts:
             continue
         for part in content.parts:
@@ -164,6 +185,71 @@ def _extract_new_turn_signals(chat, history_before: int):
     return needs_input, suggestions
 
 
+def _extract_comparison_table(chat, history_before: int) -> Optional[dict]:
+    """Looks for a show_comparison() tool call made during THIS turn only
+    (see agent.py) — same turn-scoped pattern as _extract_new_turn_signals,
+    kept separate since a comparison table is its own response field, not
+    part of needs_input.
+    """
+    new_history = chat.get_history(curated=True)[history_before:]
+    for content in new_history:
+        if not content.parts:
+            continue
+        for part in content.parts:
+            fr = part.function_response
+            if fr and fr.name == "show_comparison" and fr.response:
+                return fr.response.get("result")
+    return None
+
+
+# signal_used values fit_score can return that represent its two STRONGEST
+# signals (real order history or a directly self-reported usual size) — see
+# tools.py's fit_score docstring for the full 5-signal priority chain.
+_HIGH_CONFIDENCE_SIGNALS = {"order_history", "usual_size"}
+
+
+def _extract_high_confidence_matches(chat, history_before: int, products: list) -> list:
+    """Best-effort correlation of this turn's high-confidence fit_score
+    calls to specific products in this turn's `products` list, for the
+    "Match found" animation. fit_score's signature deliberately isn't being
+    changed to take a product identifier (the sizing fallback chain is out
+    of scope for this pass), so there's no exact link between a fit_score
+    call and which card it was about — this pairs each fit_score call with
+    the function_call that immediately preceded its response (args include
+    fit_notes/category) and matches that against the first not-yet-matched
+    product with the same (fit_notes, category). Known limitation: if two
+    shown products share identical fit_notes+category, only the first one
+    is credited — documented in CLAUDE.md, not fixed here.
+    """
+    new_history = chat.get_history(curated=True)[history_before:]
+    matched_names = []
+    used_indices = set()
+    pending_args = None
+    for content in new_history:
+        if not content.parts:
+            continue
+        for part in content.parts:
+            fc = part.function_call
+            if fc and fc.name == "fit_score":
+                pending_args = fc.args or {}
+                continue
+            fr = part.function_response
+            if fr and fr.name == "fit_score" and fr.response and pending_args is not None:
+                result = fr.response.get("result") or {}
+                if result.get("signal_used") in _HIGH_CONFIDENCE_SIGNALS:
+                    fit_notes = pending_args.get("fit_notes")
+                    category = pending_args.get("category")
+                    for i, p in enumerate(products):
+                        if i in used_indices:
+                            continue
+                        if p.get("fit_notes") == fit_notes and p.get("category") == category:
+                            matched_names.append(p.get("name"))
+                            used_indices.add(i)
+                            break
+                pending_args = None
+    return matched_names
+
+
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     message = req.message.strip()
@@ -172,17 +258,23 @@ def chat(req: ChatRequest):
 
     session = _get_session(req.session_id)
 
-    # Text-based detection for every turn, voice-originated or typed — a
-    # STT-authoritative variant of this was tried and reverted (see CLAUDE.md):
-    # Google STT's own detected language for genuinely-Hindi audio came back
-    # "en-in" in live testing (twice), which would have made voice replies
-    # come back in the wrong language more often, not less. detect_language()
-    # on the transcript text proved more reliable in both cases. Only switch
-    # the session's established language on a clear signal; an ambiguous
-    # message (e.g. just "500") inherits whatever language the conversation
-    # is already in, instead of resetting to English.
-    signal = agent.detect_language(message)
-    session["language"] = signal or session["language"] or "English"
+    if req.lang_override:
+        # Manual override takes priority over auto-detection entirely,
+        # every turn it's set — the customer explicitly corrected the
+        # language, so detect_language() shouldn't second-guess them.
+        session["language"] = req.lang_override
+    else:
+        # Text-based detection for every turn, voice-originated or typed — a
+        # STT-authoritative variant of this was tried and reverted (see CLAUDE.md):
+        # Google STT's own detected language for genuinely-Hindi audio came back
+        # "en-in" in live testing (twice), which would have made voice replies
+        # come back in the wrong language more often, not less. detect_language()
+        # on the transcript text proved more reliable in both cases. Only switch
+        # the session's established language on a clear signal; an ambiguous
+        # message (e.g. just "500") inherits whatever language the conversation
+        # is already in, instead of resetting to English.
+        signal = agent.detect_language(message)
+        session["language"] = signal or session["language"] or "English"
 
     # Captured before run_agent() so _extract_new_turn_signals can scope
     # itself to only what this turn added (see that function's docstring).
@@ -205,14 +297,18 @@ def chat(req: ChatRequest):
         )
 
     print(f"[timing] /chat: agent.run_agent took {time.time() - gemini_start:.2f}s")
-    products = _extract_products(session["chat"])
+    products = _extract_products(session["chat"], history_before)
     needs_input, suggestions = _extract_new_turn_signals(session["chat"], history_before)
+    comparison_table = _extract_comparison_table(session["chat"], history_before)
+    match_found_products = _extract_high_confidence_matches(session["chat"], history_before, products)
     return ChatResponse(
         reply=reply_text,
         language=session["language"],
         products=products,
         needs_input=needs_input,
         suggestions=suggestions,
+        comparison_table=comparison_table,
+        match_found_products=match_found_products or None,
     )
 
 

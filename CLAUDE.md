@@ -931,6 +931,172 @@ no standardized way of stating confidence or the return policy. Refined to:
   garment-comparison round trip end-to-end; and the `request_size_poll()`
   mitigation above.
 
+#### Bug fix + engagement/polish pass (2026-07-19, complete)
+Scope: fixed a real turn-scoping bug in `app.py`, then added 10 engagement/
+polish features across `generate_catalog.py`, `agent.py` (system
+instruction + 1 new tool), `app.py` (2 new response fields + extraction
+logic), and `static/index.html` (frontend-only for most of the 10). Did
+NOT touch `catalog.py`'s search logic, `tools.py`/the sizing fallback
+chain, or the `/transcribe`/`/speak` voice endpoints. Did NOT build any
+cross-page-load session persistence ("continue where you left off" was
+explicitly out of scope) — every "session-scoped" feature below resets on
+a fresh page load, by design.
+
+**Bug fix — `products` turn-scoping (`app.py`):** `_extract_products` used
+to scan the *entire* chat history in reverse for the last `search_catalog`
+result, so the same product cards kept reappearing on every later reply,
+even ones with nothing to do with products — the same class of bug already
+fixed for `needs_input`/`suggestions` in an earlier pass. Fixed by scoping
+the scan to `chat.get_history(curated=True)[history_before:]` (this turn
+only), matching `_extract_new_turn_signals`'s existing pattern exactly.
+**Verified live:** turn 1 ("shirt for office") → 3 products; turn 2 ("I
+like bold styles") → 0 products; turn 3 (unrelated return-policy question)
+→ 0 products; turn 4 (new kurta search) → 5 products again. Confirms it
+toggles correctly both ways, not just "goes empty once."
+
+**1. Style preference — prompt-level only, zero new code paths beyond the
+system instruction.** `generate_catalog.py` now assigns a random
+`style_tag` ("bold"/"subtle") per product; `catalog.json` was regenerated
+so the field actually exists in the live data (search_catalog needed no
+changes — it already returns full product dicts). The system instruction
+tells the agent to ask a one-time style question the first time it's about
+to show results in a new conversation, never re-ask (checking conversation
+history), and softly reference the stated preference in phrasing
+afterward. Deliberately relies on Gemini's own conversation memory rather
+than a new stored session field — "session state" here is the existing
+`_sessions[session_id]` → persistent `Chat` object, same mechanism
+`usual_size`/`chart_matched_size` already rely on for the sizing chain.
+**Verified live:** first shirt query asked the style question in the same
+reply as showing results; "I like bold styles" was acknowledged; a later,
+unrelated kurta search did NOT re-ask, and opened with "Since you prefer
+bold styles, I've highlighted those first" — bold kurtas were listed
+before subtle ones (a nice bonus the model did on its own; not enforced by
+any sorting code).
+
+**2. Proactive better-deal nudge — prompt-level only.** Instruction tells
+the agent to point out a clearly-better price/rating trade-off when one
+exists among shown results, occasionally, not every reply. **Verified live
+(bonus — fired naturally during the style-preference test above, so no
+extra budget spent):** "By the way, this one's ₹200 cheaper than the
+formal shirt below and has a higher rating too!" and again later, "₹300
+cheaper... and has a higher rating too!" — both accurate against the
+actual shown prices/ratings.
+
+**3. Compare mode.** New `agent.py` tool `show_comparison(product_a_name,
+product_a_price, product_a_fit_notes, product_a_return_rate,
+product_b_*...)` — Gemini already has both products' data in context from
+this conversation's own earlier `search_catalog`/`fit_score`/`trust_note`
+calls, so the tool is purely a structured-output signal (same pattern as
+`request_size_poll`), not new catalog-lookup logic. `app.py`'s new
+`_extract_comparison_table` (same turn-scoped pattern as the others)
+populates a new `comparison_table` response field:
+`{"product_a_name", "product_b_name", "rows": [{"label","a","b"}, ...]}`.
+Frontend: a "Compare" button added to each product card's actions;
+`static/index.html`'s `handleCompareTap()` tracks up to one pending
+selection (module-level `compareSelection` array, tapping a 2nd distinct
+product fires `sendMessage("Compare the X and the Y")`; tapping the same
+product again deselects), and `addComparisonTable()` renders a real
+`<table>`. **Verified live:** "Compare the first one and the second one"
+against 5 shown kurtas correctly produced a table for exactly the first
+two (Embroidered Kurta ₹499/runs small/14% vs. Festive Silk Kurta
+₹699/true to size/25%), matching their actual catalog data.
+
+**4. Outfit completion suggestions — prompt-level only,** folded into the
+existing `suggest_follow_ups` mechanism: instruction includes a literal
+category-pairing table (shirt/t-shirt→trousers/jeans, kurta→ethnic
+set/bottoms, jeans/trousers→shirt/t-shirt, dress→jacket,
+jacket→jeans/t-shirt, ethnic set/saree/sneakers→skip) and tells the agent
+to include one such suggestion once the customer settles on a product,
+when relevant. **NOT tested live** (skipped per explicit permission to
+conserve budget) — flagged for manual testing.
+
+**5. Onboarding hint.** A small tooltip (`#onboarding-hint`, absolutely
+positioned above the mic button) shows on every fresh page load and is
+dismissed (`dismissOnboardingHint()`) on the first `sendMessage()` or
+`startRecording()` call, then never reappears that session. Note: "first
+visit" here genuinely means "this page load," not "this browser, ever" —
+cross-reload persistence was explicitly out of scope this pass, so it
+*will* show again on every refresh; that's by design, not a bug.
+**Verified via Playwright screenshot:** visible on load, hidden
+immediately after sending a message.
+
+**6. Recently-viewed strip.** `#recently-viewed`, a persistent row between
+the chat window and the footer, updated by `updateRecentlyViewed()` after
+every reply — accumulates every product shown this session (deduplicated
+by name, module-level array, resets on reload). Tapping a chip sends "Tell
+me more about the {name}". **Verified via Playwright:** populates
+correctly with name+price chips after products are shown; tap sends the
+right message.
+
+**7. Wishlist heart icon.** Purely visual — a heart button on each
+product-image, toggled via a CSS class (`.wishlist-btn.active`) on click,
+no backend call, no persistence. **Verified via Playwright:** toggles the
+active/filled state on click.
+
+**8. Manual language override toggle.** Tapping the language badge
+(`#lang-badge`) cycles English → Hindi → Telugu → auto-detect → ...; while
+an override is set, every `/chat` request includes `lang_override`, and
+`app.py`'s `/chat` uses it directly instead of calling
+`agent.detect_language()`, every turn, until changed again. **Verified via
+Playwright:** cycling changes the badge text and applies/removes a
+`.manual` visual style; the request body carries `lang_override` correctly
+(confirmed via a mocked-route request-body capture). **Known minor rough
+edge:** if the toggle is cycled back to "auto" without any real `/chat`
+response arriving in between (i.e., rapid clicking with no message sent),
+the badge text doesn't reset — it keeps showing the last manually-picked
+language even though the mode is back to auto — cosmetic only (the actual
+`lang_override: null` behavior sent to the backend is correct either way);
+not fixed this pass.
+
+**9. "Match found" animation.** `app.py`'s new
+`_extract_high_confidence_matches` best-effort-correlates this turn's
+`fit_score` calls with `signal_used` in `{"order_history", "usual_size"}`
+back to a specific shown product, by pairing each `fit_score`
+`function_call`'s args (`fit_notes`, `category`) with the next unmatched
+product sharing those same two fields — populates a new
+`match_found_products` response field (list of names). **fit_score's own
+signature was deliberately NOT changed** to take a product identifier (the
+sizing fallback chain is out of scope this pass), so this is a heuristic,
+not an exact link — **known limitation:** if two shown products share
+identical `fit_notes`+`category`, only the first unmatched one gets
+credited. Frontend: matched cards get a brief pulse-ring animation
+(`.match-found`, 2×0.9s) and a badge that fades in/out over ~2.6s
+(`.match-found-badge`, "✨ Great fit match"). **Verified:** the
+frontend mechanism was confirmed correct via Playwright with mocked
+`match_found_products` data (card gets the class, badge appears). **NOT
+conclusively verified against a real response**: the one live check made
+for this feature happened to land on a turn where the agent referenced an
+earlier product without a fresh `search_catalog` call (so `products` was
+empty that turn, correctly per the bug fix — meaning there was no card
+to animate anyway, matching but not proving the intended-positive case),
+and the 6-call budget was already spent by then. Worth a manual re-check:
+search for something, let the order-history/usual-size signal fire on a
+freshly-shown card, and confirm the pulse/badge actually appears in a real
+browser.
+
+**10. Perceived-wait improvement.** `addTypingIndicator()` now rotates
+through `["Looking through options...", "Checking fit and trust...",
+"Almost there..."]` every 1.35s (`.typing-text`, alongside the existing
+bouncing dots) instead of a static indicator; `removeTypingIndicator()`
+clears the interval before removing the row (avoids a leaked timer if the
+reply arrives mid-cycle). Purely a perceived-performance change — no
+attempt to reduce actual Gemini/Sarvam latency. **Verified:** direct
+mechanism test (bypassing the network) confirmed the text cycles through
+all three messages at the correct ~1.35s cadence.
+
+**AR try-on remains a roadmap-only idea** (unchanged from the sizing pass
+— still not built, not attempted).
+
+**NOT verified — needs the team, in a real browser:** the onboarding
+hint's positioning relative to the example chips at very small viewport
+widths (looked slightly close together in one Playwright screenshot);
+outfit-completion suggestions (not live-tested, prompt-level only); the
+match-found animation against a genuine real-time positive case (see #9
+above); and the general feel of having this many simultaneous UI elements
+(recently-viewed strip + suggestions + size poll/chart + comparison table)
+on screen together in a long real conversation — not exercised in
+combination here.
+
 - Start the Myntra pitch deck (official template)
 
 ### Days 5–8 (flexible testing/iteration window, not fixed tasks)

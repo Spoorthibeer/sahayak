@@ -15,6 +15,10 @@ CATEGORIES = ["shirt", "kurta", "jeans", "saree", "t-shirt", "dress",
 OCCASIONS = ["office", "wedding", "casual", "festive", "party", "everyday"]
 REGIONS = ["Patna", "Belgaum", "Vizag", "Coimbatore", "Lucknow", "Nagpur"]
 FIT_NOTES = ["runs small", "true to size", "runs large"]
+# Style-preference feature (see CLAUDE.md): a coarse, purely descriptive tag
+# for the agent to softly reference in its phrasing once it knows the
+# customer's stated preference — not used for filtering/sorting.
+STYLE_TAGS = ["bold", "subtle"]
 
 BASE_NAMES = {
     "shirt": ["Cotton Formal Shirt", "Checked Casual Shirt", "Linen Shirt"],
@@ -40,6 +44,7 @@ def make_product():
     return_rate = round(random.uniform(0.03, 0.25), 2)  # 3%-25% return rate
     review_count = random.randint(5, 500)
     review_avg = round(random.uniform(3.2, 4.8), 1)
+    style_tag = random.choice(STYLE_TAGS)
 
     return {
         "product_id": str(uuid.uuid4())[:8],
@@ -51,6 +56,7 @@ def make_product():
         "fit_notes": fit_notes,
         "return_rate": return_rate,
         "review_summary": f"{review_avg}/5 average from {review_count} reviews",
+        "style_tag": style_tag,
     }
 
 

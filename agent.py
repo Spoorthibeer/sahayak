@@ -96,6 +96,38 @@ request_size_chart() alongside step 2's question — never call either one
 when you're actually asking the step-3 owned-garment question, and never
 call both tools in the same turn.
 
+STYLE PREFERENCE (ask once per conversation): the first time in this
+conversation you're about to show product search results, also ask a quick
+one-time style question in the same reply — e.g. "Quick one, so I can
+point out better matches — do you tend to like bold, statement pieces or
+subtle, understated ones?" Check the conversation history first — never
+ask this again once they've answered. Once you know their preference, each
+product has a style_tag field ("bold" or "subtle") from search_catalog —
+when showing results afterward, softly mention/prioritize items that match
+their stated preference in your phrasing (e.g. "the first one here is
+bold, matching what you told me"), without hiding other good options or
+forcing a mention onto every single product.
+
+PROACTIVE BETTER-DEAL NUDGE: when search_catalog returns multiple
+candidates and one is a clearly better price/rating trade-off than
+another (meaningfully cheaper AND at least as well-reviewed, or notably
+better-reviewed at a similar price), proactively point it out — e.g. "By
+the way, this one's ₹200 cheaper and rated higher too." Only do this when
+the comparison is genuinely clear-cut from the data you have; don't force
+one onto every reply or invent a comparison when nothing actually stands
+out — this should feel occasional and attentive, not constant.
+
+COMPARE MODE: if the customer asks to compare two specific products
+they've already seen in this conversation (including a message like
+"Compare the X and the Y", which is what tapping the "Compare" button on
+two different product cards sends), make sure you have that turn's
+fit_score and trust_note results for both (call them again this turn if
+you haven't already), then call show_comparison with both products' name,
+price, fit_notes, and return_rate, in addition to a short conversational
+reply summarizing the difference. Only call show_comparison when exactly
+two specific already-seen products are being compared — not for a general
+"what's the difference" question with no specific products named.
+
 After a reply where you've just shown the customer product results, call
 suggest_follow_ups with 2-3 short, specific next messages the customer
 might actually want to tap next — genuinely based on what you just showed
@@ -103,6 +135,15 @@ them (e.g. only suggest "show cheaper options" if a realistically cheaper
 option exists; suggest something about trust/fit/other sizes only if that's
 relevant to what you showed). Vary these across turns based on context —
 don't suggest the same three things every time.
+
+OUTFIT COMPLETION: once the customer has settled on one specific product,
+consider including ONE suggestion for a complementary category among your
+suggest_follow_ups, using this mapping: shirt/t-shirt -> trousers or jeans;
+kurta -> an ethnic set or ethnic bottoms; jeans/trousers -> a shirt or
+t-shirt; dress -> a jacket; jacket -> jeans or a t-shirt; ethnic
+set/saree/sneakers -> no natural pairing in this catalog, skip it. Only
+include it when it's genuinely relevant to what they just settled on, not
+every single time.
 
 You have access to the full conversation so far — don't re-ask for details
 the customer already gave you earlier in this conversation.
@@ -166,6 +207,50 @@ def request_size_chart(category: str) -> dict:
     if chart is None:
         return {"applicable": False}
     return {"applicable": True, "rows": chart["rows"], "height_note": chart["height_note"]}
+
+
+def show_comparison(
+    product_a_name: str,
+    product_a_price: int,
+    product_a_fit_notes: str,
+    product_a_return_rate: float,
+    product_b_name: str,
+    product_b_price: int,
+    product_b_fit_notes: str,
+    product_b_return_rate: float,
+) -> dict:
+    """Call this when (and only when) the customer wants to compare two
+    specific products they've already seen in this conversation, per the
+    compare-mode rules in your instructions. Use the exact values you
+    already have from this conversation's earlier search_catalog/fit_score/
+    trust_note calls for each product — don't re-search or guess. This does
+    not replace your normal reply text; still summarize the difference
+    naturally in your reply. Calling this additionally tells the interface
+    to render a real side-by-side comparison table.
+
+    Args:
+        product_a_name: the first product's name field
+        product_a_price: the first product's price field
+        product_a_fit_notes: the first product's fit_notes field
+        product_a_return_rate: the first product's return_rate field
+        product_b_name: the second product's name field
+        product_b_price: the second product's price field
+        product_b_fit_notes: the second product's fit_notes field
+        product_b_return_rate: the second product's return_rate field
+    """
+    return {
+        "product_a_name": product_a_name,
+        "product_b_name": product_b_name,
+        "rows": [
+            {"label": "Price", "a": f"₹{product_a_price}", "b": f"₹{product_b_price}"},
+            {"label": "Fit", "a": product_a_fit_notes, "b": product_b_fit_notes},
+            {
+                "label": "Return rate",
+                "a": f"{round(product_a_return_rate * 100)}%",
+                "b": f"{round(product_b_return_rate * 100)}%",
+            },
+        ],
+    }
 
 
 def suggest_follow_ups(suggestions: list[str]) -> dict:
@@ -261,20 +346,20 @@ def run_agent(chat, user_message: str, language: str, max_retries: int = 3) -> s
     config = types.GenerateContentConfig(
         tools=[
             search_catalog, fit_score, trust_note,
-            request_size_poll, request_size_chart, suggest_follow_ups,
+            request_size_poll, request_size_chart, show_comparison, suggest_follow_ups,
         ],
         system_instruction=turn_instruction,
         temperature=0.2,
         thinking_config=types.ThinkingConfig(thinking_level="LOW"),
         # search_catalog can return 5 products, and the agent may call
         # fit_score + trust_note for each one (1 + 5*2 = 11 calls), plus up
-        # to one each of request_size_poll(), request_size_chart(), and
-        # suggest_follow_ups() — up to 14 in the worst case, still under
-        # this cap (raised from the SDK default of 10, which would silently
-        # drop the final text turn — response.text becomes None — instead
-        # of erroring).
+        # to one each of request_size_poll(), request_size_chart(),
+        # show_comparison(), and suggest_follow_ups() — up to 15 in the
+        # worst case, still under this cap (raised from the SDK default of
+        # 10, which would silently drop the final text turn —
+        # response.text becomes None — instead of erroring).
         automatic_function_calling=types.AutomaticFunctionCallingConfig(
-            maximum_remote_calls=17
+            maximum_remote_calls=18
         ),
     )
 

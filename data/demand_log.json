@@ -467,5 +467,38 @@
       "occasion": "office"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T06:10:37.651725+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 900,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T06:10:49.481571+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T06:21:19.727928+00:00",
+    "filters": {
+      "category": "shirt"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T06:29:37.817334+00:00",
+    "filters": {
+      "category": "ethnic set",
+      "occasion": "casual"
+    },
+    "region_tag": "unknown"
   }
 ]
