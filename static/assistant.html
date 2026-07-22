@@ -577,6 +577,75 @@
     line-height: 1.5;
   }
 
+  /* ---------- Product detail modal (tap a card's photo) ---------- */
+  .product-detail-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(360px, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(42, 31, 26, 0.28);
+    z-index: 31;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.94);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .product-detail-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #product-detail-backdrop { z-index: 30; }
+  .product-detail-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+  .product-detail-photo-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--rani-soft), var(--marigold-soft));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+  }
+  .product-detail-photo-wrap .product-detail-photo { width: 100%; height: 100%; object-fit: cover; }
+  .product-detail-photo-wrap svg { width: 50%; height: 50%; }
+  .product-detail-heart {
+    top: 12px;
+    left: 12px;
+    right: auto;
+    width: 36px;
+    height: 36px;
+  }
+  .product-detail-heart svg { width: 18px; height: 18px; }
+  .product-detail-body { padding: 16px 18px 20px; }
+  .product-detail-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+  .product-detail-price { color: var(--rani-dark); font-weight: 700; font-size: 1.2rem; margin-bottom: 8px; }
+  .product-detail-meta {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin: 10px 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .product-detail-chips { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+
   /* ---------- Compare mode ---------- */
   .card-action-btn.compare-selected { border-color: var(--rani); color: var(--rani-dark); background: var(--rani-soft); }
 
@@ -904,6 +973,12 @@
     <div id="wishlist-panel-list" class="wishlist-panel-list"></div>
   </div>
 
+  <div id="product-detail-backdrop" class="wishlist-backdrop"></div>
+  <div id="product-detail-modal" class="product-detail-modal">
+    <button id="product-detail-close-btn" class="wishlist-close-btn product-detail-close-btn" aria-label="Close">&times;</button>
+    <div id="product-detail-content" class="product-detail-content"></div>
+  </div>
+
   <main id="chat-window">
     <div id="empty-state">
       <div class="empty-mark">Namaste 👋</div>
@@ -990,6 +1065,10 @@
   const wishlistBackdropEl = document.getElementById("wishlist-backdrop");
   const wishlistPanelList = document.getElementById("wishlist-panel-list");
   const wishlistCloseBtn = document.getElementById("wishlist-close-btn");
+  const productDetailBackdrop = document.getElementById("product-detail-backdrop");
+  const productDetailModal = document.getElementById("product-detail-modal");
+  const productDetailCloseBtn = document.getElementById("product-detail-close-btn");
+  const productDetailContent = document.getElementById("product-detail-content");
 
   // ---- Mic button state machine: idle | listening | processing | speaking.
   // This is what makes barge-in visually legible — the customer can SEE the
@@ -1324,10 +1403,14 @@
     const nowActive = isWishlisted(product.name);
     // Sync every heart button for this product across the whole page (the
     // same product can appear in more than one place: an earlier chat
-    // turn's card, a later turn's card, and the wishlist panel itself).
-    document.querySelectorAll(".product-card").forEach(function (card) {
-      if (card.dataset.productName !== product.name) return;
-      const btn = card.querySelector(".wishlist-btn");
+    // turn's card, a later turn's card, the wishlist panel, AND the
+    // product detail modal — matched generically via [data-product-name]
+    // rather than ".product-card" specifically, so the modal (which isn't
+    // built by buildProductCardEl) participates in this sync too just by
+    // carrying that same data attribute.
+    document.querySelectorAll("[data-product-name]").forEach(function (el) {
+      if (el.dataset.productName !== product.name) return;
+      const btn = el.querySelector(".wishlist-btn");
       if (btn) btn.classList.toggle("active", nowActive);
     });
     updateWishlistBadge();
@@ -1397,6 +1480,65 @@
     return card;
   }
 
+  // ---- Product detail modal: opened by tapping a card's photo. Shows a
+  // larger photo, name, price, star rating, fit/trust chips (reused as-is
+  // from the same data the card already has — nothing recomputed), colour
+  // if the product has one (see assign_real_photos.py), and a wishlist
+  // toggle. The modal's own heart carries the same "wishlist-btn" class
+  // and its container carries "data-product-name", so it's automatically
+  // included in toggleWishlistItem's sync loop above — no special-casing
+  // needed for it to stay in sync with the card/panel hearts in both
+  // directions. Closing it doesn't touch #chat-window's scroll position
+  // at all (this is a plain overlay, not a page navigation), so "return to
+  // the exact scroll position" is satisfied by simply never touching it.
+  function buildProductDetailHTML(p) {
+    const fit = fitChip(p.fit_notes);
+    const trust = trustChip(p.return_rate);
+    const heartActive = isWishlisted(p.name) ? " active" : "";
+    const media = p.image_path
+      ? '<img class="product-detail-photo" src="/' + escapeHtml(p.image_path) + '" alt="">'
+      : categoryIconSVG(p.category);
+    const metaLine = p.colour
+      ? '<div class="product-detail-meta">Colour: ' + escapeHtml(p.colour) + '</div>'
+      : "";
+    return (
+      '<div class="product-detail-photo-wrap">' +
+        media +
+        '<button class="wishlist-btn product-detail-heart' + heartActive + '" data-action="wishlist" aria-label="Toggle wishlist">' +
+          '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="product-detail-body">' +
+        '<div class="product-detail-name">' + escapeHtml(p.name || "") + '</div>' +
+        '<div class="product-detail-price">₹' + (p.price != null ? p.price : "?") + '</div>' +
+        starsHTML(p.review_summary) +
+        metaLine +
+        '<div class="product-detail-chips">' + chipHTML(fit) + chipHTML(trust) + '</div>' +
+      '</div>'
+    );
+  }
+
+  function openProductDetailModal(product) {
+    productDetailContent.dataset.productName = product.name || "";
+    productDetailContent.dataset.product = JSON.stringify(product);
+    productDetailContent.innerHTML = buildProductDetailHTML(product);
+    productDetailModal.classList.add("open");
+    productDetailBackdrop.classList.add("open");
+  }
+
+  function closeProductDetailModal() {
+    productDetailModal.classList.remove("open");
+    productDetailBackdrop.classList.remove("open");
+  }
+
+  productDetailBackdrop.addEventListener("click", closeProductDetailModal);
+  productDetailCloseBtn.addEventListener("click", closeProductDetailModal);
+  productDetailContent.addEventListener("click", function (e) {
+    const heart = e.target.closest(".wishlist-btn");
+    if (!heart) return;
+    toggleWishlistItem(JSON.parse(productDetailContent.dataset.product), heart);
+  });
+
   // Delegated click handling shared by both the products-row scroller and
   // the wishlist panel list — a container without quick-action buttons
   // (the panel) simply never matches ".card-action-btn", so this is safe
@@ -1407,6 +1549,12 @@
       if (heart) {
         const card = heart.closest(".product-card");
         toggleWishlistItem(JSON.parse(card.dataset.product), heart);
+        return;
+      }
+      const photoArea = e.target.closest(".product-image");
+      if (photoArea) {
+        const card = photoArea.closest(".product-card");
+        if (card) openProductDetailModal(JSON.parse(card.dataset.product));
         return;
       }
       const btn = e.target.closest(".card-action-btn");

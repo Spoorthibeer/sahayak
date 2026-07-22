@@ -301,6 +301,35 @@ def chat(req: ChatRequest):
     needs_input, suggestions = _extract_new_turn_signals(session["chat"], history_before)
     comparison_table = _extract_comparison_table(session["chat"], history_before)
     match_found_products = _extract_high_confidence_matches(session["chat"], history_before, products)
+
+    if not reply_text:
+        # agent.run_agent()/response.text can legitimately come back None
+        # or "" when Gemini's final turn ends in tool calls with no
+        # accompanying text — a real, if intermittent, model quirk
+        # (confirmed via the SDK's GenerateContentResponse._get_text()
+        # source, not assumed: it returns None when there's no text part
+        # at all, and "" when there IS a text part but its string content
+        # is empty). Previously this either crashed ChatResponse's pydantic
+        # validation (reply is a required str, None isn't valid — would
+        # 500) or silently fell through to the frontend's generic "Sorry, I
+        # didn't quite get that" apology even when needs_input/products
+        # WERE populated correctly this same turn — confusing, since e.g.
+        # size-poll buttons would appear with no visible question above
+        # them. Substitute a fallback that's actually consistent with
+        # whatever structured signal did come through this turn, instead of
+        # one generic apology regardless of context.
+        print(f"[warn] /chat: agent.run_agent returned an empty reply ({reply_text!r}); substituting a fallback tied to this turn's needs_input/products/comparison_table.")
+        if needs_input and needs_input.get("type") == "size_poll":
+            reply_text = "Could you tell me your usual clothing size?"
+        elif needs_input and needs_input.get("type") == "size_chart":
+            reply_text = "Here's a quick size chart — let me know which row matches you best."
+        elif comparison_table:
+            reply_text = "Here's how they compare."
+        elif products:
+            reply_text = "Here's what I found for you."
+        else:
+            reply_text = "Sorry, could you say that again?"
+
     return ChatResponse(
         reply=reply_text,
         language=session["language"],

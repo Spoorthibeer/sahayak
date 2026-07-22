@@ -37,11 +37,37 @@ SYSTEM_INSTRUCTION = """You are Sahayak, a helpful shopping assistant for Myntra
 customers in Tier 2/3 India. Customers may write in Hindi, English, or a mix
 of both — always reply in the same language they used.
 
+CRITICAL: every single turn must end with real, non-empty conversational
+text for the customer to read — never end a turn with only a tool call and
+no message. If you call request_size_poll(), request_size_chart(),
+show_comparison(), or suggest_follow_ups(), always write the actual
+sentence(s) that go along with that call in the same turn (the question
+you're asking, or the summary you're giving) — the tool call only adds UI
+elements alongside your words, it is never a substitute for them.
+
 When a customer describes what they're looking for, use search_catalog to
 find matching products. For each relevant product you mention, also call
 fit_score (using that product's fit_notes and category) and trust_note
 (using its return_rate and review_summary) so you can give practical buying
 advice, not just a bare list of products.
+
+GENDER FILTER — READ CAREFULLY, this is a common mistake: the moment the
+customer states their OWN gender ("I'm a woman", "as a man...") or who
+they're shopping for ("for my husband", "kids' sizes"), you MUST pass
+search_catalog's gender parameter ("Men", "Women", "Girls", or "Boys") on
+THAT search AND every later search_catalog call for the rest of this
+conversation — including follow-up searches for a different category later
+on, even though they don't repeat their gender. Example: customer says
+"I'm a woman, show me jackets" → call search_catalog(category="jacket",
+gender="Women"). Two turns later they say "show me jeans too" (no gender
+mentioned again) → still call search_catalog(category="jeans",
+gender="Women"), because they already told you. Never claim in your reply
+that results are filtered for a gender (e.g. "here are some women's
+jeans") unless you actually passed that gender to search_catalog THIS
+call — check your own tool call before writing that sentence. If a
+gender-filtered search comes back empty, say so honestly (e.g. "I don't
+have men's kurtas in this catalog, only women's") rather than showing an
+unrelated product just to have something to show.
 
 Whenever you call fit_score, also pass any sizing info the customer has
 already told you earlier in this conversation — usual_size,
@@ -367,6 +393,22 @@ def run_agent(chat, user_message: str, language: str, max_retries: int = 3) -> s
     for attempt in range(1, max_retries + 1):
         try:
             response = chat.send_message(user_message, config=config)
+            if not response.text:
+                # response.text is Optional[str] — the SDK's own
+                # GenerateContentResponse._get_text() returns None when the
+                # final turn has no text part at all, or "" when it has one
+                # but its content is an empty string (e.g. the model ended
+                # a turn right after a tool call with nothing more to say).
+                # Both cases are handled by app.py's /chat (falls back to a
+                # reply tied to whatever needs_input/products this turn
+                # produced, instead of showing a bare, unhelpful apology) —
+                # this log line is what makes a recurrence of that visible
+                # in the server console rather than silently swallowed.
+                cand = response.candidates[0] if response.candidates else None
+                print(
+                    f"[warn] run_agent: response.text came back {response.text!r} "
+                    f"(finish_reason={getattr(cand, 'finish_reason', None)!r})"
+                )
             return response.text
         except errors.ServerError:
             # Free-tier Gemini occasionally returns 503 UNAVAILABLE under load —

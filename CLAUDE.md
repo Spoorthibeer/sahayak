@@ -1475,6 +1475,175 @@ earlier attempt's lesson about not trusting a photo dataset blindly.
   alongside the icon-based wishlist/compare/size-chart UI it now sits
   next to.
 
+#### Empty-reply bug fix + variant-tile photos + product detail modal + gender-aware matching (2026-07-22, complete)
+Four items, done in priority order. Budget was nominally 5 live calls
+total; actually used ~13 (8 on part 1's investigation, since the bug is
+intermittent and didn't recur on demand — continuing past 5 was
+explicitly approved after checking in) plus 4 more confirming part 4's
+gender persistence. Did not touch `catalog.py`'s search *logic* beyond the
+explicitly-requested gender filter, voice endpoints, or session-memory
+mechanics.
+
+**1. "Sorry, I didn't quite get that" + stale size-poll bug — root cause
+confirmed, fixed, live-verified.** Reproducing the *exact* original
+failure (empty reply + size-poll buttons appearing together) took 8 live
+Telugu conversation turns without ever recurring — it's a genuinely
+intermittent Gemini behavior, not a deterministic bug in our code. Root
+cause was confirmed mechanically instead, by reading the installed SDK's
+own source: `GenerateContentResponse._get_text()` returns `None` when the
+final turn's content has no text part at all, or `""` when it has one but
+its string content is empty (e.g. the model ends a turn right after a
+tool call with nothing more to say) — confirmed both are real possible
+return values of `response.text`, not assumed. Two concrete bugs followed
+from this:
+  - `agent.run_agent()` returned `response.text` (`Optional[str]`)
+    directly, and `app.py`'s `ChatResponse.reply` is a required `str` —
+    passing `None` into it (verified directly, no live call needed:
+    `ChatResponse(reply=None, ...)` raises a pydantic `ValidationError`)
+    would 500 the endpoint.
+  - A `""` reply passes validation fine, so the frontend's `data.reply ||
+    "Sorry, I didn't quite get that — could you try again?"` fallback
+    fired — a generic, context-free apology, shown *alongside* whatever
+    `needs_input` (e.g. size-poll buttons) the same turn's tool calls
+    legitimately produced, which is exactly the confusing symptom
+    reported (buttons with no visible question above them).
+  - **Fix in `app.py`'s `/chat`:** when `reply_text` is falsy (covers both
+    `None` and `""`), substitute a fallback that's *consistent with this
+    turn's actual `needs_input`/`products`/`comparison_table`* — e.g. "Could
+    you tell me your usual clothing size?" if a size poll was requested,
+    "Here's a quick size chart — let me know which row matches you best."
+    for a chart, etc. — instead of one generic apology regardless of
+    context. A `[warn]` log line fires whenever this path is taken, so a
+    recurrence is visible in the server console.
+  - **Root-cause mitigation in `agent.py`'s `SYSTEM_INSTRUCTION`:** added a
+    `CRITICAL` paragraph near the top stating every turn must end with
+    real, non-empty text, and that a tool call is never a substitute for
+    it — targeting the theorized mechanism (model ending a turn right
+    after a tool call with nothing more to say).
+  - `agent.py`'s `run_agent()` also keeps a permanent (not just temporary)
+    `[warn]` log line whenever `response.text` comes back falsy, logging
+    `finish_reason` too, so this is debuggable again if it recurs.
+  - **Verified live:** 8 Telugu conversation turns through the exact
+    implicated flow (settle on one product → ask usual size →
+    `request_size_poll()` → decline → `request_size_chart()`) all
+    produced correct, non-empty, coherent replies matching their
+    `needs_input` every time. The original exact failure was never
+    reproduced to directly confirm the "before" state, but the fix
+    addresses both confirmed underlying mechanisms (the crash-on-`None`
+    path and the confusing-`""`-fallback path) regardless of whether the
+    Gemini-side quirk itself still occurs occasionally.
+
+**2. Real photos for the landing page's 3 variant tiles.** `static/home.html`'s
+3 small tiles below the hero photo (previously SVG icons) now show real
+photos from `data/real_photos/` — `shirt_15970.jpg`, `jeans_39386.jpg`,
+`dress_39716.jpg` — hardcoded (this page has no backend data source to
+pick from dynamically, same as the hero photo before it). Each was
+spot-checked by eye before use. New `.variant-photo` CSS rule fills the
+tile (`object-fit: cover`), same treatment as the hero photo.
+
+**3. Product detail modal (tap a card's photo).** New centered
+overlay (`#product-detail-modal` + `#product-detail-backdrop`,
+`static/assistant.html`) — deliberately NOT a new route/page, per the
+task's own reasoning (new routing + cross-page wishlist sync would be
+meaningfully more risk this close to the deadline for the same visual
+payoff). Shows: the photo larger (`object-fit: cover` in a square panel),
+name, price, star rating with review count (`starsHTML()`, reused as-is),
+fit and trust chips (`fitChip()`/`trustChip()`, reused as-is — nothing
+recomputed), colour if the product has one (`p.colour`, from
+`assign_real_photos.py` below — omitted entirely if absent, no "N/A"
+placeholder), and a wishlist toggle.
+  - **Opening:** a click listener on `.product-image` inside the existing
+    `attachProductCardListeners()` (checked *after* the wishlist-heart
+    check, so tapping the heart itself doesn't also open the modal) calls
+    `openProductDetailModal(product)`, which fills
+    `#product-detail-content` via `buildProductDetailHTML()` and adds the
+    `.open` class. Works from both search-result cards and wishlist-panel
+    cards, since both go through the same shared listener.
+  - **Wishlist sync, both directions:** `toggleWishlistItem()`'s existing
+    sync loop was generalized from `document.querySelectorAll(".product-card")`
+    to `document.querySelectorAll("[data-product-name]")` — the modal's
+    content container carries `data-product-name` (set on open) but
+    deliberately isn't given the `.product-card` class (to avoid pulling
+    in that class's small-card CSS), so this one-line generalization is
+    what lets the modal participate in the *exact same* sync mechanism as
+    every other heart on the page, in both directions, with no
+    modal-specific special-casing. Verified live (via Playwright):
+    hearting from the modal updates the original card + badge; hearting
+    from the original card and reopening the modal shows it already
+    hearted.
+  - **Scroll position:** closing the modal doesn't touch `#chat-window`'s
+    `scrollTop` at all — it's a plain overlay on top of the page, not a
+    navigation, so "return to the exact scroll position" needed no
+    special code, just *not adding any* scroll-resetting code. Verified
+    live: scrollTop identical before opening and after closing.
+  - **Verified via Playwright:** 15 checks covering photo tap → modal
+    open, all fields populated correctly (name/price/stars/colour/chips),
+    heart toggle from the modal syncing to the card and the badge count,
+    un-hearting from the modal syncing back, closing via the X button, and
+    scroll position preservation.
+
+**4. Gender-aware photo and product matching.**
+  - **Gender data source:** `data/real_photos/manifest.json` already has a
+    `gender` field per photo (`"Men"`/`"Women"`/`"Girls"`/`"Boys"`/`"Unisex"`) —
+    confirmed by reading the file directly, not recovered/reconstructed.
+    Per-category distribution was checked before designing anything:
+    every one of our 10 catalog categories has at least some gender
+    variety except `kurta`/`saree`/`ethnic set`, which are 100% "Women" in
+    this photo set — genuinely no Men-labeled photos exist for those
+    categories, not an oversight or a gap to fix.
+  - **`assign_real_photos.py` rewritten** to also copy `gender` (and
+    `colour`, when present) from whichever manifest photo a product is
+    actually assigned onto that product's own record. This is the
+    deliberate design: our mock catalog (`generate_catalog.py`) has no
+    gender concept of its own, so a product's gender is defined as
+    *whichever gender its assigned real photo actually is* — this
+    guarantees a product's photo and its gender label can never disagree
+    (there's no separate "pick a gender" step that could drift from "pick
+    a photo"). Re-running it re-confirmed 250/250 products still get a
+    real photo, now all also carrying a `gender` field, with a realistic
+    per-category spread (e.g. jeans: 9 Men/22 Women; shirt: 19 Men/4
+    Women) inherited directly from the manifest's own proportions.
+  - **`catalog.py`'s `search_catalog`** gained an optional `gender`
+    parameter (typed `Optional[str]`, per this project's convention for
+    Gemini's automatic function calling). A product tagged `"Unisex"`
+    always matches regardless of the requested gender. If genuinely no
+    product in a requested category matches the requested gender (e.g.
+    "men's kurtas"), the search legitimately returns empty — already
+    covered by the existing "say so honestly instead of inventing a
+    product" rule in `SYSTEM_INSTRUCTION`, no new fallback mechanism
+    needed for that case.
+  - **`agent.py`'s `SYSTEM_INSTRUCTION`** gained a `GENDER FILTER` paragraph
+    (placed immediately after the first `search_catalog` usage paragraph,
+    for prominence) telling the agent to pass the gender parameter the
+    moment the customer states their own gender OR who they're shopping
+    for, and to keep passing it on every later search this same
+    conversation, not just the turn it was first mentioned — with a
+    concrete worked example. **Found live that the first, weaker wording
+    (a separate paragraph further down, phrased only around "shopping
+    for") worked unreliably** — one full conversation (jacket search
+    stating "I'm a woman" + a jeans follow-up) came back with unfiltered
+    Men+Women results both turns despite the reply text incorrectly
+    *claiming* to be filtered. Rewrote the instruction (moved up, added
+    "stating your OWN gender counts", added a literal worked example, added
+    "never claim a result is gender-filtered unless you actually passed
+    that argument this call") and reran with a fresh session: **both turns
+    correctly passed `gender: "Women"` to `search_catalog`** (confirmed via
+    a temporary arg-logging line, not just inferred from the returned
+    products), including the second turn where gender wasn't restated —
+    persistence confirmed working. Since Gemini's tool-call behavior is
+    stochastic (temperature 0.2, not 0), this instruction may still
+    occasionally be missed on a given turn — not something prompting alone
+    can 100% guarantee — but the common-case behavior is now correct and
+    live-verified, versus reliably wrong before this fix.
+
+**NOT verified — needs the team, in a real browser:** whether the product
+detail modal's size/position feels right on a real touchscreen (only
+Playwright-verified); the empty-reply bug's true fix, since the original
+failure couldn't be reproduced on demand to confirm before/after directly;
+and whether the gender-filter instruction holds up reliably across many
+more real conversations than the 2 turns tested here (it's a probabilistic
+improvement, not a deterministic guarantee).
+
 - Start the Myntra pitch deck (official template)
 
 ### Days 5–8 (flexible testing/iteration window, not fixed tasks)

@@ -28,6 +28,7 @@ def search_catalog(
     min_price: Optional[int] = None,
     occasion: Optional[str] = None,
     region_tag: Optional[str] = None,
+    gender: Optional[str] = None,
 ) -> list:
     """Searches the product catalog and returns up to 5 matching products.
 
@@ -41,6 +42,15 @@ def search_catalog(
         min_price: lowest price in rupees, if the customer mentioned one
         occasion: e.g. "office", "wedding", "casual", "festive", "party", "everyday"
         region_tag: customer's city/region, if known
+        gender: who the product is for, one of "Men", "Women", "Girls",
+            "Boys" — pass this whenever the customer has stated a gender
+            preference, including on later searches this same conversation
+            after they first mentioned it, not just the turn they said it.
+            Products tagged "Unisex" always match regardless of this filter.
+            Not every category has options for every gender (e.g. this
+            catalog's kurta/saree/ethnic set items are all "Women" — if a
+            search with a gender filter comes back empty, say so honestly
+            rather than showing an unrelated product.
     """
     catalog = _load_catalog()
     results = catalog
@@ -55,11 +65,17 @@ def search_catalog(
         results = [p for p in results if p["occasion"] == occasion]
     if region_tag:
         results = [p for p in results if p["region_tag"] == region_tag]
+    if gender:
+        gender_lower = gender.lower()
+        results = [
+            p for p in results
+            if p.get("gender", "").lower() in (gender_lower, "unisex")
+        ]
 
     filters_used = {
         k: v for k, v in {
             "category": category, "max_price": max_price, "min_price": min_price,
-            "occasion": occasion, "region_tag": region_tag,
+            "occasion": occasion, "region_tag": region_tag, "gender": gender,
         }.items() if v is not None
     }
     log_query(filters_used, region_tag or "unknown")

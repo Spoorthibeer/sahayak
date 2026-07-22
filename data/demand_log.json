@@ -640,5 +640,117 @@
       "category": "t-shirt"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:32:19.668270+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 900,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:33:35.562646+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:40:22.633341+00:00",
+    "filters": {
+      "category": "jeans",
+      "max_price": 900,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:51:22.286513+00:00",
+    "filters": {
+      "category": "jeans",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:51:22.300070+00:00",
+    "filters": {
+      "category": "kurta",
+      "gender": "Men"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:51:22.313809+00:00",
+    "filters": {
+      "category": "sneakers",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:03:57.699144+00:00",
+    "filters": {
+      "category": "jacket"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:04:08.348580+00:00",
+    "filters": {
+      "category": "jeans"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:10:50.771374+00:00",
+    "filters": {
+      "category": "jacket"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:10:57.562694+00:00",
+    "filters": {
+      "category": "jeans"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:12:16.554596+00:00",
+    "filters": {
+      "category": "jacket",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:12:16.575370+00:00",
+    "filters": {
+      "category": "jacket",
+      "max_price": 2000,
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:15:35.799270+00:00",
+    "filters": {
+      "category": "jacket",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:17:54.901559+00:00",
+    "filters": {
+      "category": "jeans",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
   }
 ]
