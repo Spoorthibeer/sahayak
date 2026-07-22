@@ -1,53 +1,83 @@
-# Sahayak — Day 1 scaffold
+# Sahayak
 
-AI vernacular shopping agent for Myntra's Bharat hackathon.
+An AI shopping assistant built for Myntra's "Build What's Next: Myntra for Bharat" hackathon — helping Tier 2/3 customers find the right product, the right size, and buy with confidence, by voice or text, in their own language.
+
+**Team:** NovaPair — G. Narayanamma Institute of Technology and Science
+**Theme:** Bharat Opportunity + Speed & Trust
+
+---
+
+## The problem
+
+Fashion e-commerce has one of the highest return rates of any online retail category, and fit/sizing issues are consistently cited as the single biggest driver of those returns. For a first-time customer in Tier 2/3 India, this is compounded further: they can't try clothes on before buying, they aren't always confident an online size will match their body, they aren't sure a product will look and feel like its photo, and many are more comfortable speaking than typing — and not always in English.
+
+## What Sahayak does
+
+- **Talk to it, don't search it.** Customers describe what they want in plain English, Hindi, or Telugu — by voice or text — and Sahayak reasons through the request using Google's Gemini API with function-calling, not a scripted flow.
+- **A fit-confidence system that adapts to what the customer actually knows.** Order history first, then usual size, then a visual size chart, then a comparison to a garment the customer already owns — falling back to an honest, clearly-labeled estimate only as a last resort.
+- **Trust, at the moment it matters.** Every sizing recommendation comes with a return-policy reassurance in the same message, alongside real product ratings where available.
+- **Real Myntra product data**, sourced and manually verified, alongside clearly-distinguished mock data for products without a real match — never presented as more certain than it is.
+- **A full interactive UI** — voice with live waveform and barge-in, a tappable size poll, product comparison, a wishlist, and a full product detail page.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| AI reasoning / agent | Google Gemini API (function-calling) |
+| Voice (speech-to-text & text-to-speech) | Sarvam AI |
+| Backend | Python, FastAPI |
+| Frontend | Plain HTML / CSS / JavaScript |
+| Product data | Real Myntra product data (photos, ratings) + realistic mock data |
+
+## Architecture
+
+```
+Customer (voice/text)
+   → Landing Page → Chat Assistant ⇄ Product Detail Page
+      → FastAPI Backend (/chat, /transcribe, /speak, /api/product/{id})
+         → Voice Layer (Sarvam AI)
+         → Agent Orchestrator (Gemini API)
+            → search_catalog()
+            → fit_score() / trust_note() — fallback chain
+               → Product Data (catalog.json, real_photos/, demand_log.json)
+```
 
 ## Setup
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+python -m venv venv
+venv\Scripts\Activate.ps1        # Windows PowerShell
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and fill in your real keys, then load them
-into your shell before running anything:
-
-```bash
-cp .env.example .env
-# edit .env with your real keys, then:
-export $(cat .env | xargs)      # Linux/Mac quick-load; use a library like
-                                 # python-dotenv later if this gets tedious
+Create a `.env` file (see `.env.example`) with:
+```
+GEMINI_API_KEY=your_key_here
+SARVAM_API_KEY=your_key_here
 ```
 
-- **Gemini API key** — free, no credit card, at https://aistudio.google.com
-- **OpenAI API key** (for Whisper, added on Day 3) — https://platform.openai.com
-- **Google Cloud credentials** (for TTS, added on Day 3) — enable the
-  Text-to-Speech API in a Google Cloud project, create a service account,
-  download its JSON key
-
-## Day 1 — run these in order
-
+Run:
 ```bash
-python hello_world.py        # confirms your Gemini key works
-python generate_catalog.py   # creates data/catalog.json (250 mock products)
-python catalog.py            # tests search_catalog() + log_query(), prints results
+uvicorn app:app --reload
 ```
+Then open `http://127.0.0.1:8000` in Chrome.
 
-If all three run without errors, Day 1 is done. `data/demand_log.json` should
-now exist with at least one entry.
+## Third-party services and data disclosure
 
-## What's here so far
+- **Google Gemini API** — agent reasoning and function-calling (free tier)
+- **Sarvam AI** — Indian-language speech-to-text and text-to-speech
+- **Real product photos and data** — sourced from a public Myntra product dataset (Kaggle/Hugging Face mirror), manually verified for correctness before use, used for educational/hackathon purposes
+- All other libraries are listed in `requirements.txt`, standard open-source packages under their respective licenses
 
-| File | Purpose |
-|---|---|
-| `hello_world.py` | Confirms the Gemini API key works |
-| `generate_catalog.py` | Generates the mock product catalog |
-| `catalog.py` | `search_catalog()` and `log_query()` — becomes a Gemini tool on Day 2 |
-| `data/catalog.json` | The mock catalog (generated, not hand-written) |
-| `data/demand_log.json` | Regional demand log (generated as searches happen) |
+## Known limitations (MVP scope)
 
-## Coming next (Day 2)
+- Chat sessions are stored in memory and reset if the server restarts
+- Product data is a mix of real and mock entries, clearly separated internally
+- Voice quality depends on the Sarvam AI free tier's available credits
 
-`agent.py` — wraps `search_catalog` as a Gemini function-calling tool, plus
-`fit_score()` and `trust_note()` as two more tools, and the full agent loop.
+## Roadmap
+
+- Full agentic checkout
+- Additional Indian language support
+- Feeding regional demand signals back to Myntra's merchandising and seller-onboarding
+- AR/visual try-on (considered, out of scope for this MVP)
