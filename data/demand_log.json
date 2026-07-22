@@ -752,5 +752,99 @@
       "gender": "Women"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:39:11.747663+00:00",
+    "filters": {
+      "category": "kurta",
+      "occasion": "office",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:55:47.544974+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:57:49.799740+00:00",
+    "filters": {
+      "category": "shirt",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T15:58:11.593229+00:00",
+    "filters": {
+      "category": "shirt",
+      "gender": "Men"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T16:52:29.915504+00:00",
+    "filters": {
+      "category": "shirt",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T16:52:46.634288+00:00",
+    "filters": {
+      "category": "shirt",
+      "gender": "Women"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T16:58:56.452521+00:00",
+    "filters": {
+      "category": "kurta"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T16:59:19.313828+00:00",
+    "filters": {
+      "category": "kurta",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T17:06:18.528759+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 800,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T17:08:12.602715+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 399,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T17:13:57.399689+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 400,
+      "min_price": 350,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
   }
 ]

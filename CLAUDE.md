@@ -1644,6 +1644,114 @@ and whether the gender-filter instruction holds up reliably across many
 more real conversations than the 2 turns tested here (it's a probabilistic
 improvement, not a deterministic guarantee).
 
+#### Full product detail page + localStorage wishlist (2026-07-22, complete)
+Extends the quick-expand modal from the previous pass rather than
+replacing it: the modal stays for the "quick glance" case, and this pass
+adds a genuinely separate page for the "I want everything" case. Used 0 of
+the budgeted 3 live API calls — this was entirely frontend/routing work,
+verified via Playwright against a mocked `/chat` response. Did not touch
+`agent.py`, voice endpoints, or search logic.
+
+- **New route + endpoint (`app.py`):** `GET /product/{product_id}` serves
+  the new `static/product.html` (same pattern as `/` and `/assistant` —
+  the route just serves the static page; the page fetches its own data
+  client-side). `GET /api/product/{product_id}` returns that one
+  product's full catalog record as JSON, 404 if the ID doesn't exist.
+  Backed by a new `catalog.get_product_by_id(product_id)` helper (linear
+  scan over `_load_catalog()` — the same 250-product catalog every other
+  route already reads, no new data source).
+- **`static/product.html`** — a new, fully self-contained page (same
+  duplication convention as `home.html`'s icons: `CATEGORY_ICONS`,
+  `fitChip()`/`trustChip()`/`starsHTML()` are copied in, not shared via a
+  module). On load, reads its own product_id from
+  `window.location.pathname`, fetches `/api/product/{id}`, and renders: a
+  large photo (`object-fit: cover`, falling back to the category SVG icon
+  on missing/broken `image_path` via the same `onerror`-swap pattern used
+  elsewhere), name, price, star rating with review count, fit/trust chips
+  (computed with the exact same thresholds as everywhere else — nothing
+  new invented), colour + occasion if present, the identical return-policy
+  sentence used in `tools.py`/`assistant.html` ("And if it doesn't work
+  out, returns are easy — pickup from your home within 7 days for a full
+  refund."), and a wishlist toggle button. Header has the brand mark
+  (links to `/`) plus an explicit "← Back to chat" link to `/assistant`
+  specifically (a fixed destination, not `history.back()`, since the page
+  can be reached directly/bookmarked and a browser-history-based back
+  could go somewhere unexpected). A missing/invalid product_id shows a
+  clear error state with a link back to the chat, rather than a blank or
+  broken page.
+- **Modal gained a "View full details" link** (`static/assistant.html`'s
+  `buildProductDetailHTML()`) — a pill-style link to `/product/{product_id}`,
+  only rendered when the product actually has a `product_id` (always true
+  for real catalog products; a graceful guard, not an expected gap).
+- **Wishlist storage switched from an in-memory array to `localStorage`**
+  (`static/assistant.html` AND `static/product.html`) — this is the
+  change that makes the whole feature actually work end-to-end, since a
+  real page navigation (not a modal) fully reloads the JS context and
+  would otherwise reset any in-memory state. Both pages read/write the
+  exact same `localStorage` key (`"sahayak_wishlist"`) and the exact same
+  shape (a JSON array of full product objects, matched by `name` — same
+  matching key the in-memory version already used, kept for consistency
+  rather than switching to `product_id`-keyed identity, which would have
+  been a larger, out-of-scope refactor). `assistant.html`'s wishlist
+  badge is now also synced once immediately on page load (not just after
+  the next toggle), so a product hearted on `/product/{id}` and then
+  navigated back from is reflected in the badge count right away, not
+  only after the customer's next interaction. Still no backend/database
+  involved, still no cross-browser/cross-device sync — just genuinely
+  survives page loads and navigation in the same browser now, which the
+  in-memory version explicitly could not.
+- **Verified via Playwright (desktop 1280px + mobile 375px, no live API
+  calls):** full flow — search → open modal → tap "View full details" →
+  land on `/product/{id}` with all fields correctly populated → the
+  wishlist toggle already showing "In your wishlist" (hearted from the
+  modal before navigating, read back correctly from `localStorage`) →
+  un-hearted on the product page → clicked "Back to chat" → a fresh card
+  for the same product correctly showed the un-hearted state and the
+  header badge correctly read 0 — confirming persistence in **both**
+  directions across a real page navigation, not just one. Also verified:
+  no horizontal overflow at 375px, and a bad/nonexistent product_id shows
+  the clear error state instead of a blank or broken page.
+- **NOT verified — needs the team, in a real browser:** the product
+  page's look/feel and the wishlist button's tap target on a real
+  touchscreen (only Playwright-verified); and whether `localStorage`
+  behaves as expected across the team's actual demo-day browser/device
+  setup (private-browsing/quota edge cases were coded defensively —
+  wrapped in try/catch — but not exercised live).
+
+#### Conversation-resume fix: navigating to /product/{id} and back no longer resets the chat (2026-07-22, complete)
+Bug: `session_id` was generated fresh per page load and the rendered
+chat only lived in JS state, so visiting `/product/{id}` and returning to
+`/assistant` lost the whole conversation. Fixed with two `localStorage`
+keys in `static/assistant.html`, both namespaced separately from the
+wishlist's `"sahayak_wishlist"` key so nothing collides:
+- **`"sahayak_session_id"`** — `getOrCreateSessionId()` reuses it if
+  present instead of always generating fresh, so the backend's in-memory
+  chat (alive for the server's run) keeps recognizing the same
+  conversation via `/chat`, exactly as it already did within one page
+  load.
+- **`"sahayak_chat_history"`** — a DOM snapshot (`thread.innerHTML`),
+  saved via `saveThreadSnapshot()` at the end of every successful
+  `sendMessage()` turn, restored via `restoreThreadSnapshot()` at the end
+  of the page's init script. Deliberately simple (a raw HTML snapshot, not
+  a new structured format) per explicit instruction. After restoring, it
+  re-runs `attachProductCardListeners()` on every restored `.products-row`
+  so product cards (heart/Tell me more/Compare/tap-photo-for-modal) stay
+  interactive — cheap to do since that's already a delegated,
+  container-level listener. Suggestion chips / size-poll buttons /
+  size-chart rows from *older* restored turns are a deliberate, small scope
+  trim: they're not re-wired after a restore (any *new* turn going forward
+  still gets fully working ones via the normal code path).
+- **Verified via Playwright** (no live API calls — mocked `/chat`): 2 chat
+  turns → opened the product detail modal → "View full details" →
+  `/product/{id}` → "Back to chat" → confirmed the full prior
+  conversation was still visibly there (not reset), `session_id`
+  unchanged, the restored product card's wishlist heart still toggled
+  correctly, and a brand new message afterward still worked normally.
+- **NOT verified** — needs the team, in a real browser: the general feel
+  of this on a real device, and whether a *very* long conversation's
+  saved HTML approaches any practical `localStorage` size limit (not
+  hit in this pass's short test conversations).
+
 - Start the Myntra pitch deck (official template)
 
 ### Days 5–8 (flexible testing/iteration window, not fixed tasks)

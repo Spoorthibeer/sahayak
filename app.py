@@ -35,6 +35,7 @@ from sarvamai import SarvamAI
 from sarvamai.core.api_error import ApiError
 
 import agent
+import catalog
 
 app = FastAPI(title="Sahayak")
 
@@ -445,6 +446,26 @@ def home_page():
 @app.get("/assistant", include_in_schema=False)
 def assistant_page():
     return FileResponse("static/assistant.html")
+
+
+# Product detail page pass (2026-07-22): a full page for when the customer
+# wants complete details on one product (the quick-expand modal on
+# /assistant covers the "glance" case; this is the "I want the whole
+# thing" case). GET /product/{id} just serves the static page — the page
+# itself fetches the actual product data client-side from GET
+# /api/product/{id} once it knows its own product_id from the URL, same
+# separation as /assistant (page) vs /chat (data).
+@app.get("/product/{product_id}", include_in_schema=False)
+def product_page(product_id: str):
+    return FileResponse("static/product.html")
+
+
+@app.get("/api/product/{product_id}")
+def api_product(product_id: str):
+    product = catalog.get_product_by_id(product_id)
+    if product is None:
+        raise HTTPException(status_code=404, detail="No product with that ID.")
+    return product
 
 
 # Real product photos (see CLAUDE.md's "Product photo attempt" +

@@ -22,6 +22,18 @@ def _load_catalog():
         return json.load(f)
 
 
+def get_product_by_id(product_id: str) -> Optional[dict]:
+    """Returns the single catalog product with this product_id, or None if
+    no product has it. Used by app.py's GET /api/product/{product_id} for
+    the product detail page — reuses the exact same catalog data
+    search_catalog reads from, no separate data source.
+    """
+    for product in _load_catalog():
+        if product["product_id"] == product_id:
+            return product
+    return None
+
+
 def search_catalog(
     category: Optional[str] = None,
     max_price: Optional[int] = None,

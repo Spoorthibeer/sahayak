@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahayak — Product Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /*
+    Product detail page — the "I want the full picture" view, reached by
+    tapping "View full details" in the assistant's quick-expand modal
+    (static/assistant.html). Reuses this project's established design
+    system (same :root palette/type as every other page) rather than
+    anything new. Deliberately duplicates a handful of small pure
+    functions (fitChip/trustChip/starsHTML/categoryIconSVG) from
+    assistant.html rather than sharing a JS module — consistent with this
+    project's "single self-contained file, no build step" convention.
+  */
+  :root {
+    --ink: #2A1F1A;
+    --ink-soft: #5B4B41;
+    --paper: #FBF4EC;
+    --surface: #FFFFFF;
+    --border: #EAD9C8;
+    --muted: #8A7568;
+
+    --rani: #A62966;
+    --rani-dark: #7E1E4E;
+    --rani-soft: #F4E1EB;
+
+    --marigold: #D9A441;
+    --marigold-dark: #B9862E;
+    --marigold-soft: #FBF0DC;
+
+    --trust: #1F7A5C;
+    --trust-soft: #E1F0E9;
+
+    --warn: #B23A3A;
+    --warn-soft: #F7E5E1;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; overflow-x: hidden; }
+  body {
+    font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2.5px solid var(--rani); outline-offset: 2px; border-radius: 4px; }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .brand-mark {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--rani-dark);
+    text-decoration: none;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .back-link:hover { border-color: var(--rani); color: var(--rani-dark); }
+
+  /* ---------- Page content ---------- */
+  .page-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+  .product-layout {
+    display: flex;
+    gap: 44px;
+    align-items: flex-start;
+  }
+  .product-photo-panel {
+    flex: 1;
+    min-width: 0;
+    max-width: 400px;
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(135deg, var(--rani-soft), var(--marigold-soft));
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(42, 31, 26, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .product-photo-panel img { width: 100%; height: 100%; object-fit: cover; }
+  .product-photo-panel svg { width: 46%; height: 46%; }
+  .product-photo-panel .icon-fill { fill: #FFFFFF; fill-opacity: 0.92; stroke: var(--rani-dark); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+  .product-photo-panel .icon-line { fill: none; stroke: var(--rani-dark); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
+  .photo-wishlist-btn {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: color 0.15s ease, transform 0.1s ease;
+  }
+  .photo-wishlist-btn:active { transform: scale(0.9); }
+  .photo-wishlist-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .photo-wishlist-btn.active { color: var(--rani); }
+  .photo-wishlist-btn.active svg { fill: currentColor; }
+
+  .product-info { flex: 1; min-width: 0; padding-top: 4px; }
+  .product-category-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rani-dark);
+    margin-bottom: 8px;
+  }
+  .product-name {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.7rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .product-price { color: var(--rani-dark); font-weight: 700; font-size: 1.5rem; margin-bottom: 10px; }
+
+  .stars { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+  .stars svg { display: block; }
+  .review-count { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .chip-teal { background: var(--trust-soft); color: var(--trust); }
+  .chip-gold { background: var(--marigold-soft); color: var(--marigold-dark); }
+  .chip-warn { background: var(--warn-soft); color: var(--warn); }
+  .product-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+
+  .product-meta {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .product-return-policy {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .wishlist-toggle-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--rani);
+    color: #FFF7F1;
+    border: none;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 13px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(166, 41, 102, 0.25);
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .wishlist-toggle-cta:hover { background: var(--rani-dark); }
+  .wishlist-toggle-cta:active { transform: scale(0.97); }
+  .wishlist-toggle-cta.active { background: var(--trust); box-shadow: 0 6px 18px rgba(31, 122, 92, 0.25); }
+  .wishlist-toggle-cta.active:hover { background: #17604a; }
+  .wishlist-toggle-cta svg { width: 16px; height: 16px; fill: currentColor; stroke: currentColor; stroke-width: 1.5; }
+
+  #loading-state, #error-state {
+    text-align: center;
+    color: var(--ink-soft);
+    padding: 80px 20px;
+    font-size: 0.95rem;
+  }
+  #error-state.hidden, #loading-state.hidden, .page-wrap.hidden { display: none; }
+
+  @media (max-width: 700px) {
+    .product-layout { flex-direction: column; }
+    .product-photo-panel { max-width: 100%; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand-mark" href="/">Sahayak</a>
+  <a class="back-link" href="/assistant">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to chat
+  </a>
+</header>
+
+<div id="loading-state">Loading product details…</div>
+<div id="error-state" class="hidden">Sorry, we couldn't find that product. <a href="/assistant">Go back to the chat</a> and try again.</div>
+
+<div id="page-wrap" class="page-wrap hidden">
+  <div class="product-layout">
+    <div id="product-photo-panel" class="product-photo-panel"></div>
+    <div class="product-info">
+      <div id="product-category-label" class="product-category-label"></div>
+      <div id="product-name" class="product-name"></div>
+      <div id="product-price" class="product-price"></div>
+      <div id="product-stars"></div>
+      <div id="product-chips" class="product-chips"></div>
+      <div id="product-meta" class="product-meta"></div>
+      <div class="product-return-policy">
+        And if it doesn't work out, returns are easy — pickup from your home within 7 days for a full refund.
+      </div>
+      <button id="wishlist-toggle-cta" class="wishlist-toggle-cta">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg>
+        <span id="wishlist-toggle-label">Add to wishlist</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ---- Category icon fallback (duplicated from static/assistant.html's
+  // CATEGORY_ICONS, same reasoning as home.html's icon duplication: this
+  // project deliberately keeps each page self-contained, no shared
+  // module/build step).
+  const CATEGORY_ICONS = {
+    "shirt":
+      '<path class="icon-fill" d="M17 7 21 5 24 8 27 5 31 7 37 13 32 18 32 41 16 41 16 18 11 13Z"/>' +
+      '<path class="icon-line" d="M21 5 24 11 27 5"/>',
+    "t-shirt":
+      '<path class="icon-fill" d="M14 10 19 6Q24 9 29 6L34 10 39 15 34 19 34 41 14 41 14 19 9 15Z"/>' +
+      '<path class="icon-line" d="M19 6Q24 10 29 6"/>',
+    "kurta":
+      '<path class="icon-fill" d="M18 6 24 4 30 6 34 12 30 16 30 41 18 41 18 16 14 12Z"/>' +
+      '<path class="icon-line" d="M20 34 20 41M28 34 28 41"/>',
+    "ethnic set":
+      '<path class="icon-fill" d="M17 5 24 3 31 5 34 10 30 13 30 24 18 24 18 13 14 10Z"/>' +
+      '<path class="icon-fill" d="M19 26 29 26 30 42 25 42 24.5 32 23.5 42 18 42Z"/>',
+    "saree":
+      '<path class="icon-line" d="M8 10Q24 3 40 10"/>' +
+      '<path class="icon-line" d="M8 17Q24 10 40 17"/>' +
+      '<path class="icon-line" d="M8 24Q24 17 40 24"/>' +
+      '<path class="icon-line" d="M8 31Q24 24 40 31"/>' +
+      '<path class="icon-line" d="M8 38Q24 31 40 38"/>',
+    "jeans":
+      '<path class="icon-fill" d="M15 6 33 6 35 20 32 42 25 42 24 23 23 42 16 42 13 20Z"/>' +
+      '<path class="icon-line" d="M15 6Q24 11 33 6M24 12 24 23"/>' +
+      '<circle class="icon-fill" cx="18" cy="9" r="1.4"/><circle class="icon-fill" cx="30" cy="9" r="1.4"/>',
+    "trousers":
+      '<path class="icon-fill" d="M16 6 32 6 33 20 31 42 25 42 24 22 23 42 17 42 15 20Z"/>' +
+      '<path class="icon-line" d="M16 8 32 8M21 22 20 40M27 22 28 40"/>',
+    "dress":
+      '<path class="icon-fill" d="M20 5 24 3 28 5 29 15 39 41 9 41 19 15Z"/>' +
+      '<path class="icon-line" d="M18 21 30 21"/>',
+    "jacket":
+      '<path class="icon-fill" d="M16 8 21 5 24 9 27 5 32 8 38 14 33 18 33 41 15 41 15 18 10 14Z"/>' +
+      '<path class="icon-line" d="M21 5 24 15 27 5M24 15 24 41"/>',
+    "sneakers":
+      '<path class="icon-fill" d="M5 32Q5 25 14 23L27 19Q31 17 35 19L41 24Q43 25 43 29V35H5Z"/>' +
+      '<path class="icon-line" d="M18 24 24 21M20 27 26 24M22 30 28 27"/>',
+  };
+  const GENERIC_ICON =
+    '<path class="icon-fill" d="M24 14 8 23 11 29 18 25 18 40 30 40 30 25 37 29 40 23Z"/>' +
+    '<circle class="icon-line" cx="24" cy="8" r="3.5"/>';
+
+  function categoryIconSVG(category) {
+    const inner = CATEGORY_ICONS[category] || GENERIC_ICON;
+    return '<svg viewBox="0 0 48 48">' + inner + "</svg>";
+  }
+
+  function escapeHtml(s) {
+    return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // ---- Fit/trust chips (duplicated from assistant.html's fitChip()/
+  // trustChip() — same thresholds tools.py's trust_note() uses, same
+  // reasoning as the original Confidence Strip: an independent client-side
+  // visual read of fields already present in the product data, not a new
+  // computation).
+  function fitChip(fitNotes) {
+    if (fitNotes === "true to size") return { cls: "chip-teal", label: "True to size" };
+    if (fitNotes === "runs small") return { cls: "chip-gold", label: "Runs small — size up" };
+    if (fitNotes === "runs large") return { cls: "chip-gold", label: "Runs large — size down" };
+    return null;
+  }
+  function trustChip(returnRate) {
+    if (returnRate == null) return null;
+    if (returnRate < 0.08) return { cls: "chip-teal", label: "Highly trusted" };
+    if (returnRate < 0.15) return { cls: "chip-gold", label: "Generally trusted" };
+    return { cls: "chip-warn", label: "Double-check size" };
+  }
+  function chipHTML(chip) {
+    if (!chip) return "";
+    return '<span class="chip ' + chip.cls + '">' + chip.label + "</span>";
+  }
+
+  const STAR_PATH = "M12 2l2.9 6.26L21.5 9.27l-4.75 4.63L17.9 21 12 17.77 6.1 21l1.15-7.1L2.5 9.27l6.6-1.01L12 2z";
+  function parseRating(reviewSummary) {
+    if (!reviewSummary) return null;
+    const m = reviewSummary.match(/([\d.]+)\s*\/\s*5.*?([\d,]+)\s*review/i);
+    if (!m) return null;
+    return { rating: parseFloat(m[1]), count: parseInt(m[2].replace(/,/g, ""), 10) };
+  }
+  function starsHTML(reviewSummary) {
+    const parsed = parseRating(reviewSummary);
+    if (!parsed) return "";
+    const pct = Math.max(0, Math.min(1, parsed.rating / 5)) * 100;
+    const gradId = "starfill" + Math.random().toString(36).slice(2, 9);
+    const stars = [0, 24, 48, 72, 96].map(function (x) {
+      return '<path transform="translate(' + x + ',0) scale(0.9)" d="' + STAR_PATH + '"/>';
+    }).join("");
+    return '<span class="stars">' +
+      '<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="' + gradId + '">' +
+        '<stop offset="' + pct + '%" stop-color="var(--marigold)"/>' +
+        '<stop offset="' + pct + '%" stop-color="#E3D9CC"/>' +
+      '</linearGradient></defs></svg>' +
+      '<svg width="90" height="17" viewBox="0 0 120 24" fill="url(#' + gradId + ')">' + stars + '</svg>' +
+      '<span class="review-count">' + parsed.rating.toFixed(1) + ' (' + parsed.count + ')</span>' +
+    '</span>';
+  }
+
+  // ---- Wishlist (localStorage-backed — see CLAUDE.md: replaces the
+  // earlier in-memory-only array so hearting here is visible back on
+  // /assistant after navigating, and vice versa). Same storage key and
+  // shape (array of full product objects, matched by name) as
+  // assistant.html, so the two pages interoperate by construction.
+  const WISHLIST_STORAGE_KEY = "sahayak_wishlist";
+
+  function loadWishlist() {
+    try {
+      const raw = localStorage.getItem(WISHLIST_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveWishlist(wishlist) {
+    try {
+      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlist));
+    } catch (e) {
+      // Quota exceeded / private-browsing edge cases — the toggle still
+      // works visually for this page load, it just won't persist.
+    }
+  }
+  function isWishlisted(name) {
+    return loadWishlist().some(function (w) { return w.name === name; });
+  }
+  function toggleWishlist(product) {
+    const wishlist = loadWishlist();
+    const idx = wishlist.findIndex(function (w) { return w.name === product.name; });
+    if (idx !== -1) wishlist.splice(idx, 1);
+    else wishlist.push(product);
+    saveWishlist(wishlist);
+    return isWishlisted(product.name);
+  }
+
+  const loadingState = document.getElementById("loading-state");
+  const errorState = document.getElementById("error-state");
+  const pageWrap = document.getElementById("page-wrap");
+  const photoPanel = document.getElementById("product-photo-panel");
+  const wishlistToggleBtn = document.getElementById("wishlist-toggle-cta");
+  const wishlistToggleLabel = document.getElementById("wishlist-toggle-label");
+
+  function updateWishlistButton(product) {
+    const active = isWishlisted(product.name);
+    wishlistToggleBtn.classList.toggle("active", active);
+    wishlistToggleLabel.textContent = active ? "In your wishlist" : "Add to wishlist";
+    const photoHeart = photoPanel.querySelector(".photo-wishlist-btn");
+    if (photoHeart) photoHeart.classList.toggle("active", active);
+  }
+
+  function render(product) {
+    document.title = product.name + " — Sahayak";
+
+    const media = product.image_path
+      ? '<img src="/' + escapeHtml(product.image_path) + '" alt="">'
+      : categoryIconSVG(product.category);
+    photoPanel.innerHTML =
+      media +
+      '<button class="photo-wishlist-btn" aria-label="Toggle wishlist">' +
+        '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg>' +
+      '</button>';
+    const photoImg = photoPanel.querySelector("img");
+    if (photoImg) {
+      photoImg.addEventListener("error", function () {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = categoryIconSVG(product.category);
+        photoImg.replaceWith(wrapper.firstElementChild);
+      }, { once: true });
+    }
+
+    document.getElementById("product-category-label").textContent = product.category || "";
+    document.getElementById("product-name").textContent = product.name || "";
+    document.getElementById("product-price").textContent = "₹" + (product.price != null ? product.price : "?");
+    document.getElementById("product-stars").innerHTML = starsHTML(product.review_summary);
+    document.getElementById("product-chips").innerHTML =
+      chipHTML(fitChip(product.fit_notes)) + chipHTML(trustChip(product.return_rate));
+
+    const metaParts = [];
+    if (product.colour) metaParts.push("Colour: " + escapeHtml(product.colour));
+    if (product.occasion) metaParts.push("Occasion: " + escapeHtml(product.occasion));
+    document.getElementById("product-meta").textContent = metaParts.join("  ·  ");
+
+    updateWishlistButton(product);
+
+    function handleToggle() {
+      toggleWishlist(product);
+      updateWishlistButton(product);
+    }
+    wishlistToggleBtn.addEventListener("click", handleToggle);
+    photoPanel.addEventListener("click", function (e) {
+      if (e.target.closest(".photo-wishlist-btn")) handleToggle();
+    });
+
+    loadingState.classList.add("hidden");
+    pageWrap.classList.remove("hidden");
+  }
+
+  const productId = window.location.pathname.split("/").filter(Boolean).pop();
+  fetch("/api/product/" + encodeURIComponent(productId))
+    .then(function (res) {
+      if (!res.ok) throw new Error("not found");
+      return res.json();
+    })
+    .then(render)
+    .catch(function () {
+      loadingState.classList.add("hidden");
+      errorState.classList.remove("hidden");
+    });
+})();
+</script>
+
+</body>
+</html>

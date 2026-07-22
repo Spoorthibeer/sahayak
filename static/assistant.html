@@ -645,6 +645,20 @@
     border-top: 1px solid var(--border);
   }
   .product-detail-chips { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .product-detail-full-link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 14px;
+    padding: 11px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--rani);
+    color: var(--rani-dark);
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .product-detail-full-link:hover { background: var(--rani); color: #FFF7F1; }
 
   /* ---------- Compare mode ---------- */
   .card-action-btn.compare-selected { border-color: var(--rani); color: var(--rani-dark); background: var(--rani-soft); }
@@ -1023,10 +1037,27 @@
 
 <script>
 (function () {
-  // ---- session_id: generated once per page load, sent with every /chat
-  // request so the backend keeps using the same in-memory Chat object and
-  // therefore remembers this conversation (see app.py / CLAUDE.md).
-  const sessionId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+  // ---- session_id: persisted in localStorage (2026-07-22 pass — fixes
+  // "navigate to /product/{id} and back loses the conversation"), instead
+  // of generated fresh per page load. Reusing the same session_id lets the
+  // backend's in-memory chat session (still alive during this server run)
+  // keep resuming the same conversation via /chat, exactly as it already
+  // did within one page load. Namespaced separately from the wishlist's
+  // "sahayak_wishlist" key so the two features' localStorage data can
+  // never collide.
+  const SESSION_ID_STORAGE_KEY = "sahayak_session_id";
+
+  function getOrCreateSessionId() {
+    try {
+      const existing = localStorage.getItem(SESSION_ID_STORAGE_KEY);
+      if (existing) return existing;
+    } catch (e) { /* private-browsing/quota edge case — fall through to a fresh one */ }
+    const fresh = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+    try { localStorage.setItem(SESSION_ID_STORAGE_KEY, fresh); } catch (e) {}
+    return fresh;
+  }
+
+  const sessionId = getOrCreateSessionId();
 
   // The backend (agent.detect_language, via /chat's "language" field) is the
   // single source of truth for which of Sahayak's 3 supported languages the
@@ -1051,6 +1082,39 @@
   const chatWindow = document.getElementById("chat-window");
   const emptyState = document.getElementById("empty-state");
   const thread = document.getElementById("thread");
+
+  // ---- Chat history snapshot (2026-07-22 pass, same bug fix as
+  // session_id above): persists the RENDERED thread HTML so navigating to
+  // /product/{id} and back restores the visible conversation instantly,
+  // with no extra /chat call needed just to redraw the screen. Simple by
+  // design — a DOM snapshot, not a new structured data format. Namespaced
+  // separately from the wishlist/session-id keys.
+  const CHAT_HISTORY_STORAGE_KEY = "sahayak_chat_history";
+
+  function saveThreadSnapshot() {
+    try {
+      localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, thread.innerHTML);
+    } catch (e) { /* quota/private-browsing edge case — just skip persisting this turn */ }
+  }
+
+  function restoreThreadSnapshot() {
+    let saved = null;
+    try {
+      saved = localStorage.getItem(CHAT_HISTORY_STORAGE_KEY);
+    } catch (e) { return; }
+    if (!saved) return;
+    thread.innerHTML = saved;
+    showConversationStarted();
+    // Re-wire product-card interactivity (heart, Tell me more, Compare,
+    // tap-photo-for-modal) on every restored card row — attachProductCardListeners
+    // is already a delegated, container-level listener (not one listener
+    // per button), so re-running it on the restored DOM is all that's
+    // needed. Suggestion chips / size-poll buttons / size-chart rows from
+    // OLDER turns are deliberately left non-interactive after a restore
+    // (a small, deliberate scope trim under time pressure) — any NEW turn
+    // going forward still gets fully working ones via the normal code path.
+    thread.querySelectorAll(".products-row").forEach(attachProductCardListeners);
+  }
   const textInput = document.getElementById("text-input");
   const sendBtn = document.getElementById("send-btn");
   const micBtn = document.getElementById("mic-btn");
@@ -1384,12 +1448,35 @@
     sendMessage("Compare the " + first + " and the " + name);
   }
 
-  // ---- Wishlist: a plain client-side array of wishlisted product objects,
-  // session-scoped only (no backend call, no persistence across reloads —
-  // matches the same scope as recently-viewed/compare state). Storing the
-  // full product dict (not just the name) means the panel can render real
-  // product-card-style entries without re-fetching anything.
-  let wishlist = [];
+  // ---- Wishlist: persisted in localStorage (2026-07-22 pass — replaces
+  // the earlier in-memory-only array). Same storage key and shape (a JSON
+  // array of full product objects, matched by name) as static/product.html
+  // uses, so hearting a product on either page is visible on the other
+  // after navigating there — no backend/database involved, just survives
+  // page loads in the same browser. Still no cross-browser/cross-device
+  // sync, and still no explicit migration handling for anyone with data
+  // under the old (in-memory-only, so there wasn't any to migrate) scheme.
+  const WISHLIST_STORAGE_KEY = "sahayak_wishlist";
+
+  function loadWishlistFromStorage() {
+    try {
+      const raw = localStorage.getItem(WISHLIST_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveWishlistToStorage() {
+    try {
+      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlist));
+    } catch (e) {
+      // Quota exceeded / private-browsing edge cases — the in-memory array
+      // still works for the rest of this page load, it just won't persist.
+    }
+  }
+
+  let wishlist = loadWishlistFromStorage();
 
   function isWishlisted(name) {
     return wishlist.some(function (w) { return w.name === name; });
@@ -1399,6 +1486,7 @@
     const idx = wishlist.findIndex(function (w) { return w.name === product.name; });
     if (idx !== -1) wishlist.splice(idx, 1);
     else wishlist.push(product);
+    saveWishlistToStorage();
 
     const nowActive = isWishlisted(product.name);
     // Sync every heart button for this product across the whole page (the
@@ -1421,6 +1509,10 @@
     wishlistCountEl.textContent = wishlist.length;
     wishlistCountEl.classList.toggle("hidden", wishlist.length === 0);
   }
+  // Reflect whatever was already in localStorage (e.g. hearted on
+  // static/product.html, then navigated back here) immediately on load,
+  // not just after the next toggle.
+  updateWishlistBadge();
 
   // Shared card-builder used both for search-result cards (with quick
   // actions) and wishlist-panel cards (read-only aside from the heart) —
@@ -1501,6 +1593,14 @@
     const metaLine = p.colour
       ? '<div class="product-detail-meta">Colour: ' + escapeHtml(p.colour) + '</div>'
       : "";
+    // Full product detail page (static/product.html) — a separate route,
+    // not another modal, per the explicit "new routing is worth it for a
+    // deliberately fuller view" call. Only rendered when we actually have
+    // a product_id to link to (every real catalog product does; this is
+    // just a graceful guard, not an expected case).
+    const fullDetailsLink = p.product_id
+      ? '<a class="product-detail-full-link" href="/product/' + encodeURIComponent(p.product_id) + '">View full details</a>'
+      : "";
     return (
       '<div class="product-detail-photo-wrap">' +
         media +
@@ -1514,6 +1614,7 @@
         starsHTML(p.review_summary) +
         metaLine +
         '<div class="product-detail-chips">' + chipHTML(fit) + chipHTML(trust) + '</div>' +
+        fullDetailsLink +
       '</div>'
     );
   }
@@ -1879,6 +1980,7 @@
     addComparisonTable(data.comparison_table);
     setLanguage(data.language);
     playReply(stripMarkdownForSpeech(data.reply || ""), data.language);
+    saveThreadSnapshot();
   }
 
   sendBtn.addEventListener("click", function () { sendMessage(textInput.value); });
@@ -2113,6 +2215,11 @@
       }
     });
   }
+
+  // Restore the visible conversation, if any (e.g. returning from
+  // /product/{id}) — must run after every function/element it depends on
+  // is defined, which is true here at the end of the IIFE.
+  restoreThreadSnapshot();
 })();
 </script>
 
