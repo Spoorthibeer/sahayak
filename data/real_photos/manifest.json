@@ -1,0 +1,1810 @@
+{
+  "shirt": [
+    {
+      "source_id": 15970,
+      "filename": "shirt_15970.jpg",
+      "name": "Turtle Check Men Navy Blue Shirt",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 30805,
+      "filename": "shirt_30805.jpg",
+      "name": "Fabindia Men Striped Green Shirt",
+      "colour": "Green",
+      "gender": "Men",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 26960,
+      "filename": "shirt_26960.jpg",
+      "name": "Jealous 21 Women Purple Shirt",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 56825,
+      "filename": "shirt_56825.jpg",
+      "name": "John Players Men Brown Shirt",
+      "colour": "Brown",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 4943,
+      "filename": "shirt_4943.jpg",
+      "name": "Gini and Jony Boy's Kaleb White Brown Kidswear",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15984,
+      "filename": "shirt_15984.jpg",
+      "name": "Turtle Check Men Yellow Shirt",
+      "colour": "Yellow",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 6617,
+      "filename": "shirt_6617.jpg",
+      "name": "Spykar Men Black and white Check Shirt",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 22395,
+      "filename": "shirt_22395.jpg",
+      "name": "Mark Taylor Men Striped Blue Shirt",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15983,
+      "filename": "shirt_15983.jpg",
+      "name": "Turtle Solid Men  Burgundy Shirt",
+      "colour": "Burgundy",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 16361,
+      "filename": "shirt_16361.jpg",
+      "name": "Peter England Men Stripes Maroon Shirt",
+      "colour": "Maroon",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 26958,
+      "filename": "shirt_26958.jpg",
+      "name": "Jealous 21 Women Teal Shirt",
+      "colour": "Teal",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 13870,
+      "filename": "shirt_13870.jpg",
+      "name": "Scullers Men Stripes Beige Shirts",
+      "colour": "Beige",
+      "gender": "Men",
+      "usage": "Casual"
+    }
+  ],
+  "t-shirt": [
+    {
+      "source_id": 53759,
+      "filename": "t-shirt_53759.jpg",
+      "name": "Puma Men Grey T-shirt",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 7990,
+      "filename": "t-shirt_7990.jpg",
+      "name": "Fila Men's Round Neck Navy Blue T-shirt",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 3954,
+      "filename": "t-shirt_3954.jpg",
+      "name": "Jealous 21 Women's Pink T-shirt",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 5891,
+      "filename": "t-shirt_5891.jpg",
+      "name": "Puma Men's Stripe Polo Black T-shirt",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 38630,
+      "filename": "t-shirt_38630.jpg",
+      "name": "Nike Women Purple Polo T-shirt",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10866,
+      "filename": "t-shirt_10866.jpg",
+      "name": "Wrangler Men Motor Rider Red T-Shirts",
+      "colour": "Red",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 9694,
+      "filename": "t-shirt_9694.jpg",
+      "name": "Classic Polo Men Vulcan White Polo Tshirts",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10065,
+      "filename": "t-shirt_10065.jpg",
+      "name": "Puma Men ducati logo tee Yellow Tshirts",
+      "colour": "Yellow",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11527,
+      "filename": "t-shirt_11527.jpg",
+      "name": "United Colors of Benetton Men Olive Tshirts",
+      "colour": "Olive",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 20258,
+      "filename": "t-shirt_20258.jpg",
+      "name": "Wrangler Men Polo Charcoal T-shirt",
+      "colour": "Brown",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 31588,
+      "filename": "t-shirt_31588.jpg",
+      "name": "Mark Taylor Men Printed Maroon T-shirt",
+      "colour": "Maroon",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 12197,
+      "filename": "t-shirt_12197.jpg",
+      "name": "Basics Men Orange Polo T-shirt",
+      "colour": "Orange",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 28467,
+      "filename": "t-shirt_28467.jpg",
+      "name": "Urban Yoga Women Printed Rust T-shirt",
+      "colour": "Rust",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "jeans": [
+    {
+      "source_id": 39386,
+      "filename": "jeans_39386.jpg",
+      "name": "Peter England Men Party Blue Jeans",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 26994,
+      "filename": "jeans_26994.jpg",
+      "name": "Jealous 21 Women Black Jeans",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 40371,
+      "filename": "jeans_40371.jpg",
+      "name": "Tokyo Talkies Women Navy Slim Fit Jeans",
+      "colour": "Navy Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 30453,
+      "filename": "jeans_30453.jpg",
+      "name": "Deni Yo Men White Jeans",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21586,
+      "filename": "jeans_21586.jpg",
+      "name": "Locomotive Men Washed Grey Jeans",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 7192,
+      "filename": "jeans_7192.jpg",
+      "name": "Jealous 21 Women Brown Jeggings",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27935,
+      "filename": "jeans_27935.jpg",
+      "name": "Jealous 21 Women Lavender Magic Colour Jeans",
+      "colour": "Lavender",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27025,
+      "filename": "jeans_27025.jpg",
+      "name": "Jealous 21 Women Pink Jeans",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 32561,
+      "filename": "jeans_32561.jpg",
+      "name": "ONLY Women Peach Jeans",
+      "colour": "Peach",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27939,
+      "filename": "jeans_27939.jpg",
+      "name": "Jealous 21 Women Purple Magic Colour Jeans",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27940,
+      "filename": "jeans_27940.jpg",
+      "name": "Jealous 21 Women Turquoise Blue Magic Colour Jeans",
+      "colour": "Turquoise Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "kurta": [
+    {
+      "source_id": 20099,
+      "filename": "kurta_20099.jpg",
+      "name": "Diva Women Embroided Green Kurta",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 28690,
+      "filename": "kurta_28690.jpg",
+      "name": "W Women Printed Beige Kurta",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 45856,
+      "filename": "kurta_45856.jpg",
+      "name": "Vishudh Women Brown Kurta",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 24406,
+      "filename": "kurta_24406.jpg",
+      "name": "Vishudh Women Red Printed Kurta",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 27283,
+      "filename": "kurta_27283.jpg",
+      "name": "Mother Earth Women Magenta Kurta",
+      "colour": "Magenta",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 42426,
+      "filename": "kurta_42426.jpg",
+      "name": "Aurelia Women Sea Green Kurta",
+      "colour": "Sea Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 50325,
+      "filename": "kurta_50325.jpg",
+      "name": "Aurelia Women Navy Blue Kurta",
+      "colour": "Navy Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 31312,
+      "filename": "kurta_31312.jpg",
+      "name": "W Women Peach Kurta",
+      "colour": "Peach",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 33021,
+      "filename": "kurta_33021.jpg",
+      "name": "Mother Earth Women Printed Cream Kurta",
+      "colour": "Cream",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 33019,
+      "filename": "kurta_33019.jpg",
+      "name": "Mother Earth Women Printed Yellow Kurta",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 28697,
+      "filename": "kurta_28697.jpg",
+      "name": "W Women Printed Black Kurta",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 33026,
+      "filename": "kurta_33026.jpg",
+      "name": "Mother Earth Women Pink Kurta",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 58719,
+      "filename": "kurta_58719.jpg",
+      "name": "ALayna Women Off White  Kurta",
+      "colour": "Off White",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 28836,
+      "filename": "kurta_28836.jpg",
+      "name": "BIBA Women Printed Multi Coloured Kurta",
+      "colour": "Multi",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 39178,
+      "filename": "kurta_39178.jpg",
+      "name": "Aneri Women Blue & Brown Printed Kurta",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    }
+  ],
+  "saree": [
+    {
+      "source_id": 59607,
+      "filename": "saree_59607.jpg",
+      "name": "FNF Pink & Grey Wedding Collection Sari",
+      "colour": "Grey",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59638,
+      "filename": "saree_59638.jpg",
+      "name": "FNF Green Wedding Collection Sari",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 56684,
+      "filename": "saree_56684.jpg",
+      "name": "Fabindia Beige & Maroon Mull Printed Saree",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59600,
+      "filename": "saree_59600.jpg",
+      "name": "FNF Rust Wedding Collection Sari",
+      "colour": "Rust",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59636,
+      "filename": "saree_59636.jpg",
+      "name": "FNF Sea Green Collection For Wedding Sari",
+      "colour": "Sea Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59609,
+      "filename": "saree_59609.jpg",
+      "name": "FNF Khaki Collection for Wedding Sari",
+      "colour": "Khaki",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59631,
+      "filename": "saree_59631.jpg",
+      "name": "FNF Red & Gold Collection for Wedding Sari",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 46010,
+      "filename": "saree_46010.jpg",
+      "name": "Fabindia Maroon Printed Saree",
+      "colour": "Maroon",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59665,
+      "filename": "saree_59665.jpg",
+      "name": "FNF Pink & Yellow Printed Evening Wear Sari",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 52883,
+      "filename": "saree_52883.jpg",
+      "name": "FNF Printed Blue Sari",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 57961,
+      "filename": "saree_57961.jpg",
+      "name": "Prafful Women Black & Grren Sari",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 52877,
+      "filename": "saree_52877.jpg",
+      "name": "FNF Multi Coloured Sari",
+      "colour": "White",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 57959,
+      "filename": "saree_57959.jpg",
+      "name": "Prafful Turquoise Blue Printed Sari",
+      "colour": "Turquoise Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 57966,
+      "filename": "saree_57966.jpg",
+      "name": "Prafful Multi Coloured Sari",
+      "colour": "Multi",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 52884,
+      "filename": "saree_52884.jpg",
+      "name": "FNF Orange Printed Sari",
+      "colour": "Orange",
+      "gender": "Women",
+      "usage": "Ethnic"
+    }
+  ],
+  "dress": [
+    {
+      "source_id": 39716,
+      "filename": "dress_39716.jpg",
+      "name": "Arrow Woman Women Blue Dress",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 4988,
+      "filename": "dress_4988.jpg",
+      "name": "Gini and Jony Girl's Vanya White Polka Dot Kidswear",
+      "colour": "White",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 31127,
+      "filename": "dress_31127.jpg",
+      "name": "Gini and Jony Girls Black Dress",
+      "colour": "Black",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10406,
+      "filename": "dress_10406.jpg",
+      "name": "United Colors of Benetton Women Solid Grey Dresses",
+      "colour": "Grey",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 59897,
+      "filename": "dress_59897.jpg",
+      "name": "Femella Women Yellow Dress",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 36750,
+      "filename": "dress_36750.jpg",
+      "name": "Little Miss Girls Chatterbox Navy Blue Dress",
+      "colour": "Navy Blue",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46285,
+      "filename": "dress_46285.jpg",
+      "name": "109F Women Multi Coloured Dress",
+      "colour": "Multi",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 6874,
+      "filename": "dress_6874.jpg",
+      "name": "Forever New Women Pink Sleeveless Dress",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 31129,
+      "filename": "dress_31129.jpg",
+      "name": "Giny and Jony Girls Printed White & Pink Dress",
+      "colour": "Magenta",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 43509,
+      "filename": "dress_43509.jpg",
+      "name": "French Connection Women Grey Melange Dress",
+      "colour": "Grey Melange",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 49631,
+      "filename": "dress_49631.jpg",
+      "name": "Mineral Cream Dress",
+      "colour": "Cream",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18897,
+      "filename": "dress_18897.jpg",
+      "name": "Arrow Woman Solid Green Dress",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 43302,
+      "filename": "dress_43302.jpg",
+      "name": "United Colors of Benetton Women Purple Dress",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46277,
+      "filename": "dress_46277.jpg",
+      "name": "109F Red & White A-Line Dress",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 51465,
+      "filename": "dress_51465.jpg",
+      "name": "Tonga Women Teal Dress",
+      "colour": "Teal",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "trousers": [
+    {
+      "source_id": 10257,
+      "filename": "trousers_10257.jpg",
+      "name": "John Miller Men Solid Type Black Trousers",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 32563,
+      "filename": "trousers_32563.jpg",
+      "name": "ONLY Women directoire blue Trousers",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 57138,
+      "filename": "trousers_57138.jpg",
+      "name": "Elle Women Brown Trousers",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 56822,
+      "filename": "trousers_56822.jpg",
+      "name": "John Players Men Beige Shorts",
+      "colour": "Beige",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 32564,
+      "filename": "trousers_32564.jpg",
+      "name": "ONLY Women Orange Trousers",
+      "colour": "Orange",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 23072,
+      "filename": "trousers_23072.jpg",
+      "name": "Arrow Men Navy Blue Solid Trousers",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 16368,
+      "filename": "trousers_16368.jpg",
+      "name": "Peter England Men Stripes Charcoal Trouser",
+      "colour": "Charcoal",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 14659,
+      "filename": "trousers_14659.jpg",
+      "name": "Probase Men Solid LT.Khaki Trousers",
+      "colour": "Khaki",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 9892,
+      "filename": "trousers_9892.jpg",
+      "name": "Indian Terrain Men Laffer Off-White Trousers",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 32562,
+      "filename": "trousers_32562.jpg",
+      "name": "ONLY Women Olive Trousers",
+      "colour": "Olive",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15128,
+      "filename": "trousers_15128.jpg",
+      "name": "Arrow  Men Solid Cream Trousers",
+      "colour": "Cream",
+      "gender": "Men",
+      "usage": "Formal"
+    },
+    {
+      "source_id": 14694,
+      "filename": "trousers_14694.jpg",
+      "name": "Basics Men Green Trousers",
+      "colour": "Green",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 43918,
+      "filename": "trousers_43918.jpg",
+      "name": "Femella Women Yellow Trousers",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "jacket": [
+    {
+      "source_id": 6889,
+      "filename": "jacket_6889.jpg",
+      "name": "Forever New Women Stone Cream Jacket",
+      "colour": "Cream",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 6887,
+      "filename": "jacket_6887.jpg",
+      "name": "Forever New Women Indigo Wash Blue Jacket",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 19744,
+      "filename": "jacket_19744.jpg",
+      "name": "ADIDAS Originals Men Solid Green Jacket",
+      "colour": "Green",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18201,
+      "filename": "jacket_18201.jpg",
+      "name": "Nike Men Casual Olive Jacket",
+      "colour": "Olive",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 6880,
+      "filename": "jacket_6880.jpg",
+      "name": "Forever New Women Long Black Jacket",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 16196,
+      "filename": "jacket_16196.jpg",
+      "name": "Puma Men Heroes Red Jackets",
+      "colour": "Red",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 15323,
+      "filename": "jacket_15323.jpg",
+      "name": "Nike Men Solid Grey Jacket",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 1662,
+      "filename": "jacket_1662.jpg",
+      "name": "Nike Men Blue Windrunner Jacket",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 8785,
+      "filename": "jacket_8785.jpg",
+      "name": "Lotto Women Cathy Pink Jacket",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 17153,
+      "filename": "jacket_17153.jpg",
+      "name": "U.S. Polo Assn. Men Solid Lt.khaki Jacket",
+      "colour": "Khaki",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10777,
+      "filename": "jacket_10777.jpg",
+      "name": "Nike Women Hooded Purple Jacket",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 30906,
+      "filename": "jacket_30906.jpg",
+      "name": "Fabindia Women Reversible Jacket",
+      "colour": "Maroon",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 59131,
+      "filename": "jacket_59131.jpg",
+      "name": "Just Natural Men Brown Jacket",
+      "colour": "Brown",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 9532,
+      "filename": "jacket_9532.jpg",
+      "name": "Nike Men Summerized Wind Runner Orange Jackets",
+      "colour": "Orange",
+      "gender": "Men",
+      "usage": "Sports"
+    }
+  ],
+  "sneakers": [
+    {
+      "source_id": 9204,
+      "filename": "sneakers_9204.jpg",
+      "name": "Puma Men Future Cat Remix SF Black Casual Shoes",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 39988,
+      "filename": "sneakers_39988.jpg",
+      "name": "Gas Men Europa White Shoes",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 3168,
+      "filename": "sneakers_3168.jpg",
+      "name": "Nike Men's Incinerate MSL White Blue Shoe",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 29570,
+      "filename": "sneakers_29570.jpg",
+      "name": "Vans Men Classic Slip-On Purple & Black Shoes",
+      "colour": "Purple",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 26538,
+      "filename": "sneakers_26538.jpg",
+      "name": "ID Men Red Shoes",
+      "colour": "Red",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 49495,
+      "filename": "sneakers_49495.jpg",
+      "name": "Vans Men Khaki Shoes",
+      "colour": "Khaki",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 49461,
+      "filename": "sneakers_49461.jpg",
+      "name": "Vans Men Blue Era Scilla Plaid Shoes",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 23882,
+      "filename": "sneakers_23882.jpg",
+      "name": "Fila Men Destiny Grey Sports Shoes",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 34835,
+      "filename": "sneakers_34835.jpg",
+      "name": "ADIDAS Men Blue Chill Sports Shoes",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 12993,
+      "filename": "sneakers_12993.jpg",
+      "name": "ADIDAS Kids Adispeed Black Sports Shoes",
+      "colour": "Black",
+      "gender": "Unisex",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 4140,
+      "filename": "sneakers_4140.jpg",
+      "name": "Skechers Women Green Shoe",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46086,
+      "filename": "sneakers_46086.jpg",
+      "name": "ADIDAS Women Lavender Hagkok Sports Shoes",
+      "colour": "Lavender",
+      "gender": "Women",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 36137,
+      "filename": "sneakers_36137.jpg",
+      "name": "Nike Women Free Run Pink Sports Shoes",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 39943,
+      "filename": "sneakers_39943.jpg",
+      "name": "GAS Men Brown Count Casual Shoes",
+      "colour": "Brown",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 43356,
+      "filename": "sneakers_43356.jpg",
+      "name": "Reebok Women Charcoal Grey Fuel Techno Sports Shoes",
+      "colour": "Charcoal",
+      "gender": "Women",
+      "usage": "Sports"
+    }
+  ],
+  "ethnic set": [
+    {
+      "source_id": 56814,
+      "filename": "ethnic_set_56814.jpg",
+      "name": "Aneri Women Multi Coloured Kurti",
+      "colour": "Multi",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 40186,
+      "filename": "ethnic_set_40186.jpg",
+      "name": "Mumbai Slang Women Pink & Black Kurti",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 12152,
+      "filename": "ethnic_set_12152.jpg",
+      "name": "Aurelia Women Printed Purple Kurti",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 56646,
+      "filename": "ethnic_set_56646.jpg",
+      "name": "Mumbai Slang Women White Kurti",
+      "colour": "White",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 50340,
+      "filename": "ethnic_set_50340.jpg",
+      "name": "Aurelia Women Brown Printed Kurti",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 46021,
+      "filename": "ethnic_set_46021.jpg",
+      "name": "Fabindia Women Orange Kurti",
+      "colour": "Orange",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 12108,
+      "filename": "ethnic_set_12108.jpg",
+      "name": "W Women Printed Pink Kurtis",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 33029,
+      "filename": "ethnic_set_33029.jpg",
+      "name": "Mother Earth Women Printed Off White Kurti",
+      "colour": "Off White",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 56647,
+      "filename": "ethnic_set_56647.jpg",
+      "name": "Mumbai Slang Women Pink Kurti",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 56649,
+      "filename": "ethnic_set_56649.jpg",
+      "name": "Mumbai Slang Women Cream Kurti",
+      "colour": "Cream",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 11588,
+      "filename": "ethnic_set_11588.jpg",
+      "name": "W Women Printed Green Kurtis",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 28775,
+      "filename": "ethnic_set_28775.jpg",
+      "name": "Aurelia Women Printed Red Kurti",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 24174,
+      "filename": "ethnic_set_24174.jpg",
+      "name": "Aurelia Women Turquoise Blue Kurti",
+      "colour": "Turquoise Blue",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 23333,
+      "filename": "ethnic_set_23333.jpg",
+      "name": "W Women Wine Printed Kurti",
+      "colour": "Maroon",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 35052,
+      "filename": "ethnic_set_35052.jpg",
+      "name": "Fabindia Women Printed Beige Kurtis",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Ethnic"
+    }
+  ],
+  "top": [
+    {
+      "source_id": 42419,
+      "filename": "top_42419.jpg",
+      "name": "Gini and Jony Girls Knit White Top",
+      "colour": "White",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 49653,
+      "filename": "top_49653.jpg",
+      "name": "Mineral Women Green Top",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 58513,
+      "filename": "top_58513.jpg",
+      "name": "Tonga Women Maroon Top",
+      "colour": "Off White",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 31782,
+      "filename": "top_31782.jpg",
+      "name": "Lee Women Paula Blue Top",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21174,
+      "filename": "top_21174.jpg",
+      "name": "s.Oliver Women Stripes Beige Top",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 23623,
+      "filename": "top_23623.jpg",
+      "name": "Doodle Kids Girls Pink I love Shopping Top",
+      "colour": "Pink",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10401,
+      "filename": "top_10401.jpg",
+      "name": "Jealous 21 Women Uaine Purple Tops",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 40385,
+      "filename": "top_40385.jpg",
+      "name": "Tokyo Talkies Women Yellow Top",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 33213,
+      "filename": "top_33213.jpg",
+      "name": "Sepia Women Printed Magenta Top",
+      "colour": "Magenta",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 39729,
+      "filename": "top_39729.jpg",
+      "name": "Arrow Woman Olive Top",
+      "colour": "Olive",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 31118,
+      "filename": "top_31118.jpg",
+      "name": "Gini and Jony Girls Red Top",
+      "colour": "Red",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 58514,
+      "filename": "top_58514.jpg",
+      "name": "Tonga Women Grey Top",
+      "colour": "Grey",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 26967,
+      "filename": "top_26967.jpg",
+      "name": "Jealous 21 Women Check Navy Blue Top",
+      "colour": "Navy Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 57131,
+      "filename": "top_57131.jpg",
+      "name": "Elle Women Teal Top",
+      "colour": "Teal",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "sweater": [
+    {
+      "source_id": 19540,
+      "filename": "sweater_19540.jpg",
+      "name": "United Colors of Benetton Men Solid Blue Sweater",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11529,
+      "filename": "sweater_11529.jpg",
+      "name": "United Colors Of Benetton Men Heavy Winter Grey Sweaters",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11172,
+      "filename": "sweater_11172.jpg",
+      "name": "Scullers Men Stripes Red Sweaters",
+      "colour": "Red",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11175,
+      "filename": "sweater_11175.jpg",
+      "name": "Scullers Men Stripes White Sweaters",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 19522,
+      "filename": "sweater_19522.jpg",
+      "name": "United Colors of Benetton Men Check Navy Blue Sweater",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21120,
+      "filename": "sweater_21120.jpg",
+      "name": "s.Oliver Men Solid Purple Sweater",
+      "colour": "Purple",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11174,
+      "filename": "sweater_11174.jpg",
+      "name": "Scullers Men Stripes Green Sweaters",
+      "colour": "Green",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 14091,
+      "filename": "sweater_14091.jpg",
+      "name": "Flying Machine Women Solid Peach Sweaters",
+      "colour": "Peach",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21119,
+      "filename": "sweater_21119.jpg",
+      "name": "s.Oliver Men Black Sweater",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21110,
+      "filename": "sweater_21110.jpg",
+      "name": "s.Oliver Men Solid Charcoal Sweater",
+      "colour": "Charcoal",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 13961,
+      "filename": "sweater_13961.jpg",
+      "name": "Jealous 21 Women Solid Pink Sweaters",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18729,
+      "filename": "sweater_18729.jpg",
+      "name": "Arrow Woman Keisha Magenta Sweater",
+      "colour": "Magenta",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18726,
+      "filename": "sweater_18726.jpg",
+      "name": "Arrow Woman Venetia Brown Sweater",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 20300,
+      "filename": "sweater_20300.jpg",
+      "name": "Jealous 21 Women Solid Maroon Sweater",
+      "colour": "Maroon",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18624,
+      "filename": "sweater_18624.jpg",
+      "name": "Puma Men Lifestyle Knitted Cream Sweaters",
+      "colour": "Cream",
+      "gender": "Men",
+      "usage": "Casual"
+    }
+  ],
+  "sweatshirt": [
+    {
+      "source_id": 13089,
+      "filename": "sweatshirt_13089.jpg",
+      "name": "ADIDAS Men Lfc Auth Hood Grey Sweatshirts",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 23876,
+      "filename": "sweatshirt_23876.jpg",
+      "name": "ADIDAS Men Blue Sweatshirt",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11385,
+      "filename": "sweatshirt_11385.jpg",
+      "name": "United Colors Of Benetton Women Light Winter Black Sweatshirts",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 21725,
+      "filename": "sweatshirt_21725.jpg",
+      "name": "ADIDAS Men Navy Blue Sweatshirt",
+      "colour": "Navy Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 12531,
+      "filename": "sweatshirt_12531.jpg",
+      "name": "Puma Women Solid Pink Sweatshirts",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15586,
+      "filename": "sweatshirt_15586.jpg",
+      "name": "Proline Men Green Printed Sweatshirt",
+      "colour": "Green",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18863,
+      "filename": "sweatshirt_18863.jpg",
+      "name": "Puma Men Heritage Red Sweatshirt",
+      "colour": "Red",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15324,
+      "filename": "sweatshirt_15324.jpg",
+      "name": "Nike Men Printed White Sweatshirts",
+      "colour": "White",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 54948,
+      "filename": "sweatshirt_54948.jpg",
+      "name": "Do u speak green Men Grey Sweatshirt",
+      "colour": "Grey Melange",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 54913,
+      "filename": "sweatshirt_54913.jpg",
+      "name": "Do u speak green Men Printed Beige Sweatshirt",
+      "colour": "Beige",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15371,
+      "filename": "sweatshirt_15371.jpg",
+      "name": "Urban Yoga Women Solid Purple Sweatshirts",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 19328,
+      "filename": "sweatshirt_19328.jpg",
+      "name": "Myntra Men Maroon Sweatshirt",
+      "colour": "Maroon",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 19639,
+      "filename": "sweatshirt_19639.jpg",
+      "name": "United Colors of Benetton Women Solid Olive Sweatshirt",
+      "colour": "Olive",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 14581,
+      "filename": "sweatshirt_14581.jpg",
+      "name": "United Colors of Benetton Men Solid Brown Sweatshirts",
+      "colour": "Brown",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 23143,
+      "filename": "sweatshirt_23143.jpg",
+      "name": "Quechua Women  Fleece Magenta Sweatshirt",
+      "colour": "Magenta",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "tunic": [
+    {
+      "source_id": 46240,
+      "filename": "tunic_46240.jpg",
+      "name": "Fusion Beats Women White Printed Tunic",
+      "colour": "White",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46278,
+      "filename": "tunic_46278.jpg",
+      "name": "109F Women Red & White Striped Tunic",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 33214,
+      "filename": "tunic_33214.jpg",
+      "name": "Sepia Women Printed Black & Green Tunic",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46247,
+      "filename": "tunic_46247.jpg",
+      "name": "Fusion Beats Women Dark Pink Tunic",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 7160,
+      "filename": "tunic_7160.jpg",
+      "name": "Scullers For Her Women Fashion Summer Lite Aubergine Tunics",
+      "colour": "Purple",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 33222,
+      "filename": "tunic_33222.jpg",
+      "name": "Sepia Women Brown Tunic",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 57109,
+      "filename": "tunic_57109.jpg",
+      "name": "Elle Women Blue Tunic",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 46282,
+      "filename": "tunic_46282.jpg",
+      "name": "109F Women Yellow Tunic",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 9803,
+      "filename": "tunic_9803.jpg",
+      "name": "Scullers For Her Women Scullers Top Navy Blue Tops",
+      "colour": "Navy Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 59890,
+      "filename": "tunic_59890.jpg",
+      "name": "Femella Women Multi Coloured Tunic",
+      "colour": "Multi",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 12768,
+      "filename": "tunic_12768.jpg",
+      "name": "Mother Earth Women Plain Mangalgiri Green Tunics",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 23442,
+      "filename": "tunic_23442.jpg",
+      "name": "Satya Paul Women Orange Printed Tunic",
+      "colour": "Orange",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 42222,
+      "filename": "tunic_42222.jpg",
+      "name": "Sepia Women Grey Tunic",
+      "colour": "Grey",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 42198,
+      "filename": "tunic_42198.jpg",
+      "name": "Sepia Women Beige Tunic",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 23334,
+      "filename": "tunic_23334.jpg",
+      "name": "W Women Maroon Printed Tunic",
+      "colour": "Maroon",
+      "gender": "Women",
+      "usage": "Ethnic"
+    }
+  ],
+  "skirt": [
+    {
+      "source_id": 28456,
+      "filename": "skirt_28456.jpg",
+      "name": "Urban Yoga Women Blue Skirt With Leggings",
+      "colour": "Blue",
+      "gender": "Women",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 49654,
+      "filename": "skirt_49654.jpg",
+      "name": "Mineral Women Grey Skirt",
+      "colour": "Grey",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 33271,
+      "filename": "skirt_33271.jpg",
+      "name": "Gini and Jony Girls Red Skirt",
+      "colour": "Red",
+      "gender": "Girls",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 10000,
+      "filename": "skirt_10000.jpg",
+      "name": "Palm Tree Girls Sp Jace Sko White Skirts",
+      "colour": "White",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 11260,
+      "filename": "skirt_11260.jpg",
+      "name": "Palm Tree Kids Girl Sp Jace Sko Green Skirts",
+      "colour": "Green",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 8496,
+      "filename": "skirt_8496.jpg",
+      "name": "Forever New Women Cappuccino Cream Skirts",
+      "colour": "Cream",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 48493,
+      "filename": "skirt_48493.jpg",
+      "name": "French Connection Women Black Skirt",
+      "colour": "Black",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 30922,
+      "filename": "skirt_30922.jpg",
+      "name": "Fabindia Women Printed Rust Skirt",
+      "colour": "Rust",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 57087,
+      "filename": "skirt_57087.jpg",
+      "name": "Elle Women Yellow Skirt",
+      "colour": "Yellow",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 18711,
+      "filename": "skirt_18711.jpg",
+      "name": "Arrow Woman Printed Brown Skirt",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 57089,
+      "filename": "skirt_57089.jpg",
+      "name": "Elle Women Blue Skirt",
+      "colour": "Navy Blue",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 30923,
+      "filename": "skirt_30923.jpg",
+      "name": "Fabindia Women Printed Mustard Skirt",
+      "colour": "Mustard",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 30924,
+      "filename": "skirt_30924.jpg",
+      "name": "Fabindia Women Printed Beige Ghera Skirt",
+      "colour": "Beige",
+      "gender": "Women",
+      "usage": "Ethnic"
+    },
+    {
+      "source_id": 57088,
+      "filename": "skirt_57088.jpg",
+      "name": "Elle Women Teal Skirt",
+      "colour": "Teal",
+      "gender": "Women",
+      "usage": "Casual"
+    }
+  ],
+  "shorts": [
+    {
+      "source_id": 18005,
+      "filename": "shorts_18005.jpg",
+      "name": "Puma Men Long Logo Black Bermuda",
+      "colour": "Black",
+      "gender": "Men",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 54924,
+      "filename": "shorts_54924.jpg",
+      "name": "Do U Speak Green Men Blue Shorts",
+      "colour": "Blue",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 15341,
+      "filename": "shorts_15341.jpg",
+      "name": "Nike Women Solid Pink Shorts",
+      "colour": "Pink",
+      "gender": "Women",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 32903,
+      "filename": "shorts_32903.jpg",
+      "name": "Allen Solly Women Red Shorts",
+      "colour": "Red",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27426,
+      "filename": "shorts_27426.jpg",
+      "name": "Jockey Women Grey Melange Shorts",
+      "colour": "Grey Melange",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 32590,
+      "filename": "shorts_32590.jpg",
+      "name": "ONLY Women Brown Shorts",
+      "colour": "Brown",
+      "gender": "Women",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 27625,
+      "filename": "shorts_27625.jpg",
+      "name": "Scullers Men Grey Shorts",
+      "colour": "Grey",
+      "gender": "Men",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 29176,
+      "filename": "shorts_29176.jpg",
+      "name": "United Colors of Benetton Boys Khaki Shorts",
+      "colour": "Khaki",
+      "gender": "Boys",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 40126,
+      "filename": "shorts_40126.jpg",
+      "name": "Gini and Jony Boys Boxer White Shorts",
+      "colour": "White",
+      "gender": "Boys",
+      "usage": "Casual"
+    },
+    {
+      "source_id": 30603,
+      "filename": "shorts_30603.jpg",
+      "name": "Nike Boys Basketball Red Shorts",
+      "colour": "Maroon",
+      "gender": "Boys",
+      "usage": "Sports"
+    },
+    {
+      "source_id": 34250,
+      "filename": "shorts_34250.jpg",
+      "name": "Proline Charcoal Grey Shorts",
+      "colour": "Charcoal",
+      "gender": "Men",
+      "usage": "Sports"
+    }
+  ]
+}
