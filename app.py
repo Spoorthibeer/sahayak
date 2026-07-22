@@ -28,6 +28,7 @@ from typing import Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse, Response
+from fastapi.staticfiles import StaticFiles
 from google.genai import errors
 from pydantic import BaseModel
 from sarvamai import SarvamAI
@@ -347,6 +348,12 @@ async def transcribe(audio: UploadFile = File(...)):
             input_audio_codec=input_audio_codec,
         )
     except ApiError as e:
+        # ApiError doesn't override __repr__ (only __str__), and its
+        # __init__ never passes args to Exception.__init__ — so `{e!r}`
+        # prints a useless empty "ApiError()". status_code/body/headers are
+        # the real fields (set directly in __init__), so read those
+        # explicitly instead of trusting the exception's default repr.
+        print(f"[error] /transcribe: Sarvam Speech-to-Text request failed — status_code={e.status_code}, body={e.body}, headers={e.headers}")
         raise HTTPException(status_code=502, detail=f"Speech-to-Text request failed: {e}")
     print(f"[timing] /transcribe: Speech-to-Text call took {time.time() - stt_start:.2f}s")
 
@@ -380,6 +387,9 @@ def speak(req: SpeakRequest):
             output_audio_codec="mp3",
         )
     except ApiError as e:
+        # See the matching comment in /transcribe above: ApiError's real
+        # fields are status_code/body/headers, not its (empty) default repr.
+        print(f"[error] /speak: Sarvam Text-to-Speech request failed — status_code={e.status_code}, body={e.body}, headers={e.headers}")
         raise HTTPException(status_code=502, detail=f"Text-to-Speech request failed: {e}")
     print(f"[timing] /speak: Text-to-Speech call took {time.time() - tts_start:.2f}s")
 
@@ -396,11 +406,8 @@ def speak(req: SpeakRequest):
 # automatic "index.html at /" behavior, since we now need TWO specific
 # HTML entry points instead of one. Neither page has any separate CSS/JS
 # asset files (everything is inline, same single-file convention as
-# before), so no asset-serving mount is needed for now — if either page
-# ever gains external assets (e.g. real product photos, once a usable
-# source dataset exists — see CLAUDE.md's "Product photo attempt" note),
-# mount StaticFiles at a namespaced path (e.g. "/static") rather than "/",
-# to avoid shadowing these two routes or the API routes above.
+# before), so no asset-serving mount is needed for these two pages
+# themselves.
 @app.get("/", include_in_schema=False)
 def home_page():
     return FileResponse("static/home.html")
@@ -409,3 +416,14 @@ def home_page():
 @app.get("/assistant", include_in_schema=False)
 def assistant_page():
     return FileResponse("static/assistant.html")
+
+
+# Real product photos (see CLAUDE.md's "Product photo attempt" +
+# assign_real_photos.py): data/catalog.json's "image_path" field holds
+# values like "data/real_photos/shirt_15970.jpg" — a real relative
+# filesystem path, not yet a URL. Mounting StaticFiles at that exact same
+# path ("/data/real_photos") means the frontend can turn image_path into a
+# working <img src> just by prepending a leading "/", with no string
+# rewriting needed on either side. Namespaced (not mounted at "/") so it
+# can't shadow the routes above.
+app.mount("/data/real_photos", StaticFiles(directory="data/real_photos"), name="real-photos")

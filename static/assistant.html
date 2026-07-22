@@ -304,6 +304,13 @@
   .product-image svg { width: 58%; height: 58%; }
   .product-image svg .icon-fill { fill: #FFFFFF; fill-opacity: 0.92; stroke: var(--rani-dark); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
   .product-image svg .icon-line { fill: none; stroke: var(--rani-dark); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; }
+  /* Real product photo (see assign_real_photos.py) — fills the whole
+     square, cropped to fit, unlike the smaller centered fallback icon. */
+  .product-image .product-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .product-category-tag {
     position: absolute;
     left: 8px;
@@ -1346,9 +1353,18 @@
     const fit = fitChip(p.fit_notes);
     const trust = trustChip(p.return_rate);
     const heartActive = isWishlisted(name) ? " active" : "";
+    // Real photo (see assign_real_photos.py / catalog.json's "image_path",
+    // served by app.py's "/data/real_photos" mount) when we have one,
+    // falling back to the category SVG icon otherwise — same
+    // fallback-safety pattern as every other optional field here (fit
+    // chip, trust chip, stars). image_path is a real filesystem path
+    // ("data/real_photos/..."), so a leading "/" turns it into a URL.
+    const media = p.image_path
+      ? '<img class="product-photo" src="/' + escapeHtml(p.image_path) + '" alt="" loading="lazy">'
+      : categoryIconSVG(p.category);
     card.innerHTML =
       '<div class="product-image">' +
-        categoryIconSVG(p.category) +
+        media +
         '<span class="product-category-tag">' + (p.category || "") + '</span>' +
         '<button class="wishlist-btn' + heartActive + '" data-action="wishlist" aria-label="Toggle wishlist"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2 5 5.5 5c2 0 3.5 1.2 4.5 2.7C11 6.2 12.5 5 14.5 5 18 5 19.5 8.4 18 11.9 15.5 16.4 12 21 12 21z"/></svg></button>' +
         (opts.isMatch ? '<span class="match-found-badge">✨ Great fit match</span>' : "") +
@@ -1365,6 +1381,19 @@
             '<button class="card-action-btn" data-action="compare">Compare</button>' +
           '</div>') +
       '</div>';
+
+    // If the photo fails to load (missing file, bad path, etc.), fall
+    // back to the category icon instead of showing a broken-image glyph —
+    // matches the deliberate "never show broken imagery" principle this
+    // project already follows elsewhere (see CLAUDE.md).
+    const photoEl = card.querySelector(".product-photo");
+    if (photoEl) {
+      photoEl.addEventListener("error", function () {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = categoryIconSVG(p.category);
+        photoEl.replaceWith(wrapper.firstElementChild);
+      }, { once: true });
+    }
     return card;
   }
 

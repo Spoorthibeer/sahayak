@@ -508,5 +508,137 @@
       "occasion": "office"
     },
     "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T15:00:03.129058+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T15:53:53.142952+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-19T17:39:09.543752+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-20T13:21:11.094432+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-20T13:22:08.693295+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-20T13:34:27.528099+00:00",
+    "filters": {
+      "category": "shirt",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-20T13:40:15.643937+00:00",
+    "filters": {
+      "category": "kurta",
+      "max_price": 1500,
+      "occasion": "wedding"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:08:48.702366+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 800,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:10:13.923424+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 600,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:17:17.051933+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 800,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:18:38.258672+00:00",
+    "filters": {
+      "category": "shirt",
+      "max_price": 600,
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:22:03.963234+00:00",
+    "filters": {
+      "category": "kurta"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:27:43.246191+00:00",
+    "filters": {
+      "category": "kurta"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-21T17:35:32.572711+00:00",
+    "filters": {
+      "category": "dress",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:11:35.832609+00:00",
+    "filters": {
+      "category": "kurta",
+      "occasion": "office"
+    },
+    "region_tag": "unknown"
+  },
+  {
+    "timestamp": "2026-07-22T14:12:29.550927+00:00",
+    "filters": {
+      "category": "t-shirt"
+    },
+    "region_tag": "unknown"
   }
 ]

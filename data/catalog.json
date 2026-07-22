@@ -9,7 +9,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.23,
     "review_summary": "3.3/5 average from 484 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_9204.jpg"
   },
   {
     "product_id": "d07c0765",
@@ -21,7 +22,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.3/5 average from 130 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_20099.jpg"
   },
   {
     "product_id": "8f6fe015",
@@ -33,7 +35,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.1,
     "review_summary": "3.4/5 average from 436 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_53759.jpg"
   },
   {
     "product_id": "a570e5e8",
@@ -45,7 +48,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.19,
     "review_summary": "3.9/5 average from 361 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_39716.jpg"
   },
   {
     "product_id": "f52e8848",
@@ -57,7 +61,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.12,
     "review_summary": "3.5/5 average from 143 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_10257.jpg"
   },
   {
     "product_id": "04b41544",
@@ -69,7 +74,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.21,
     "review_summary": "3.8/5 average from 282 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_15970.jpg"
   },
   {
     "product_id": "07191aab",
@@ -81,7 +87,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.25,
     "review_summary": "4.3/5 average from 454 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_39988.jpg"
   },
   {
     "product_id": "351d3364",
@@ -93,7 +100,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.04,
     "review_summary": "3.9/5 average from 360 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_6889.jpg"
   },
   {
     "product_id": "44427c06",
@@ -105,7 +113,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.19,
     "review_summary": "4.8/5 average from 450 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_3168.jpg"
   },
   {
     "product_id": "73bc60ef",
@@ -117,7 +126,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.19,
     "review_summary": "4.4/5 average from 467 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_56814.jpg"
   },
   {
     "product_id": "2b6f9044",
@@ -129,7 +139,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.21,
     "review_summary": "3.4/5 average from 81 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_39386.jpg"
   },
   {
     "product_id": "abb6d314",
@@ -141,7 +152,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.19,
     "review_summary": "3.8/5 average from 381 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59607.jpg"
   },
   {
     "product_id": "ee4481cb",
@@ -153,7 +165,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.11,
     "review_summary": "3.6/5 average from 214 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_30805.jpg"
   },
   {
     "product_id": "881b7856",
@@ -165,7 +178,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.16,
     "review_summary": "3.3/5 average from 120 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_4988.jpg"
   },
   {
     "product_id": "e6c359c4",
@@ -177,7 +191,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.16,
     "review_summary": "3.3/5 average from 236 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_32563.jpg"
   },
   {
     "product_id": "39f293b1",
@@ -189,7 +204,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.13,
     "review_summary": "3.4/5 average from 133 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_57138.jpg"
   },
   {
     "product_id": "a4ce0daa",
@@ -201,7 +217,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "4.6/5 average from 195 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_6887.jpg"
   },
   {
     "product_id": "d8cd2b51",
@@ -213,7 +230,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.09,
     "review_summary": "4.5/5 average from 114 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_19744.jpg"
   },
   {
     "product_id": "f5b77e31",
@@ -225,7 +243,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.17,
     "review_summary": "3.3/5 average from 226 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_40186.jpg"
   },
   {
     "product_id": "2678f376",
@@ -237,7 +256,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.11,
     "review_summary": "3.4/5 average from 183 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_7990.jpg"
   },
   {
     "product_id": "188ecde0",
@@ -249,7 +269,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "3.9/5 average from 276 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_3954.jpg"
   },
   {
     "product_id": "d7768b59",
@@ -261,7 +282,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.08,
     "review_summary": "3.7/5 average from 128 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_26960.jpg"
   },
   {
     "product_id": "fb7b813d",
@@ -273,7 +295,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.22,
     "review_summary": "3.4/5 average from 401 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_28690.jpg"
   },
   {
     "product_id": "438f98f5",
@@ -285,7 +308,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.7/5 average from 28 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_18201.jpg"
   },
   {
     "product_id": "2f880720",
@@ -297,7 +321,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.04,
     "review_summary": "4.3/5 average from 75 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_45856.jpg"
   },
   {
     "product_id": "8221d7c1",
@@ -309,7 +334,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.1,
     "review_summary": "3.9/5 average from 96 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_56822.jpg"
   },
   {
     "product_id": "1cd6bcfb",
@@ -321,7 +347,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.5/5 average from 434 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59638.jpg"
   },
   {
     "product_id": "fddd2795",
@@ -333,7 +360,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.1,
     "review_summary": "3.9/5 average from 133 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_6880.jpg"
   },
   {
     "product_id": "15fb16aa",
@@ -345,7 +373,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.19,
     "review_summary": "4.4/5 average from 116 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_26994.jpg"
   },
   {
     "product_id": "c9f4c66e",
@@ -357,7 +386,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.7/5 average from 74 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_24406.jpg"
   },
   {
     "product_id": "fbd78209",
@@ -369,7 +399,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.13,
     "review_summary": "3.6/5 average from 353 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_40371.jpg"
   },
   {
     "product_id": "74a3536f",
@@ -381,7 +412,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.08,
     "review_summary": "4.2/5 average from 93 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_56684.jpg"
   },
   {
     "product_id": "438c4fc1",
@@ -393,7 +425,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.15,
     "review_summary": "4.0/5 average from 60 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_5891.jpg"
   },
   {
     "product_id": "e88afd60",
@@ -405,7 +438,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "4.1/5 average from 173 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_29570.jpg"
   },
   {
     "product_id": "06ca8400",
@@ -417,7 +451,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "4.8/5 average from 220 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_12152.jpg"
   },
   {
     "product_id": "61a308fd",
@@ -429,7 +464,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.7/5 average from 225 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_30453.jpg"
   },
   {
     "product_id": "6ee221af",
@@ -441,7 +477,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.07,
     "review_summary": "3.8/5 average from 491 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_16196.jpg"
   },
   {
     "product_id": "95fbcd28",
@@ -453,7 +490,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "3.5/5 average from 182 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_32564.jpg"
   },
   {
     "product_id": "64da4dbe",
@@ -465,7 +503,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.17,
     "review_summary": "4.7/5 average from 203 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_23072.jpg"
   },
   {
     "product_id": "5c70e2ab",
@@ -477,7 +516,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.17,
     "review_summary": "4.2/5 average from 75 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_15323.jpg"
   },
   {
     "product_id": "e7c0ab0c",
@@ -489,7 +529,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.11,
     "review_summary": "4.8/5 average from 100 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_38630.jpg"
   },
   {
     "product_id": "28f67677",
@@ -501,7 +542,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.15,
     "review_summary": "4.1/5 average from 497 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_56646.jpg"
   },
   {
     "product_id": "92b7a067",
@@ -513,7 +555,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.13,
     "review_summary": "4.1/5 average from 164 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_1662.jpg"
   },
   {
     "product_id": "eb2e2ca6",
@@ -525,7 +568,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "4.1/5 average from 153 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_56825.jpg"
   },
   {
     "product_id": "299473d9",
@@ -537,7 +581,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "4.1/5 average from 273 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_50340.jpg"
   },
   {
     "product_id": "2f6b6186",
@@ -549,7 +594,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.25,
     "review_summary": "4.4/5 average from 5 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_4943.jpg"
   },
   {
     "product_id": "62435a8b",
@@ -561,7 +607,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.18,
     "review_summary": "4.0/5 average from 485 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_10866.jpg"
   },
   {
     "product_id": "5aae069f",
@@ -573,7 +620,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "3.7/5 average from 483 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_26538.jpg"
   },
   {
     "product_id": "c60f3175",
@@ -585,7 +633,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.21,
     "review_summary": "3.8/5 average from 97 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_46021.jpg"
   },
   {
     "product_id": "e6a3f52c",
@@ -597,7 +646,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.24,
     "review_summary": "4.2/5 average from 50 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_9694.jpg"
   },
   {
     "product_id": "f9235c7a",
@@ -609,7 +659,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.09,
     "review_summary": "4.3/5 average from 326 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_27283.jpg"
   },
   {
     "product_id": "63a5f8fa",
@@ -621,7 +672,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.25,
     "review_summary": "3.6/5 average from 354 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_21586.jpg"
   },
   {
     "product_id": "0c913dd1",
@@ -633,7 +685,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.14,
     "review_summary": "4.1/5 average from 194 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_15984.jpg"
   },
   {
     "product_id": "d9e1a30e",
@@ -645,7 +698,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "4.5/5 average from 209 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_7192.jpg"
   },
   {
     "product_id": "7b09d099",
@@ -657,7 +711,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.08,
     "review_summary": "4.7/5 average from 414 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_12108.jpg"
   },
   {
     "product_id": "2e9a6817",
@@ -669,7 +724,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.21,
     "review_summary": "3.3/5 average from 226 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_16368.jpg"
   },
   {
     "product_id": "837fef21",
@@ -681,7 +737,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.16,
     "review_summary": "4.5/5 average from 177 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_31127.jpg"
   },
   {
     "product_id": "ba406b21",
@@ -693,7 +750,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "3.4/5 average from 348 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59600.jpg"
   },
   {
     "product_id": "c867be7c",
@@ -705,7 +763,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.09,
     "review_summary": "3.7/5 average from 472 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_27935.jpg"
   },
   {
     "product_id": "ffb6198e",
@@ -717,7 +776,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.6/5 average from 208 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_42426.jpg"
   },
   {
     "product_id": "922f9343",
@@ -729,7 +789,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.19,
     "review_summary": "4.6/5 average from 457 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_10065.jpg"
   },
   {
     "product_id": "446a5144",
@@ -741,7 +802,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.08,
     "review_summary": "4.4/5 average from 444 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59636.jpg"
   },
   {
     "product_id": "e0802fab",
@@ -753,7 +815,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.09,
     "review_summary": "4.5/5 average from 365 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27025.jpg"
   },
   {
     "product_id": "ee50ab50",
@@ -765,7 +828,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "4.0/5 average from 323 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_14659.jpg"
   },
   {
     "product_id": "85d5b949",
@@ -777,7 +841,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.05,
     "review_summary": "4.4/5 average from 218 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_33029.jpg"
   },
   {
     "product_id": "62ff5f32",
@@ -789,7 +854,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.13,
     "review_summary": "4.8/5 average from 29 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_56647.jpg"
   },
   {
     "product_id": "b52eb9df",
@@ -801,7 +867,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.25,
     "review_summary": "4.8/5 average from 425 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_50325.jpg"
   },
   {
     "product_id": "c9dcc03e",
@@ -813,7 +880,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.1,
     "review_summary": "4.5/5 average from 104 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_32561.jpg"
   },
   {
     "product_id": "da79e3a7",
@@ -825,7 +893,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.11,
     "review_summary": "4.1/5 average from 200 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27939.jpg"
   },
   {
     "product_id": "e284c8be",
@@ -837,7 +906,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.08,
     "review_summary": "3.7/5 average from 461 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59609.jpg"
   },
   {
     "product_id": "54303626",
@@ -849,7 +919,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.05,
     "review_summary": "3.5/5 average from 338 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_8785.jpg"
   },
   {
     "product_id": "6e79b5d4",
@@ -861,7 +932,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "3.3/5 average from 220 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_9892.jpg"
   },
   {
     "product_id": "69f22387",
@@ -873,7 +945,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.07,
     "review_summary": "3.7/5 average from 230 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27940.jpg"
   },
   {
     "product_id": "6fdb5af4",
@@ -885,7 +958,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "4.6/5 average from 387 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59631.jpg"
   },
   {
     "product_id": "881d799c",
@@ -897,7 +971,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.14,
     "review_summary": "3.8/5 average from 489 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_31312.jpg"
   },
   {
     "product_id": "82e6c790",
@@ -909,7 +984,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.23,
     "review_summary": "3.2/5 average from 346 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_39386.jpg"
   },
   {
     "product_id": "43e7a7f8",
@@ -921,7 +997,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.06,
     "review_summary": "4.2/5 average from 56 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_46010.jpg"
   },
   {
     "product_id": "a4b36a3c",
@@ -933,7 +1010,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.15,
     "review_summary": "4.0/5 average from 474 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_33021.jpg"
   },
   {
     "product_id": "c02d63a1",
@@ -945,7 +1023,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.03,
     "review_summary": "4.5/5 average from 184 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_11527.jpg"
   },
   {
     "product_id": "fd81d60f",
@@ -957,7 +1036,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.18,
     "review_summary": "3.8/5 average from 318 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_26994.jpg"
   },
   {
     "product_id": "a3066cf0",
@@ -969,7 +1049,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.09,
     "review_summary": "4.6/5 average from 500 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_49495.jpg"
   },
   {
     "product_id": "a1f53948",
@@ -981,7 +1062,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.19,
     "review_summary": "4.1/5 average from 332 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_20258.jpg"
   },
   {
     "product_id": "fcc58e36",
@@ -993,7 +1075,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "4.5/5 average from 92 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59665.jpg"
   },
   {
     "product_id": "3e277170",
@@ -1005,7 +1088,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.15,
     "review_summary": "3.4/5 average from 316 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_40371.jpg"
   },
   {
     "product_id": "25d437d9",
@@ -1017,7 +1101,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.03,
     "review_summary": "3.4/5 average from 365 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_32562.jpg"
   },
   {
     "product_id": "7aa334fd",
@@ -1029,7 +1114,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.08,
     "review_summary": "4.5/5 average from 424 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_33019.jpg"
   },
   {
     "product_id": "002c6250",
@@ -1041,7 +1127,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.16,
     "review_summary": "4.5/5 average from 45 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_10406.jpg"
   },
   {
     "product_id": "1526a99e",
@@ -1053,7 +1140,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.17,
     "review_summary": "4.2/5 average from 112 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_17153.jpg"
   },
   {
     "product_id": "ef5509d3",
@@ -1065,7 +1153,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.15,
     "review_summary": "3.7/5 average from 436 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_28697.jpg"
   },
   {
     "product_id": "d5a664a5",
@@ -1077,7 +1166,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.2/5 average from 451 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_15128.jpg"
   },
   {
     "product_id": "9a2e16e4",
@@ -1089,7 +1179,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "4.6/5 average from 162 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_49461.jpg"
   },
   {
     "product_id": "f33d45e4",
@@ -1101,7 +1192,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.24,
     "review_summary": "4.3/5 average from 100 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_10777.jpg"
   },
   {
     "product_id": "e74851c2",
@@ -1113,7 +1205,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.07,
     "review_summary": "4.4/5 average from 142 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_23882.jpg"
   },
   {
     "product_id": "40fbd7c2",
@@ -1125,7 +1218,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.08,
     "review_summary": "4.4/5 average from 317 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_6617.jpg"
   },
   {
     "product_id": "d53401c4",
@@ -1137,7 +1231,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "4.3/5 average from 11 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_30453.jpg"
   },
   {
     "product_id": "bc8a5de7",
@@ -1149,7 +1244,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.12,
     "review_summary": "3.7/5 average from 64 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_52883.jpg"
   },
   {
     "product_id": "79a9f50d",
@@ -1161,7 +1257,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.1,
     "review_summary": "3.6/5 average from 44 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_34835.jpg"
   },
   {
     "product_id": "73cba3c0",
@@ -1173,7 +1270,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.19,
     "review_summary": "4.3/5 average from 445 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_59897.jpg"
   },
   {
     "product_id": "7b1f3034",
@@ -1185,7 +1283,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.25,
     "review_summary": "3.5/5 average from 85 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_22395.jpg"
   },
   {
     "product_id": "f41bb76f",
@@ -1197,7 +1296,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.2,
     "review_summary": "3.6/5 average from 302 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_31588.jpg"
   },
   {
     "product_id": "90a325c4",
@@ -1209,7 +1309,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.18,
     "review_summary": "4.5/5 average from 100 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_36750.jpg"
   },
   {
     "product_id": "71371773",
@@ -1221,7 +1322,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.11,
     "review_summary": "4.7/5 average from 260 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_57961.jpg"
   },
   {
     "product_id": "9478cfa0",
@@ -1233,7 +1335,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.08,
     "review_summary": "3.5/5 average from 130 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_14694.jpg"
   },
   {
     "product_id": "1abe26a6",
@@ -1245,7 +1348,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.2,
     "review_summary": "4.5/5 average from 48 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_15983.jpg"
   },
   {
     "product_id": "2a9e6ec2",
@@ -1257,7 +1361,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.12,
     "review_summary": "3.7/5 average from 248 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_16361.jpg"
   },
   {
     "product_id": "94dbaf1d",
@@ -1269,7 +1374,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.6/5 average from 160 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_21586.jpg"
   },
   {
     "product_id": "7b23c44c",
@@ -1281,7 +1387,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.21,
     "review_summary": "3.4/5 average from 117 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_12993.jpg"
   },
   {
     "product_id": "a2aec0d9",
@@ -1293,7 +1400,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.04,
     "review_summary": "3.6/5 average from 17 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_56649.jpg"
   },
   {
     "product_id": "ae10ba26",
@@ -1305,7 +1413,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.17,
     "review_summary": "4.6/5 average from 484 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_30906.jpg"
   },
   {
     "product_id": "1c82be5b",
@@ -1317,7 +1426,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.17,
     "review_summary": "4.5/5 average from 369 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_43918.jpg"
   },
   {
     "product_id": "0ef901ff",
@@ -1329,7 +1439,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.13,
     "review_summary": "3.4/5 average from 320 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_59131.jpg"
   },
   {
     "product_id": "2450e3f9",
@@ -1341,7 +1452,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "4.4/5 average from 380 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_9532.jpg"
   },
   {
     "product_id": "2ee6ada9",
@@ -1353,7 +1465,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "3.7/5 average from 102 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_33026.jpg"
   },
   {
     "product_id": "057c293c",
@@ -1365,7 +1478,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.1,
     "review_summary": "4.2/5 average from 16 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_11588.jpg"
   },
   {
     "product_id": "119d0be3",
@@ -1377,7 +1491,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.24,
     "review_summary": "4.5/5 average from 229 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_28775.jpg"
   },
   {
     "product_id": "0c48ccff",
@@ -1389,7 +1504,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "4.3/5 average from 387 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_4140.jpg"
   },
   {
     "product_id": "5df6968a",
@@ -1401,7 +1517,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.13,
     "review_summary": "3.6/5 average from 335 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_58719.jpg"
   },
   {
     "product_id": "cc6beaa6",
@@ -1413,7 +1530,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.24,
     "review_summary": "4.5/5 average from 299 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_7192.jpg"
   },
   {
     "product_id": "a8d9b242",
@@ -1425,7 +1543,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.2/5 average from 390 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_52877.jpg"
   },
   {
     "product_id": "74e5a3ab",
@@ -1437,7 +1556,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.25,
     "review_summary": "3.7/5 average from 485 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27935.jpg"
   },
   {
     "product_id": "c303ef85",
@@ -1449,7 +1569,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "4.0/5 average from 54 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_12197.jpg"
   },
   {
     "product_id": "7e33bc19",
@@ -1461,7 +1582,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.25,
     "review_summary": "3.7/5 average from 16 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_28836.jpg"
   },
   {
     "product_id": "5482dbc2",
@@ -1473,7 +1595,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.24,
     "review_summary": "4.2/5 average from 65 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_57959.jpg"
   },
   {
     "product_id": "a85af206",
@@ -1485,7 +1608,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.3/5 average from 500 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_46285.jpg"
   },
   {
     "product_id": "e132a94d",
@@ -1497,7 +1621,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.21,
     "review_summary": "3.5/5 average from 372 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_6874.jpg"
   },
   {
     "product_id": "f6bc3035",
@@ -1509,7 +1634,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.21,
     "review_summary": "3.6/5 average from 312 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_57966.jpg"
   },
   {
     "product_id": "b604f6e3",
@@ -1521,7 +1647,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.15,
     "review_summary": "3.2/5 average from 240 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_24174.jpg"
   },
   {
     "product_id": "223cedaf",
@@ -1533,7 +1660,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "3.6/5 average from 400 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_23333.jpg"
   },
   {
     "product_id": "af4e4024",
@@ -1545,7 +1673,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.04,
     "review_summary": "4.3/5 average from 194 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_6889.jpg"
   },
   {
     "product_id": "8c2dde84",
@@ -1557,7 +1686,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "4.7/5 average from 64 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_6887.jpg"
   },
   {
     "product_id": "ed2c015a",
@@ -1569,7 +1699,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.14,
     "review_summary": "4.7/5 average from 401 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_26958.jpg"
   },
   {
     "product_id": "90dc0ce4",
@@ -1581,7 +1712,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.2/5 average from 450 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_52884.jpg"
   },
   {
     "product_id": "940d8928",
@@ -1593,7 +1725,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.24,
     "review_summary": "4.0/5 average from 404 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27025.jpg"
   },
   {
     "product_id": "f2654c7e",
@@ -1605,7 +1738,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.23,
     "review_summary": "4.1/5 average from 296 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_31129.jpg"
   },
   {
     "product_id": "c82af56b",
@@ -1617,7 +1751,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "4.7/5 average from 422 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_28467.jpg"
   },
   {
     "product_id": "9c786928",
@@ -1629,7 +1764,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.08,
     "review_summary": "3.9/5 average from 179 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59607.jpg"
   },
   {
     "product_id": "457315d8",
@@ -1641,7 +1777,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.18,
     "review_summary": "3.9/5 average from 388 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_13870.jpg"
   },
   {
     "product_id": "4cf9b0b5",
@@ -1653,7 +1790,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.1,
     "review_summary": "3.9/5 average from 145 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_43509.jpg"
   },
   {
     "product_id": "4d48ed96",
@@ -1665,7 +1803,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.05,
     "review_summary": "3.2/5 average from 499 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_39178.jpg"
   },
   {
     "product_id": "fca06eee",
@@ -1677,7 +1816,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.18,
     "review_summary": "4.7/5 average from 470 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_53759.jpg"
   },
   {
     "product_id": "4d279e8a",
@@ -1689,7 +1829,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.12,
     "review_summary": "3.5/5 average from 281 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_49631.jpg"
   },
   {
     "product_id": "64cb2157",
@@ -1701,7 +1842,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "4.6/5 average from 479 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_18897.jpg"
   },
   {
     "product_id": "6854653f",
@@ -1713,7 +1855,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.14,
     "review_summary": "3.2/5 average from 494 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_7990.jpg"
   },
   {
     "product_id": "4e363d0f",
@@ -1725,7 +1868,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.16,
     "review_summary": "3.8/5 average from 134 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_19744.jpg"
   },
   {
     "product_id": "dacbd4c5",
@@ -1737,7 +1881,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "3.9/5 average from 142 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_15970.jpg"
   },
   {
     "product_id": "0ab438c5",
@@ -1749,7 +1894,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.16,
     "review_summary": "4.3/5 average from 398 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_30805.jpg"
   },
   {
     "product_id": "f4e3b3e6",
@@ -1761,7 +1907,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.19,
     "review_summary": "3.7/5 average from 274 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59638.jpg"
   },
   {
     "product_id": "a2ec3a02",
@@ -1773,7 +1920,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.1,
     "review_summary": "3.2/5 average from 374 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_10257.jpg"
   },
   {
     "product_id": "61072fe0",
@@ -1785,7 +1933,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.19,
     "review_summary": "4.6/5 average from 468 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_56684.jpg"
   },
   {
     "product_id": "22e7c6af",
@@ -1797,7 +1946,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "3.5/5 average from 204 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59600.jpg"
   },
   {
     "product_id": "a0f51cb8",
@@ -1809,7 +1959,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.11,
     "review_summary": "4.4/5 average from 408 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_32561.jpg"
   },
   {
     "product_id": "07c34fce",
@@ -1821,7 +1972,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.06,
     "review_summary": "4.3/5 average from 340 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_26960.jpg"
   },
   {
     "product_id": "1ef22280",
@@ -1833,7 +1985,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.09,
     "review_summary": "4.2/5 average from 184 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_18201.jpg"
   },
   {
     "product_id": "7fe0f7bd",
@@ -1845,7 +1998,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.22,
     "review_summary": "4.5/5 average from 436 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_35052.jpg"
   },
   {
     "product_id": "4f27488a",
@@ -1857,7 +2011,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.15,
     "review_summary": "3.4/5 average from 446 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_6880.jpg"
   },
   {
     "product_id": "94186e0d",
@@ -1869,7 +2024,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.07,
     "review_summary": "3.2/5 average from 257 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_46086.jpg"
   },
   {
     "product_id": "efd2bef5",
@@ -1881,7 +2037,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.25,
     "review_summary": "4.8/5 average from 78 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_16196.jpg"
   },
   {
     "product_id": "f740edd5",
@@ -1893,7 +2050,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.12,
     "review_summary": "4.7/5 average from 78 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59636.jpg"
   },
   {
     "product_id": "526846ca",
@@ -1905,7 +2063,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.2,
     "review_summary": "3.8/5 average from 499 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_32563.jpg"
   },
   {
     "product_id": "d3deb3b9",
@@ -1917,7 +2076,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.4/5 average from 389 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_56825.jpg"
   },
   {
     "product_id": "fc3a770f",
@@ -1929,7 +2089,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.24,
     "review_summary": "4.3/5 average from 7 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_15323.jpg"
   },
   {
     "product_id": "ac9178c6",
@@ -1941,7 +2102,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.14,
     "review_summary": "4.7/5 average from 314 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_20099.jpg"
   },
   {
     "product_id": "1e24b36f",
@@ -1953,7 +2115,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.13,
     "review_summary": "4.7/5 average from 173 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27939.jpg"
   },
   {
     "product_id": "23561b27",
@@ -1965,7 +2128,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.06,
     "review_summary": "4.3/5 average from 231 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_36137.jpg"
   },
   {
     "product_id": "55096b88",
@@ -1977,7 +2141,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.14,
     "review_summary": "4.4/5 average from 166 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_28690.jpg"
   },
   {
     "product_id": "02a18d45",
@@ -1989,7 +2154,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.12,
     "review_summary": "4.0/5 average from 434 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_56814.jpg"
   },
   {
     "product_id": "4835f30a",
@@ -2001,7 +2167,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.04,
     "review_summary": "4.5/5 average from 57 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_4943.jpg"
   },
   {
     "product_id": "d7947d53",
@@ -2013,7 +2180,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.12,
     "review_summary": "4.8/5 average from 44 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_45856.jpg"
   },
   {
     "product_id": "bac4c61f",
@@ -2025,7 +2193,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.08,
     "review_summary": "3.6/5 average from 158 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_1662.jpg"
   },
   {
     "product_id": "45863a85",
@@ -2037,7 +2206,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "3.2/5 average from 149 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_40186.jpg"
   },
   {
     "product_id": "df8c74fb",
@@ -2049,7 +2219,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.13,
     "review_summary": "4.0/5 average from 164 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_57138.jpg"
   },
   {
     "product_id": "e1162ebd",
@@ -2061,7 +2232,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.17,
     "review_summary": "3.7/5 average from 331 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_56822.jpg"
   },
   {
     "product_id": "95b26c74",
@@ -2073,7 +2245,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.11,
     "review_summary": "3.5/5 average from 372 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_24406.jpg"
   },
   {
     "product_id": "23fa7935",
@@ -2085,7 +2258,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "4.8/5 average from 20 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_43302.jpg"
   },
   {
     "product_id": "070df908",
@@ -2097,7 +2271,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.8/5 average from 116 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_8785.jpg"
   },
   {
     "product_id": "e6cec6df",
@@ -2109,7 +2284,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.14,
     "review_summary": "3.4/5 average from 405 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_12152.jpg"
   },
   {
     "product_id": "be914057",
@@ -2121,7 +2297,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "4.5/5 average from 384 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_27940.jpg"
   },
   {
     "product_id": "76d04eb1",
@@ -2133,7 +2310,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.19,
     "review_summary": "3.9/5 average from 312 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_46277.jpg"
   },
   {
     "product_id": "a43a7808",
@@ -2145,7 +2323,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.05,
     "review_summary": "3.4/5 average from 433 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_17153.jpg"
   },
   {
     "product_id": "06a943c9",
@@ -2157,7 +2336,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.6/5 average from 173 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_39386.jpg"
   },
   {
     "product_id": "36a152d5",
@@ -2169,7 +2349,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "4.4/5 average from 289 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_15984.jpg"
   },
   {
     "product_id": "5aa07855",
@@ -2181,7 +2362,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.22,
     "review_summary": "4.3/5 average from 46 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_10777.jpg"
   },
   {
     "product_id": "0eb8d462",
@@ -2193,7 +2375,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "4.1/5 average from 488 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_3954.jpg"
   },
   {
     "product_id": "bd66f0a4",
@@ -2205,7 +2388,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.1,
     "review_summary": "4.2/5 average from 159 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_30906.jpg"
   },
   {
     "product_id": "244cf8a3",
@@ -2217,7 +2401,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.18,
     "review_summary": "4.3/5 average from 405 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_39943.jpg"
   },
   {
     "product_id": "a91db762",
@@ -2229,7 +2414,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.05,
     "review_summary": "3.4/5 average from 125 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_5891.jpg"
   },
   {
     "product_id": "62671551",
@@ -2241,7 +2427,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.2/5 average from 113 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_43356.jpg"
   },
   {
     "product_id": "30d54185",
@@ -2253,7 +2440,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.15,
     "review_summary": "4.7/5 average from 174 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_27283.jpg"
   },
   {
     "product_id": "7ae226fb",
@@ -2265,7 +2453,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "4.5/5 average from 298 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_38630.jpg"
   },
   {
     "product_id": "bf91d2f4",
@@ -2277,7 +2466,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "3.4/5 average from 384 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_9204.jpg"
   },
   {
     "product_id": "d1bd89cb",
@@ -2289,7 +2479,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.4/5 average from 487 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_10866.jpg"
   },
   {
     "product_id": "0f5e3f41",
@@ -2301,7 +2492,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.8/5 average from 459 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_39988.jpg"
   },
   {
     "product_id": "36e86691",
@@ -2313,7 +2505,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.07,
     "review_summary": "3.3/5 average from 241 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_56646.jpg"
   },
   {
     "product_id": "1532fb9c",
@@ -2325,7 +2518,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.5/5 average from 403 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_32564.jpg"
   },
   {
     "product_id": "d3606ba9",
@@ -2337,7 +2531,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "3.6/5 average from 131 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_6617.jpg"
   },
   {
     "product_id": "ce95b4b0",
@@ -2349,7 +2544,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.16,
     "review_summary": "3.3/5 average from 500 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_3168.jpg"
   },
   {
     "product_id": "03b15f5e",
@@ -2361,7 +2557,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.0/5 average from 202 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_23072.jpg"
   },
   {
     "product_id": "9bbf4204",
@@ -2373,7 +2570,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.24,
     "review_summary": "4.2/5 average from 208 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_9694.jpg"
   },
   {
     "product_id": "ab9f1d7b",
@@ -2385,7 +2583,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.14,
     "review_summary": "4.1/5 average from 277 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/trousers_16368.jpg"
   },
   {
     "product_id": "16f339c0",
@@ -2397,7 +2596,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.13,
     "review_summary": "3.3/5 average from 437 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_26994.jpg"
   },
   {
     "product_id": "58dacca8",
@@ -2409,7 +2609,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.14,
     "review_summary": "3.5/5 average from 327 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_50340.jpg"
   },
   {
     "product_id": "8b13ba0b",
@@ -2421,7 +2622,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.21,
     "review_summary": "4.2/5 average from 218 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/trousers_14659.jpg"
   },
   {
     "product_id": "c1f2615a",
@@ -2433,7 +2635,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.13,
     "review_summary": "4.7/5 average from 389 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_46021.jpg"
   },
   {
     "product_id": "98985ae3",
@@ -2445,7 +2648,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.05,
     "review_summary": "3.7/5 average from 265 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_59131.jpg"
   },
   {
     "product_id": "6385ec71",
@@ -2457,7 +2661,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "3.2/5 average from 363 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_51465.jpg"
   },
   {
     "product_id": "4d1919ed",
@@ -2469,7 +2674,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.22,
     "review_summary": "4.4/5 average from 473 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_10065.jpg"
   },
   {
     "product_id": "cde61566",
@@ -2481,7 +2687,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.2,
     "review_summary": "3.6/5 average from 467 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_40371.jpg"
   },
   {
     "product_id": "ba8ce993",
@@ -2493,7 +2700,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.17,
     "review_summary": "3.2/5 average from 18 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_9532.jpg"
   },
   {
     "product_id": "a5ace90f",
@@ -2505,7 +2713,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.19,
     "review_summary": "4.1/5 average from 404 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_42426.jpg"
   },
   {
     "product_id": "98cc271c",
@@ -2517,7 +2726,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "4.2/5 average from 193 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_22395.jpg"
   },
   {
     "product_id": "a17d5b6e",
@@ -2529,7 +2739,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.03,
     "review_summary": "4.4/5 average from 142 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_6889.jpg"
   },
   {
     "product_id": "f21f6d7a",
@@ -2541,7 +2752,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.22,
     "review_summary": "4.2/5 average from 302 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/saree_59609.jpg"
   },
   {
     "product_id": "59e751c8",
@@ -2553,7 +2765,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.5/5 average from 113 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/ethnic_set_12108.jpg"
   },
   {
     "product_id": "f0554093",
@@ -2565,7 +2778,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "3.6/5 average from 207 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jacket_6887.jpg"
   },
   {
     "product_id": "fb67251d",
@@ -2577,7 +2791,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.16,
     "review_summary": "3.8/5 average from 17 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_39716.jpg"
   },
   {
     "product_id": "6f8f4e62",
@@ -2589,7 +2804,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.15,
     "review_summary": "3.8/5 average from 89 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jacket_19744.jpg"
   },
   {
     "product_id": "79fdb00e",
@@ -2601,7 +2817,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.18,
     "review_summary": "4.5/5 average from 188 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_4988.jpg"
   },
   {
     "product_id": "b9d403cf",
@@ -2613,7 +2830,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.15,
     "review_summary": "4.2/5 average from 211 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_30453.jpg"
   },
   {
     "product_id": "56e256d5",
@@ -2625,7 +2843,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.06,
     "review_summary": "4.6/5 average from 152 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_11527.jpg"
   },
   {
     "product_id": "967b3b05",
@@ -2637,7 +2856,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "4.3/5 average from 41 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_50325.jpg"
   },
   {
     "product_id": "d39d040d",
@@ -2649,7 +2869,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.23,
     "review_summary": "4.7/5 average from 304 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_21586.jpg"
   },
   {
     "product_id": "3680c241",
@@ -2661,7 +2882,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "3.6/5 average from 350 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_29570.jpg"
   },
   {
     "product_id": "bb855b46",
@@ -2673,7 +2895,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.09,
     "review_summary": "4.0/5 average from 105 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_20258.jpg"
   },
   {
     "product_id": "fe86b154",
@@ -2685,7 +2908,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.1,
     "review_summary": "4.3/5 average from 420 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_31588.jpg"
   },
   {
     "product_id": "64d71053",
@@ -2697,7 +2921,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "3.6/5 average from 73 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_15983.jpg"
   },
   {
     "product_id": "896d3e62",
@@ -2709,7 +2934,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.22,
     "review_summary": "3.5/5 average from 202 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_31127.jpg"
   },
   {
     "product_id": "5f507901",
@@ -2721,7 +2947,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.03,
     "review_summary": "3.4/5 average from 87 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/kurta_31312.jpg"
   },
   {
     "product_id": "010e500c",
@@ -2733,7 +2960,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.24,
     "review_summary": "4.7/5 average from 135 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_10406.jpg"
   },
   {
     "product_id": "21b26738",
@@ -2745,7 +2973,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.05,
     "review_summary": "3.4/5 average from 78 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_26538.jpg"
   },
   {
     "product_id": "736c5fd2",
@@ -2757,7 +2986,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.18,
     "review_summary": "3.7/5 average from 224 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/jeans_7192.jpg"
   },
   {
     "product_id": "5d25a0db",
@@ -2769,7 +2999,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.2/5 average from 36 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_49495.jpg"
   },
   {
     "product_id": "922ff45f",
@@ -2781,7 +3012,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.13,
     "review_summary": "4.3/5 average from 376 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/dress_59897.jpg"
   },
   {
     "product_id": "2f014063",
@@ -2793,7 +3025,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.23,
     "review_summary": "4.5/5 average from 268 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/shirt_16361.jpg"
   },
   {
     "product_id": "f4f2f718",
@@ -2805,7 +3038,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.05,
     "review_summary": "3.6/5 average from 99 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_27935.jpg"
   },
   {
     "product_id": "e1b9bbd1",
@@ -2817,7 +3051,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "4.0/5 average from 473 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/shirt_26958.jpg"
   },
   {
     "product_id": "fe4d4548",
@@ -2829,7 +3064,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.07,
     "review_summary": "3.8/5 average from 72 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/saree_59631.jpg"
   },
   {
     "product_id": "608a70cb",
@@ -2841,7 +3077,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "4.2/5 average from 265 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_36750.jpg"
   },
   {
     "product_id": "5f482887",
@@ -2853,7 +3090,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.09,
     "review_summary": "3.3/5 average from 259 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_49461.jpg"
   },
   {
     "product_id": "27ceee0b",
@@ -2865,7 +3103,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.22,
     "review_summary": "4.6/5 average from 331 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_12197.jpg"
   },
   {
     "product_id": "ac9d1ab8",
@@ -2877,7 +3116,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.04,
     "review_summary": "4.6/5 average from 87 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_23882.jpg"
   },
   {
     "product_id": "afdb243f",
@@ -2889,7 +3129,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.2,
     "review_summary": "3.3/5 average from 212 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/t-shirt_28467.jpg"
   },
   {
     "product_id": "d5ddcc9a",
@@ -2901,7 +3142,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.08,
     "review_summary": "4.4/5 average from 13 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_27025.jpg"
   },
   {
     "product_id": "76ad79b7",
@@ -2913,7 +3155,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.24,
     "review_summary": "3.3/5 average from 379 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_34835.jpg"
   },
   {
     "product_id": "79b7166d",
@@ -2925,7 +3168,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.06,
     "review_summary": "4.6/5 average from 172 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/jeans_32561.jpg"
   },
   {
     "product_id": "13e32d9e",
@@ -2937,7 +3181,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.08,
     "review_summary": "4.8/5 average from 220 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/sneakers_12993.jpg"
   },
   {
     "product_id": "0e95a6b1",
@@ -2949,7 +3194,8 @@
     "fit_notes": "runs large",
     "return_rate": 0.05,
     "review_summary": "3.4/5 average from 75 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/dress_46285.jpg"
   },
   {
     "product_id": "1bceb974",
@@ -2961,7 +3207,8 @@
     "fit_notes": "runs small",
     "return_rate": 0.22,
     "review_summary": "4.5/5 average from 183 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/ethnic_set_33029.jpg"
   },
   {
     "product_id": "22b59672",
@@ -2973,7 +3220,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.08,
     "review_summary": "4.4/5 average from 393 reviews",
-    "style_tag": "subtle"
+    "style_tag": "subtle",
+    "image_path": "data/real_photos/t-shirt_53759.jpg"
   },
   {
     "product_id": "c4737680",
@@ -2985,7 +3233,8 @@
     "fit_notes": "true to size",
     "return_rate": 0.11,
     "review_summary": "3.4/5 average from 43 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/sneakers_4140.jpg"
   },
   {
     "product_id": "95d101f0",
@@ -2997,6 +3246,7 @@
     "fit_notes": "runs large",
     "return_rate": 0.18,
     "review_summary": "4.8/5 average from 374 reviews",
-    "style_tag": "bold"
+    "style_tag": "bold",
+    "image_path": "data/real_photos/kurta_33021.jpg"
   }
 ]

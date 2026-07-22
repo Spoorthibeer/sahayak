@@ -1318,7 +1318,14 @@ entirely via Playwright screenshots/functional checks against mocked
   that exists (the current icon placeholder is explicitly a stand-in, not
   a final visual).
 
-#### Product photo attempt (2026-07-19, ATTEMPTED AND REVERTED — read before retrying)
+#### Product photo attempt (2026-07-19, ATTEMPTED AND REVERTED — superseded, see below)
+**Superseded 2026-07-22** — a working, verified photo set (`data/real_photos/`)
+was obtained and successfully integrated; see the "Real product photos"
+passes further below. This section is kept as-is for the historical record
+of what was tried against the *first* (broken) dataset and why — the
+`data/myntra_dataset/` problem described here was never fixed, it was
+sidestepped entirely with a different, pre-verified photo set.
+
 A pass to replace the SVG category icons with real photos, sourced from a
 downloaded Myntra dataset (`data/myntra_dataset/Fashion Dataset.csv` +
 `Images/`), was attempted and then **fully reverted** after discovering
@@ -1386,6 +1393,87 @@ the dataset problem below is actually fixed.**
 - The SVG icon fallback (`CATEGORY_ICONS`/`categoryIconSVG()` in
   `static/assistant.html`) remains exactly as it was — every product card
   and the landing page hero still show icons, unchanged by this attempt.
+
+#### Real product photos — sourced, assigned, and wired up end-to-end (2026-07-22, complete)
+Three separate passes, done in this order — data source → data assignment
+→ serving/rendering — each verified before moving to the next, given the
+earlier attempt's lesson about not trusting a photo dataset blindly.
+
+- **Source (`data/real_photos/` + `manifest.json`, provided directly by
+  the team, not sourced/scraped by Claude this time):** 222 real Myntra
+  product photos across 16 categories (`shirt`, `t-shirt`, `jeans`,
+  `kurta`, `saree`, `dress`, `trousers`, `jacket`, `sneakers`,
+  `ethnic set`, plus 6 extra categories our catalog doesn't use — `top`,
+  `sweater`, `sweatshirt`, `tunic`, `skirt`, `shorts` — harmlessly present
+  but never referenced). `manifest.json` maps each category to a list of
+  `{source_id, filename, name, colour, gender, usage}` entries; filenames
+  are `{category}_{source_id}.jpg`. **Unlike the previous dataset, this one
+  was spot-checked before being trusted** — opened 3 images across 3
+  different categories (`shirt_15970.jpg`, `kurta_20099.jpg`,
+  `saree_59607.jpg`) and confirmed each one's actual visual content
+  matches its manifest `name` field. All 3 matched correctly; the earlier
+  dataset had failed this exact same check on its very first example.
+- **Assignment (`assign_real_photos.py`, new one-time script):** for each
+  of the 250 mock catalog products, if `manifest.json` has any photos for
+  that product's category, assigns one (round-robin through that
+  category's photo list, so products in the same category get some visual
+  variety rather than all sharing one image) as `data/catalog.json`'s new
+  `"image_path"` field, e.g. `"data/real_photos/shirt_15970.jpg"` — a real
+  relative filesystem path, not yet a URL at this point in the chain. All
+  10 of our catalog's categories had at least one manifest match, so this
+  run reached **250/250 products with a real photo, 0 on the icon
+  fallback** — reusing photos across products in the same category where
+  needed (e.g. jacket has 31 products but only 14 unique photos), per
+  explicit instruction that this is fine for an MVP. Verified every
+  `image_path` value actually resolves to a real file on disk before
+  declaring this step done.
+- **Serving + rendering (`app.py`, `static/assistant.html`,
+  `static/home.html`)** — this is the part that was reverted along with
+  everything else in the first attempt, so it had to be rebuilt from
+  scratch even though the underlying approach is the same as before:
+  - `app.py` mounts `StaticFiles(directory="data/real_photos")` at
+    `/data/real_photos` — deliberately the *same* path as the
+    `image_path` values already stored in the catalog, so the frontend
+    only needs to prepend a leading `/` to get a working URL, no string
+    rewriting needed on either side. Namespaced (not mounted at `/`) so it
+    can't shadow `/`, `/assistant`, `/chat`, `/transcribe`, or `/speak`.
+  - `static/assistant.html`'s `buildProductCardEl()` (the shared card
+    builder used by both search-result cards and the wishlist panel) now
+    renders `<img class="product-photo" src="/{image_path}">` when a
+    product has one, falling back to the existing `categoryIconSVG()`
+    otherwise. **Also handles the photo failing to load, not just being
+    absent**: an `error` listener on the `<img>` swaps it for the category
+    icon if the file 404s or is otherwise unloadable, so a bad path can
+    never show a broken-image glyph — consistent with this project's
+    established "never show broken imagery" principle (see the SVG-icon
+    pass's original reasoning for why external image URLs were avoided in
+    the first place).
+  - `static/home.html`'s hero `.hero-visual-panel` now shows a real photo
+    (`kurta_20099.jpg`) instead of the icon placeholder, exactly as
+    planned when that placeholder was originally built — `.hero-product-photo`
+    is styled separately from the icon rule (`width/height: 100%,
+    object-fit: cover`, filling the panel edge-to-edge) rather than
+    reusing the icon's smaller 46%-contained sizing, since a hero photo
+    reads better filling the frame than floating small in the middle. The
+    3 small variant tiles below it were deliberately left as icons — out
+    of scope for this pass, not an oversight.
+- **Verified via Playwright (desktop 1280px + mobile 375px, both pages):**
+  a mocked `/chat` response with 4 products — one real photo (shirt), one
+  real photo (kurta), one with a `image_path` pointing at a nonexistent
+  file, one with no `image_path` at all — confirmed via DOM inspection
+  that the two real ones rendered `.product-photo` (not an icon) and the
+  two broken/missing ones correctly fell back to the category icon, not a
+  broken-image glyph. No horizontal overflow at 375px on either page. The
+  home page hero photo was confirmed actually loaded (`naturalWidth: 384`,
+  not `0`) at both viewport widths, not just present in the DOM.
+- **NOT verified — needs the team, in a real browser:** whether the actual
+  photo selection/crop looks good at every card size in practice (only
+  spot-checked a few, not all 250 assignments by eye); whether reusing a
+  small photo pool across many same-category products (most visible for
+  jacket/jeans, the largest categories) reads as repetitive when scrolling
+  a long real result list; and the general feel of real photography
+  alongside the icon-based wishlist/compare/size-chart UI it now sits
+  next to.
 
 - Start the Myntra pitch deck (official template)
 
